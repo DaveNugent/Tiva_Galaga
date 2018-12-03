@@ -24,10 +24,10 @@
 
 #include <stdint.h>
 
-/* Bitmap info for space_ship */
-extern const uint8_t space_shipBitmaps[];
-extern const uint8_t space_shipWidthPixels;
-extern const uint8_t space_shipHeightPixels;
+// Bitmap info for ship
+extern const uint8_t shipBitmaps;
+extern const uint8_t shipWidthPages;
+extern const uint8_t shipHeightPixels;
 
 // Bitmap info for invader
 extern const uint8_t invaderBitmaps[];
