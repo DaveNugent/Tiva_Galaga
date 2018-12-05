@@ -427,6 +427,11 @@
               <FileType>1</FileType>
               <FilePath>..\drivers\c\adc.c</FilePath>
             </File>
+            <File>
+              <FileName>i2c.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\drivers\c\i2c.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -441,6 +446,11 @@
               <FileName>ps2.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\peripherals\c\ps2.c</FilePath>
+            </File>
+            <File>
+              <FileName>MCP23017.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\peripherals\c\MCP23017.c</FilePath>
             </File>
           </Files>
         </Group>
