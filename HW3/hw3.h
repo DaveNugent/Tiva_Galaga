@@ -15,7 +15,7 @@
 #include "hw3_staff.h"
 
 extern volatile uint16_t SHIP_X_COORD;
-extern volatile uint16_t SHIP_Y_COORD;
+extern const uint16_t SHIP_Y_COORD;
 extern volatile uint16_t INVADER_X_COORD;
 extern volatile uint16_t INVADER_Y_COORD;
 extern volatile bool MOVE_INVADER;
@@ -60,7 +60,7 @@ void move_image(
 //*****************************************************************************
 bool check_game_over(
         volatile uint16_t ship_x_coord, 
-        volatile uint16_t ship_y_coord, 
+        const uint16_t ship_y_coord, 
         uint8_t ship_height, 
         uint8_t ship_width,
         volatile uint16_t invader_x_coord, 

@@ -37,7 +37,7 @@
 //  Image data for ship
 // 
 
-const uint_8 shipBitmaps[] =
+const uint8_t shipBitmaps[] =
 {
 	0x00, 0x00, 0x00, 0x00, //   
 	0x00, 0x03, 0x00, 0x00, //               ##              
@@ -74,8 +74,8 @@ const uint_8 shipBitmaps[] =
 };
 
 // Bitmap sizes for ship
-const uint_8 shipWidthPixels = 30;
-const uint_8 shipHeightPixels = 32;
+const uint8_t shipWidthPixels = 30;
+const uint8_t shipHeightPixels = 32;
 
 
 
@@ -84,7 +84,7 @@ const uint_8 shipHeightPixels = 32;
 // 
 
 
-const uint_8 galaga_enemyBitmaps =
+const uint8_t galaga_enemyBitmaps[] =
 {
 	0x00, 0x00, 0x00, 0x00, //                               
 	0x00, 0x00, 0x00, 0x00, //                               
@@ -119,8 +119,8 @@ const uint_8 galaga_enemyBitmaps =
 };
 
 // Bitmap sizes for galaga_enemy
-const uint_8 galaga_enemyWidthPixels = 30;
-const uint_8 galaga_enemyHeightPixels = 30;
+const uint8_t galaga_enemyWidthPixels = 30;
+const uint8_t galaga_enemyHeightPixels = 30;
 
 
 

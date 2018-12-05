@@ -1,7 +1,7 @@
 #include "hw3.h"
 
 volatile uint16_t SHIP_X_COORD = 190;
-volatile uint16_t SHIP_Y_COORD = 270;
+const uint16_t SHIP_Y_COORD = 20;
 volatile uint16_t INVADER_X_COORD = 50;
 volatile uint16_t INVADER_Y_COORD = 40;
 volatile bool MOVE_INVADER = true;
@@ -63,14 +63,6 @@ void move_image(
 		
 		case PS2_DIR_LEFT:
 			*x_coord = (*x_coord) - 1;
-		break;
-				
-		case PS2_DIR_UP:
-			*y_coord = (*y_coord) - 1;
-		break;
-						
-		case PS2_DIR_DOWN:
-			*y_coord = (*y_coord) + 1;
 		break;
 		
 		default:
@@ -137,7 +129,7 @@ bool countdown_timer(uint32_t base_addr, uint32_t ticks)
 //*****************************************************************************
 bool check_game_over(
         volatile uint16_t ship_x_coord,
-        volatile uint16_t ship_y_coord,
+        const uint16_t ship_y_coord,
         uint8_t ship_height,
         uint8_t ship_width,
         volatile uint16_t invader_x_coord,

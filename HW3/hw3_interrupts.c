@@ -8,10 +8,10 @@ void TIMER2A_Handler(void)
 {	
     TIMER0_Type *timer;
 		timer = (TIMER0_Type *) TIMER2_BASE;
-		if (!contact_edge( direction, INVADER_X_COORD, INVADER_Y_COORD, galaga_enemyHeightPixels, galaga_enemyWidthPixels))
+		if (!contact_edge( direction, SHIP_X_COORD, SHIP_Y_COORD, shipHeightPixels, shipWidthPixels))
 		{
-			move_image( direction, &INVADER_X_COORD, &INVADER_Y_COORD, galaga_enemyHeightPixels, galaga_enemyWidthPixels);//MOVE
-			MOVE_INVADER = true;
+			move_image( direction, &SHIP_X_COORD, &SHIP_Y_COORD, shipHeightPixels, shipWidthPixels);//MOVE
+			MOVE_SHIP = true;
 		}
 		
 		timer->ICR |= TIMER_ICR_TATOCINT; // clear interupt
@@ -33,10 +33,10 @@ void TIMER3A_Handler(void)
 		move_count = next_count;
 		current_dir = next_dir;
 	
-		if ((move_count > 0) && (!contact_edge( current_dir, SHIP_X_COORD, SHIP_Y_COORD, shipHeightPixels, shipWidthPixels))) {
+		if ((move_count > 0) && (!contact_edge( current_dir, INVADER_X_COORD, INVADER_Y_COORD, galaga_enemyHeightPixels, galaga_enemyWidthPixels))) {
 			next_count--;
-			move_image( current_dir, &SHIP_X_COORD, &SHIP_Y_COORD, shipHeightPixels, shipWidthPixels);//MOVE
-			MOVE_SHIP = true;
+			move_image( current_dir, &INVADER_X_COORD, &INVADER_Y_COORD, galaga_enemyHeightPixels, galaga_enemyWidthPixels);//MOVE
+			MOVE_INVADER = true;
 		}
 		else { // get new count and dir if count hits 0 or ship hits edge
 			next_count = get_new_move_count();
@@ -83,12 +83,6 @@ void ADC0SS2_Handler(void)
 	}
 	else if (x < 1055){
 		direction = PS2_DIR_RIGHT;
-	}
-	else if(y > 2979){
-		direction = PS2_DIR_UP;
-	}
-	else if (y < 1055){
-		direction = PS2_DIR_DOWN;
 	}
 	else {
 		direction = PS2_DIR_CENTER;
