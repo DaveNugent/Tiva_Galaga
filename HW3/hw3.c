@@ -3,7 +3,7 @@
 volatile uint16_t SHIP_X_COORD = 190;
 volatile uint16_t SHIP_Y_COORD = 300;
 volatile uint16_t galaga_enemy_X_COORD[] = {50};
-volatile uint16_t galaga_enemy_Y_COORD[] = {250};
+volatile uint16_t galaga_enemy_Y_COORD[] = {30};
 volatile uint16_t laser_X_COORD[];
 volatile uint16_t laser_Y_COORD[];
 volatile bool MOVE_INVADER = true;
