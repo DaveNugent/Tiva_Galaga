@@ -85,7 +85,7 @@ bool initialize_spi( uint32_t base_addr, uint8_t spi_mode, uint32_t cpsr)
     
     // ************* ADD CODE *********************** //
     // Disable the SSI interface (Set entire register to 0).
-		mySSI->CR1 &= ~SSI_CR1_SSE;
+		mySSI->CR1 = 0;
 		
 
     
@@ -114,12 +114,12 @@ bool initialize_spi( uint32_t base_addr, uint8_t spi_mode, uint32_t cpsr)
       }
       case 1:
       {
-        mySSI->CR0 |=  ((SSI_SPO_HIGH<<6) | (SSI_SPH_FIRST<<7));
+        mySSI->CR0 |=  ((SSI_SPO_LOW<<6) | (SSI_SPH_SECOND<<7));
         break;
       }
       case 2:
       {
-        mySSI->CR0 |=  ((SSI_SPO_LOW<<6) | (SSI_SPH_SECOND<<7));
+        mySSI->CR0 |=  ((SSI_SPO_HIGH<<6) | (SSI_SPH_FIRST<<7));
         break;
       }
       case 3:
@@ -127,12 +127,17 @@ bool initialize_spi( uint32_t base_addr, uint8_t spi_mode, uint32_t cpsr)
         mySSI->CR0 |=  ((SSI_SPO_HIGH<<6) | (SSI_SPH_SECOND<<7));
         break;
       }
+      default: // defaults to mode 0
+      {
+        mySSI->CR0 |=  ((SSI_SPO_LOW<<6) | (SSI_SPH_FIRST<<7));
+        break;
+}
     }
     
     // ************* ADD CODE *********************** //
     //Enable SSI peripheral in master mode
-    SSI0->CR1 |= SSI_CR1_SSE;
-		SSI0->CR1 |= SSI_CR1_MS;
+    SSI0->CR0 |= SSI_CR1_SSE;
+		SSI0->CR0 |= SSI_CR1_MS;
 
   return true;
 }
