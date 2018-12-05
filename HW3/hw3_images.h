@@ -25,14 +25,14 @@
 #include <stdint.h>
 
 // Bitmap info for ship
-extern const uint8_t shipBitmaps;
-extern const uint8_t shipWidthPages;
+extern const uint8_t shipBitmaps[];
+extern const uint8_t shipWidthPixels;
 extern const uint8_t shipHeightPixels;
 
-// Bitmap info for invader
-extern const uint8_t invaderBitmaps[];
-extern const uint8_t invaderWidthPixels;
-extern const uint8_t invaderHeightPixels;
+// Bitmap info for galaga_enemy
+extern const uint8_t galaga_enemyBitmaps[];
+extern const uint8_t galaga_enemyWidthPixels;
+extern const uint8_t galaga_enemyHeightPixels;
 
 
 #endif

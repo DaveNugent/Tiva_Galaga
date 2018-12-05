@@ -24,16 +24,16 @@ bool contact_edge(
 {
 
   //checking to see if image would leave screen
-  if ((direction == PS2_DIR_RIGHT) && (x_coord > (COLS -(image_width/2)))){
+  if ((direction == PS2_DIR_RIGHT) && (x_coord > (COLS - ((image_width + 4)/2)))){
     return true;
   }
-  else if ((direction == PS2_DIR_LEFT) && (x_coord < (image_width/2))){
+  else if ((direction == PS2_DIR_LEFT) && (x_coord <= ((image_width + 2)/2))){
     return true;
   }
-	else if ((direction == PS2_DIR_DOWN) && (y_coord > (ROWS -(image_height/2)))){
+	else if ((direction == PS2_DIR_DOWN) && (y_coord >= (ROWS - ((image_height + 2)/2)))){
     return true;
   }
-  else if ((direction == PS2_DIR_UP) && (y_coord < (image_height/2))){
+  else if ((direction == PS2_DIR_UP) && (y_coord <= ((image_height + 2)/2))){
     return true;
   }
   else{
@@ -54,25 +54,23 @@ void move_image(
         uint8_t image_width
 )
 {
-	if ( contact_edge(direction, *x_coord, *y_coord, image_height, image_width)){
-		return;
-	}
+	uint16_t temp;
 	switch (direction)
 	{
 		case PS2_DIR_RIGHT:
-			*x_coord += 1;
+			*x_coord = (*x_coord) + 1;
 		break;
 		
 		case PS2_DIR_LEFT:
-			*x_coord -= 1;
+			*x_coord = (*x_coord) - 1;
 		break;
 				
 		case PS2_DIR_UP:
-			*x_coord -= 1;
+			*y_coord = (*y_coord) - 1;
 		break;
 						
 		case PS2_DIR_DOWN:
-			*x_coord += 1;
+			*y_coord = (*y_coord) + 1;
 		break;
 		
 		default:
@@ -122,6 +120,8 @@ bool countdown_timer(uint32_t base_addr, uint32_t ticks)
 //setting interupt
   timer->IMR |= TIMER_IMR_TATOIM;
 
+	timer->CTL |= TIMER_CTL_TAEN;
+	
   return true;
 }
 
@@ -146,25 +146,23 @@ bool check_game_over(
         uint8_t invader_width
 )
 {
-	// this will hopefully work bc everything is unsigned
-	// so if they are in a different order, it'll just
-	// overflow to a huge number and not evaluate to true
-	if ((ship_x_coord - invader_x_coord) < ((ship_width + invader_width)/2)){
-    return true;
-  }
-  else if (((invader_x_coord - ship_x_coord) < ((ship_width + invader_width)/2))){
-    return true;
-  }
-	else if ((ship_y_coord - invader_y_coord) < ((ship_height + invader_height)/2)){
-    return true;
-  }
-  else if ((invader_y_coord - ship_y_coord) < ((ship_height + invader_height)/2)){
-    return true;
-  }
-  else{
-    return false; // images do not overlap
-  }
-
+	if (((ship_x_coord + (ship_width/2)) > (invader_x_coord - (invader_width/2))) && ((ship_x_coord + (ship_width/2)) <  (invader_x_coord + (invader_width/2)))){
+		if (((ship_y_coord + (ship_height/2)) > (invader_y_coord - (invader_height/2))) && ((ship_y_coord + (ship_height/2)) <  (invader_y_coord + (invader_height/2)))){
+			return true;
+		}
+		else if(((ship_y_coord - (ship_height/2)) > (invader_y_coord - (invader_height/2))) && ((ship_y_coord - (ship_height/2)) <  ((invader_y_coord + (invader_height/2))))){
+			return true;
+		}
+	}
+	else if (((ship_x_coord - (ship_width/2)) > (invader_x_coord - (invader_width/2))) && ((ship_x_coord - (ship_width/2)) <  (invader_x_coord + (invader_width/2)))){
+		if (((ship_y_coord + (ship_height/2)) > (invader_y_coord - (invader_height/2))) && ((ship_y_coord + (ship_height/2)) <  (invader_y_coord + (invader_height/2)))){
+			return true;
+		}
+		else if(((ship_y_coord - (ship_height/2)) > (invader_y_coord - (invader_height/2))) && ((ship_y_coord - (ship_height/2)) <  (invader_y_coord + (invader_height/2)))){
+			return true;
+		}
+	}
+	return false;
 }
 
 bool init_adc(  uint32_t adc_base )
@@ -220,11 +218,7 @@ bool init_interrupt_adc (uint32_t adc_base){
 	
 	ADC0_Type *myADC;
 	
-	
-	if( adc_base == 0)
-  {
-    return false;
-  }
+
 	if (!init_adc (adc_base)){
 		return false;
 	}
@@ -237,21 +231,21 @@ bool init_interrupt_adc (uint32_t adc_base){
 	
 	myADC->EMUX |= ADC_EMUX_EM2_PROCESSOR;
 	
+	myADC ->SSMUX2 = 0x10; 
+	
+	myADC ->SAC |= ADC_SAC_AVG_8X;
+	
 	myADC->SSCTL2 |= (ADC_SSCTL0_IE1 | ADC_SSCTL0_END1);
 	
-  myADC->ISC |= 0x4;
-
-  myADC->IM &= 0x0FFF0FFF;
+  myADC->ISC |= ADC_ISC_IN2;
+	
+	myADC->IM |= ADC_IM_MASK2;
+	
+	myADC->ACTSS |= ADC_ACTSS_ASEN2;
 
 	NVIC_SetPriority(ADC0SS2_IRQn, 3);
 	
 	NVIC_EnableIRQ (ADC0SS2_IRQn);
-	
-	myADC->SSMUX2 = 0x10;          // Set the Channel
-
-  myADC->ACTSS |= ADC_ACTSS_ASEN2;  // Enable SS2
-
-  myADC->PSSI   = ADC_PSSI_SS2;     // Start SS2
 	
 	return true;
 	
@@ -262,6 +256,11 @@ bool init_interrupt_adc (uint32_t adc_base){
 //*****************************************************************************
 void init_hardware(void)
 {
+	
+	gpio_enable_port(PS2_GPIO_BASE);
+	gpio_config_analog_enable(PS2_GPIO_BASE, PS2_X_DIR_MASK |PS2_Y_DIR_MASK);
+	gpio_config_alternate_function(PS2_GPIO_BASE, PS2_X_DIR_MASK |PS2_Y_DIR_MASK);
+	
   // Initialize LCD Screen
   lcd_config_gpio();
   lcd_config_screen();
@@ -272,21 +271,23 @@ void init_hardware(void)
 
   // Initialize Timer 2
   gp_timer_config_32(TIMER2_BASE, TIMER_TAMR_TAMR_PERIOD, false, true);
-	NVIC_EnableIRQ(TIMER2A_IRQn);
+	
+	countdown_timer(TIMER2_BASE, 1000000); //20 ms
 	NVIC_SetPriority(TIMER2A_IRQn, 0);
-	countdown_timer(TIMER2_BASE, 100000); //20 ms
+	NVIC_EnableIRQ(TIMER2A_IRQn);
+	
 
   // Initialize Timer 3
   gp_timer_config_32(TIMER3_BASE, TIMER_TAMR_TAMR_PERIOD, false, true);
-	NVIC_EnableIRQ(TIMER3A_IRQn);
+	countdown_timer (TIMER3_BASE, 500000); //10 ms
 	NVIC_SetPriority(TIMER3A_IRQn, 1);
-	countdown_timer (TIMER3_BASE, 50000); //10 ms
+	NVIC_EnableIRQ(TIMER3A_IRQn);
 	
 	// Initialize Timer 4
   gp_timer_config_32(TIMER4_BASE, TIMER_TAMR_TAMR_PERIOD, false, true);
-	NVIC_EnableIRQ(TIMER2A_IRQn);
+	countdown_timer (TIMER4_BASE, 50000); //1 ms
 	NVIC_SetPriority(TIMER4A_IRQn, 2);
-	countdown_timer (TIMER3_BASE, 5000); //1 ms
+	NVIC_EnableIRQ(TIMER4A_IRQn);
 }
 
 //*****************************************************************************
@@ -303,12 +304,27 @@ void hw3_main(void)
     init_hardware();
     hw3_hardware_validate();
 
-   // ADD CODE BELOW
 	// while the game is not over
-	while(!check_game_over(SHIP_X_COORD, SHIP_Y_COORD, space_shipHeightPixels, space_shipWidthPixels, 
-												 INVADER_X_COORD, INVADER_Y_COORD, invaderHeightPixels, invaderWidthPixels))
+	while(!check_game_over(SHIP_X_COORD, SHIP_Y_COORD, shipHeightPixels, shipWidthPixels, 
+												 INVADER_X_COORD, INVADER_Y_COORD, galaga_enemyHeightPixels, galaga_enemyWidthPixels))
 	{
-	
+		NVIC_DisableIRQ(TIMER2A_IRQn);
+		NVIC_DisableIRQ(TIMER3A_IRQn);
+		NVIC_DisableIRQ(TIMER4A_IRQn);
+		if (MOVE_INVADER)
+		{
+			lcd_draw_image(INVADER_X_COORD, galaga_enemyWidthPixels, INVADER_Y_COORD, galaga_enemyHeightPixels, galaga_enemyBitmaps, LCD_COLOR_RED, LCD_COLOR_BLACK);
+			MOVE_INVADER = false;
+		}
+		if (MOVE_SHIP)
+		{
+			lcd_draw_image(SHIP_X_COORD, shipWidthPixels, SHIP_Y_COORD, shipHeightPixels, shipBitmaps, LCD_COLOR_WHITE, LCD_COLOR_BLACK);
+			MOVE_SHIP = false;
+		}
+		NVIC_EnableIRQ(TIMER2A_IRQn);
+		NVIC_EnableIRQ(TIMER3A_IRQn);
+		NVIC_EnableIRQ(TIMER4A_IRQn);
+
 	}
 		
 
