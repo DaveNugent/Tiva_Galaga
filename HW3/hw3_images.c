@@ -135,7 +135,7 @@ const uint8_t laser[] =
 const uint8_t laserHeight = 6;
 const uint8_t laserWidth = 4;
 
-const uint_8 _0Bitmaps[] =
+const uint8_t _0Bitmaps[] =
 {
 	0x00, 0x00, 0x00, //                        
 	0x00, 0x00, 0x00, //                        
@@ -170,10 +170,10 @@ const uint_8 _0Bitmaps[] =
 };
 
 // Bitmap sizes for _0
-const uint_8 _0WidthPixels = 23;
-const uint_8 _0HeightPixels = 30;
+const uint8_t _0WidthPixels = 23;
+const uint8_t _0HeightPixels = 30;
 
-const uint_8 _1Bitmaps[] =
+const uint8_t _1Bitmaps[] =
 {
 	0x00, 0x00, 0x00, //                        
 	0x00, 0x00, 0x00, //                        
@@ -208,10 +208,10 @@ const uint_8 _1Bitmaps[] =
 };
 
 // Bitmap sizes for _1
-const uint_8 _1WidthPixels = 23;
-const uint_8 _1HeightPixels = 30;
+const uint8_t _1WidthPixels = 23;
+const uint8_t _1HeightPixels = 30;
 
-const uint_8 _2Bitmaps[] =
+const uint8_t _2Bitmaps[] =
 {
 	0x00, 0x00, 0x00, //                        
 	0x00, 0x00, 0x00, //                        
@@ -246,10 +246,10 @@ const uint_8 _2Bitmaps[] =
 };
 
 // Bitmap sizes for _2
-const uint_8 _2WidthPixels = 23;
-const uint_8 _2HeightPixels = 30;
+const uint8_t _2WidthPixels = 23;
+const uint8_t _2HeightPixels = 30;
 
-const uint_8 _3Bitmaps[] =
+const uint8_t _3Bitmaps[] =
 {
 	0x00, 0x00, 0x00, //                        
 	0x00, 0x00, 0x00, //                        
@@ -284,10 +284,10 @@ const uint_8 _3Bitmaps[] =
 };
 
 // Bitmap sizes for _3
-const uint_8 _3WidthPixels = 23;
-const uint_8 _3HeightPixels = 30;
+const uint8_t _3WidthPixels = 23;
+const uint8_t _3HeightPixels = 30;
 
-const uint_8 _4Bitmaps[] =
+const uint8_t _4Bitmaps[] =
 {
 	0x00, 0x00, 0x00, //                        
 	0x00, 0x00, 0x00, //                        
@@ -322,10 +322,10 @@ const uint_8 _4Bitmaps[] =
 };
 
 // Bitmap sizes for _4
-const uint_8 _4WidthPixels = 23;
-const uint_8 _4HeightPixels = 30;
+const uint8_t _4WidthPixels = 23;
+const uint8_t _4HeightPixels = 30;
 
-const uint_8 _5Bitmaps[] =
+const uint8_t _5Bitmaps[] =
 {
 	0x00, 0x00, 0x00, //                        
 	0x00, 0x00, 0x00, //                        
@@ -360,10 +360,10 @@ const uint_8 _5Bitmaps[] =
 };
 
 // Bitmap sizes for _5
-const uint_8 _5WidthPixels = 23;
-const uint_8 _5HeightPixels = 30;
+const uint8_t _5WidthPixels = 23;
+const uint8_t _5HeightPixels = 30;
 
-const uint_8 _6Bitmaps[] =
+const uint8_t _6Bitmaps[] =
 {
 	0x00, 0x00, 0x00, //                        
 	0x00, 0x00, 0x00, //                        
@@ -398,10 +398,10 @@ const uint_8 _6Bitmaps[] =
 };
 
 // Bitmap sizes for _6
-const uint_8 _6WidthPixels = 23;
-const uint_8 _6HeightPixels = 30;
+const uint8_t _6WidthPixels = 23;
+const uint8_t _6HeightPixels = 30;
 
-const uint_8 _7Bitmaps[] =
+const uint8_t _7Bitmaps[] =
 {
 	0x00, 0x00, 0x00, //                        
 	0x00, 0x00, 0x00, //                        
@@ -436,10 +436,10 @@ const uint_8 _7Bitmaps[] =
 };
 
 // Bitmap sizes for _7
-const uint_8 _7WidthPixels = 23;
-const uint_8 _7HeightPixels = 30;
+const uint8_t _7WidthPixels = 23;
+const uint8_t _7HeightPixels = 30;
 
-const uint_8 _8Bitmaps[] =
+const uint8_t _8Bitmaps[] =
 {
 	0x00, 0x00, 0x00, //                        
 	0x00, 0x00, 0x00, //                        
@@ -474,10 +474,10 @@ const uint_8 _8Bitmaps[] =
 };
 
 // Bitmap sizes for _8
-const uint_8 _8WidthPixels = 23;
-const uint_8 _8HeightPixels = 30;
+const uint8_t _8WidthPixels = 23;
+const uint8_t _8HeightPixels = 30;
 
-const uint_8 _9Bitmaps[] =
+const uint8_t _9Bitmaps[] =
 {
 	0x00, 0x00, 0x00, //                        
 	0x00, 0x00, 0x00, //                        
@@ -512,5 +512,5 @@ const uint_8 _9Bitmaps[] =
 };
 
 // Bitmap sizes for _9
-const uint_8 _9WidthPixels = 23;
-const uint_8 _9HeightPixels = 30;
+const uint8_t _9WidthPixels = 23;
+const uint8_t _9HeightPixels = 30;
