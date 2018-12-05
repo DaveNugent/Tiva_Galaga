@@ -22,24 +22,23 @@ void TIMER2A_Handler(void)
 //*****************************************************************************
 void TIMER3A_Handler(void)
 {
-		static DIR_t current_dir;
-    static uint16_t move_count = 0;
+		static DIR_t current_dir, next_dir;
+    static uint16_t move_count = 0; 
 	
 	  TIMER0_Type *timer;
 		timer = (TIMER0_Type *) TIMER3_BASE;
-		current_dir = DIR_RIGHT;
+	
+		current_dir = next_dir;
 	
 		if ((!contact_edge( current_dir, galaga_enemy_X_COORD[0], galaga_enemy_Y_COORD[0], galaga_enemyHeightPixels, galaga_enemyWidthPixels))) {
 			move_image( current_dir, &galaga_enemy_X_COORD[0], &galaga_enemy_Y_COORD[0], galaga_enemyHeightPixels, galaga_enemyWidthPixels);//MOVE
 			MOVE_INVADER = true;
 		}
 		else if (current_dir == DIR_RIGHT){ // get new count and dir ship hits edge
-			current_dir = DIR_LEFT;
-			move_image( current_dir, &galaga_enemy_X_COORD[0], &galaga_enemy_Y_COORD[0], galaga_enemyHeightPixels, galaga_enemyWidthPixels);//MOVE
+			next_dir = DIR_LEFT;
 		}
 		else{ // get new count and dir ship hits edge
-			current_dir = DIR_RIGHT;
-			move_image( current_dir, &galaga_enemy_X_COORD[0], &galaga_enemy_Y_COORD[0], galaga_enemyHeightPixels, galaga_enemyWidthPixels);//MOVE
+			next_dir = DIR_RIGHT;
 		}
 	
 		timer->ICR |= TIMER_ICR_TATOCINT; // clear interupt
