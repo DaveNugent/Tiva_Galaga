@@ -33,9 +33,9 @@ void TIMER3A_Handler(void)
 		move_count = next_count;
 		current_dir = next_dir;
 	
-		if ((move_count > 0) && (!contact_edge( current_dir, INVADER_X_COORD, INVADER_Y_COORD, galaga_enemyHeightPixels, galaga_enemyWidthPixels))) {
+		if ((move_count > 0) && (!contact_edge( current_dir, galaga_enemy0_X_COORD, galaga_enemy0_Y_COORD, galaga_enemyHeightPixels, galaga_enemyWidthPixels))) {
 			next_count--;
-			move_image( current_dir, &INVADER_X_COORD, &INVADER_Y_COORD, galaga_enemyHeightPixels, galaga_enemyWidthPixels);//MOVE
+			move_image( current_dir, &galaga_enemy0_X_COORD, &galaga_enemy0_Y_COORD, galaga_enemyHeightPixels, galaga_enemyWidthPixels);//MOVE
 			MOVE_INVADER = true;
 		}
 		else { // get new count and dir if count hits 0 or ship hits edge

@@ -1,9 +1,9 @@
 #include "hw3.h"
 
 volatile uint16_t SHIP_X_COORD = 190;
-const uint16_t SHIP_Y_COORD = 20;
-volatile uint16_t INVADER_X_COORD = 50;
-volatile uint16_t INVADER_Y_COORD = 40;
+volatile uint16_t SHIP_Y_COORD = 300;
+volatile uint16_t galaga_enemy0_X_COORD = 50;
+volatile uint16_t galaga_enemy0_Y_COORD = 40;
 volatile bool MOVE_INVADER = true;
 volatile bool MOVE_SHIP = true;
 
@@ -64,7 +64,13 @@ void move_image(
 		case PS2_DIR_LEFT:
 			*x_coord = (*x_coord) - 1;
 		break;
+		case PS2_DIR_DOWN:
+			*y_coord = (*y_coord) + 1;
+		break;
 		
+		case PS2_DIR_UP:
+			*y_coord = (*y_coord) - 1;
+		break;
 		default:
 			return;
 	}
@@ -129,28 +135,28 @@ bool countdown_timer(uint32_t base_addr, uint32_t ticks)
 //*****************************************************************************
 bool check_game_over(
         volatile uint16_t ship_x_coord,
-        const uint16_t ship_y_coord,
+        volatile uint16_t ship_y_coord,
         uint8_t ship_height,
         uint8_t ship_width,
-        volatile uint16_t invader_x_coord,
-        volatile uint16_t invader_y_coord,
+        volatile uint16_t galaga_enemy0_X_COORD,
+        volatile uint16_t galaga_enemy0_Y_COORD,
         uint8_t invader_height,
         uint8_t invader_width
 )
 {
-	if (((ship_x_coord + (ship_width/2)) > (invader_x_coord - (invader_width/2))) && ((ship_x_coord + (ship_width/2)) <  (invader_x_coord + (invader_width/2)))){
-		if (((ship_y_coord + (ship_height/2)) > (invader_y_coord - (invader_height/2))) && ((ship_y_coord + (ship_height/2)) <  (invader_y_coord + (invader_height/2)))){
+	if (((ship_x_coord + (ship_width/2)) > (galaga_enemy0_X_COORD - (invader_width/2))) && ((ship_x_coord + (ship_width/2)) <  (galaga_enemy0_X_COORD + (invader_width/2)))){
+		if (((ship_y_coord + (ship_height/2)) > (galaga_enemy0_Y_COORD - (invader_height/2))) && ((ship_y_coord + (ship_height/2)) <  (galaga_enemy0_Y_COORD + (invader_height/2)))){
 			return true;
 		}
-		else if(((ship_y_coord - (ship_height/2)) > (invader_y_coord - (invader_height/2))) && ((ship_y_coord - (ship_height/2)) <  ((invader_y_coord + (invader_height/2))))){
+		else if(((ship_y_coord - (ship_height/2)) > (galaga_enemy0_Y_COORD - (invader_height/2))) && ((ship_y_coord - (ship_height/2)) <  ((galaga_enemy0_Y_COORD + (invader_height/2))))){
 			return true;
 		}
 	}
-	else if (((ship_x_coord - (ship_width/2)) > (invader_x_coord - (invader_width/2))) && ((ship_x_coord - (ship_width/2)) <  (invader_x_coord + (invader_width/2)))){
-		if (((ship_y_coord + (ship_height/2)) > (invader_y_coord - (invader_height/2))) && ((ship_y_coord + (ship_height/2)) <  (invader_y_coord + (invader_height/2)))){
+	else if (((ship_x_coord - (ship_width/2)) > (galaga_enemy0_X_COORD - (invader_width/2))) && ((ship_x_coord - (ship_width/2)) <  (galaga_enemy0_X_COORD + (invader_width/2)))){
+		if (((ship_y_coord + (ship_height/2)) > (galaga_enemy0_Y_COORD - (invader_height/2))) && ((ship_y_coord + (ship_height/2)) <  (galaga_enemy0_Y_COORD + (invader_height/2)))){
 			return true;
 		}
-		else if(((ship_y_coord - (ship_height/2)) > (invader_y_coord - (invader_height/2))) && ((ship_y_coord - (ship_height/2)) <  (invader_y_coord + (invader_height/2)))){
+		else if(((ship_y_coord - (ship_height/2)) > (galaga_enemy0_Y_COORD - (invader_height/2))) && ((ship_y_coord - (ship_height/2)) <  (galaga_enemy0_Y_COORD + (invader_height/2)))){
 			return true;
 		}
 	}
@@ -298,14 +304,14 @@ void hw3_main(void)
 
 	// while the game is not over
 	while(!check_game_over(SHIP_X_COORD, SHIP_Y_COORD, shipHeightPixels, shipWidthPixels, 
-												 INVADER_X_COORD, INVADER_Y_COORD, galaga_enemyHeightPixels, galaga_enemyWidthPixels))
+												 galaga_enemy0_X_COORD, galaga_enemy0_Y_COORD, galaga_enemyHeightPixels, galaga_enemyWidthPixels))
 	{
 		NVIC_DisableIRQ(TIMER2A_IRQn);
 		NVIC_DisableIRQ(TIMER3A_IRQn);
 		NVIC_DisableIRQ(TIMER4A_IRQn);
 		if (MOVE_INVADER)
 		{
-			lcd_draw_image(INVADER_X_COORD, galaga_enemyWidthPixels, INVADER_Y_COORD, galaga_enemyHeightPixels, galaga_enemyBitmaps, LCD_COLOR_RED, LCD_COLOR_BLACK);
+			lcd_draw_image(galaga_enemy0_X_COORD, galaga_enemyWidthPixels, galaga_enemy0_Y_COORD, galaga_enemyHeightPixels, galaga_enemyBitmaps, LCD_COLOR_RED, LCD_COLOR_BLACK);
 			MOVE_INVADER = false;
 		}
 		if (MOVE_SHIP)

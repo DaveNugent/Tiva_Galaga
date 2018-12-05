@@ -15,9 +15,9 @@
 #include "hw3_staff.h"
 
 extern volatile uint16_t SHIP_X_COORD;
-extern const uint16_t SHIP_Y_COORD;
-extern volatile uint16_t INVADER_X_COORD;
-extern volatile uint16_t INVADER_Y_COORD;
+extern volatile uint16_t SHIP_Y_COORD;
+extern volatile uint16_t galaga_enemy0_X_COORD;
+extern volatile uint16_t galaga_enemy0_Y_COORD;
 extern volatile bool MOVE_INVADER;
 extern volatile bool MOVE_SHIP;
 extern char STUDENT_NAME[];
