@@ -23,24 +23,23 @@ void TIMER2A_Handler(void)
 void TIMER3A_Handler(void)
 {
 		static DIR_t current_dir;
-    static uint16_t move_count = 0; 
-		static DIR_t next_dir;
-    static uint16_t next_count; 
+    static uint16_t move_count = 0;
 	
 	  TIMER0_Type *timer;
 		timer = (TIMER0_Type *) TIMER3_BASE;
+		current_dir = DIR_RIGHT;
 	
-		move_count = next_count;
-		current_dir = next_dir;
-	
-		if ((move_count > 0) && (!contact_edge( current_dir, galaga_enemy_X_COORD[0], galaga_enemy_Y_COORD[0], galaga_enemyHeightPixels, galaga_enemyWidthPixels))) {
-			next_count--;
+		if ((!contact_edge( current_dir, galaga_enemy_X_COORD[0], galaga_enemy_Y_COORD[0], galaga_enemyHeightPixels, galaga_enemyWidthPixels))) {
 			move_image( current_dir, &galaga_enemy_X_COORD[0], &galaga_enemy_Y_COORD[0], galaga_enemyHeightPixels, galaga_enemyWidthPixels);//MOVE
 			MOVE_INVADER = true;
 		}
-		else { // get new count and dir if count hits 0 or ship hits edge
-			next_count = get_new_move_count();
-			next_dir = get_new_direction(current_dir);
+		else if (current_dir == DIR_RIGHT){ // get new count and dir ship hits edge
+			current_dir = DIR_LEFT;
+			move_image( current_dir, &galaga_enemy_X_COORD[0], &galaga_enemy_Y_COORD[0], galaga_enemyHeightPixels, galaga_enemyWidthPixels);//MOVE
+		}
+		else{ // get new count and dir ship hits edge
+			current_dir = DIR_RIGHT;
+			move_image( current_dir, &galaga_enemy_X_COORD[0], &galaga_enemy_Y_COORD[0], galaga_enemyHeightPixels, galaga_enemyWidthPixels);//MOVE
 		}
 	
 		timer->ICR |= TIMER_ICR_TATOCINT; // clear interupt
@@ -59,8 +58,14 @@ void TIMER4A_Handler(void)
 		// ADC0 ->ACTSS |= ADC_ACTSS_ASEN2;	// enable Sample sequencer
 		// ADC0 ->PSSI |= ADC_PSSI_SS2;			// start sample sequencer
 		x = accel_read_x();	
-	if(x > 4000){
+	if(x > 6000){
+		direction = DIR_FAR_LEFT;
+	}
+	else if (x > 4000){
 		direction = DIR_LEFT;
+	}
+	else if (x < -6000){
+		direction = DIR_FAR_RIGHT;
 	}
 	else if (x < -4000){
 		direction = DIR_RIGHT;

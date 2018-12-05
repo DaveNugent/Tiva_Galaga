@@ -450,7 +450,12 @@
             <File>
               <FileName>accel.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\accel.c</FilePath>
+              <FilePath>..\peripherals\c\accel.c</FilePath>
+            </File>
+            <File>
+              <FileName>spi_select.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\peripherals\c\spi_select.c</FilePath>
             </File>
           </Files>
         </Group>

@@ -34,5 +34,9 @@ extern const uint8_t galaga_enemyBitmaps[];
 extern const uint8_t galaga_enemyWidthPixels;
 extern const uint8_t galaga_enemyHeightPixels;
 
+// Bitmap info for laser
+extern const uint8_t laserBitmap[];
+extern const uint8_t laserHeight;
+extern const uint8_t laserWidth;
 
 #endif

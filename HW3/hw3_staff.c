@@ -2,7 +2,7 @@
 
 static const uint16_t START_STATE = 0xACE7u;
 static const uint16_t   MOVE_AMOUNT[] = {25, 50, 75, 100, 125, 150, 175, 200};
-static const DIR_t  MOV_DIR[] = {DIR_UP, DIR_DOWN, DIR_LEFT, DIR_RIGHT};
+static const DIR_t  MOV_DIR[] = {DIR_FAR_RIGHT, DIR_FAR_LEFT, DIR_LEFT, DIR_RIGHT};
 
 //*****************************************************************************
 // Generates a random number

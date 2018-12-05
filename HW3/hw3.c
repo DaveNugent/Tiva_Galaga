@@ -4,6 +4,8 @@ volatile uint16_t SHIP_X_COORD = 190;
 volatile uint16_t SHIP_Y_COORD = 300;
 volatile uint16_t galaga_enemy_X_COORD[] = {50};
 volatile uint16_t galaga_enemy_Y_COORD[] = {40};
+volatile uint16_t laser_X_COORD[];
+volatile uint16_t laser_Y_COORD[];
 volatile bool MOVE_INVADER = true;
 volatile bool MOVE_SHIP = true;
 
@@ -30,10 +32,10 @@ bool contact_edge(
   else if ((direction == DIR_LEFT) && (x_coord <= ((image_width + 2)/2))){
     return true;
   }
-	else if ((direction == DIR_DOWN) && (y_coord >= (ROWS - ((image_height + 2)/2)))){
+	else if ((direction == DIR_FAR_RIGHT) && (x_coord > (COLS - ((image_width + 6)/2)))){
     return true;
   }
-  else if ((direction == DIR_UP) && (y_coord <= ((image_height + 2)/2))){
+  else if ((direction == DIR_FAR_LEFT) && (x_coord <= ((image_width + 4)/2))){
     return true;
   }
   else{
@@ -64,12 +66,13 @@ void move_image(
 		case DIR_LEFT:
 			*x_coord = (*x_coord) - 1;
 		break;
-		case DIR_DOWN:
-			*y_coord = (*y_coord) + 1;
+		
+		case DIR_FAR_RIGHT:
+			*x_coord = (*x_coord) + 2;
 		break;
 		
-		case DIR_UP:
-			*y_coord = (*y_coord) - 1;
+		case DIR_FAR_LEFT:
+			*x_coord = (*x_coord) - 2;
 		break;
 		default:
 			return;
