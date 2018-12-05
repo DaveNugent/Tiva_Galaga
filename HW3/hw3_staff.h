@@ -14,13 +14,13 @@
 #include "hw3_images.h"
 
 typedef enum{
-  PS2_DIR_UP,
-  PS2_DIR_DOWN,
-  PS2_DIR_LEFT,
-  PS2_DIR_RIGHT,
-  PS2_DIR_CENTER,
-  PS2_DIR_INIT,
-} PS2_DIR_t;
+  DIR_UP,
+  DIR_DOWN,
+  DIR_LEFT,
+  DIR_RIGHT,
+  DIR_CENTER,
+  DIR_INIT,
+} DIR_t;
 
 
 //*****************************************************************************
@@ -32,7 +32,7 @@ uint16_t generate_random_number(void);
 //*****************************************************************************
 // Generates the the new direction and number of pixels  -- DO NOT MODIFY
 //*****************************************************************************
-PS2_DIR_t get_new_direction(PS2_DIR_t curr_direction);
+DIR_t get_new_direction(DIR_t curr_direction);
 
 //*****************************************************************************
 // Generates the the new direction and number of pixels  -- DO NOT MODIFY

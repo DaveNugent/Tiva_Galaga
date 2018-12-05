@@ -23,3 +23,6 @@
 .\obj\hw3_interrupts.o: hw3.h
 .\obj\hw3_interrupts.o: hw3_images.h
 .\obj\hw3_interrupts.o: hw3_staff.h
+.\obj\hw3_interrupts.o: ..\peripherals\include\accel.h
+.\obj\hw3_interrupts.o: ..\drivers\include\spi.h
+.\obj\hw3_interrupts.o: ..\peripherals\include\spi_select.h

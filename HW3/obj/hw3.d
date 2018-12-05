@@ -22,3 +22,6 @@
 .\obj\hw3.o: ..\drivers\include\timers.h
 .\obj\hw3.o: hw3_images.h
 .\obj\hw3.o: hw3_staff.h
+.\obj\hw3.o: ..\peripherals\include\accel.h
+.\obj\hw3.o: ..\drivers\include\spi.h
+.\obj\hw3.o: ..\peripherals\include\spi_select.h

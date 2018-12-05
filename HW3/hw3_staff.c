@@ -2,7 +2,7 @@
 
 static const uint16_t START_STATE = 0xACE7u;
 static const uint16_t   MOVE_AMOUNT[] = {25, 50, 75, 100, 125, 150, 175, 200};
-static const PS2_DIR_t  MOV_DIR[] = {PS2_DIR_UP, PS2_DIR_DOWN, PS2_DIR_LEFT, PS2_DIR_RIGHT};
+static const DIR_t  MOV_DIR[] = {DIR_UP, DIR_DOWN, DIR_LEFT, DIR_RIGHT};
 
 //*****************************************************************************
 // Generates a random number
@@ -21,9 +21,9 @@ uint16_t generate_random_number(
 //*****************************************************************************
 // Generates the the new direction and number of pixels  -- DO NOT MODIFY
 //*****************************************************************************
-PS2_DIR_t get_new_direction(PS2_DIR_t curr_direction)
+DIR_t get_new_direction(DIR_t curr_direction)
 {
-     PS2_DIR_t new_direction;
+     DIR_t new_direction;
     do
     {
         new_direction = MOV_DIR[generate_random_number()%4];

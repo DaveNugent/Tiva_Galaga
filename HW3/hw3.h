@@ -13,11 +13,13 @@
 #include "timers.h"
 #include "hw3_images.h"
 #include "hw3_staff.h"
+#include "accel.h"
+#include "spi.h"
 
 extern volatile uint16_t SHIP_X_COORD;
 extern volatile uint16_t SHIP_Y_COORD;
-extern volatile uint16_t galaga_enemy0_X_COORD;
-extern volatile uint16_t galaga_enemy0_Y_COORD;
+extern volatile uint16_t galaga_enemy_X_COORD[];
+extern volatile uint16_t galaga_enemy_Y_COORD[];
 extern volatile bool MOVE_INVADER;
 extern volatile bool MOVE_SHIP;
 extern char STUDENT_NAME[];
@@ -28,7 +30,7 @@ extern char STUDENT_NAME[];
 // be in contact with the edge of the screen, return false.
 //*****************************************************************************
 bool contact_edge(
-    volatile PS2_DIR_t direction,
+    volatile DIR_t direction,
     volatile uint16_t x_coord, 
     volatile uint16_t y_coord, 
     uint8_t image_height, 
@@ -41,7 +43,7 @@ bool contact_edge(
 // reference)
 //*****************************************************************************
 void move_image(
-        volatile PS2_DIR_t direction,
+        volatile DIR_t direction,
         volatile uint16_t *x_coord, 
         volatile uint16_t *y_coord, 
         uint8_t image_height, 
@@ -63,8 +65,8 @@ bool check_game_over(
         const uint16_t ship_y_coord, 
         uint8_t ship_height, 
         uint8_t ship_width,
-        volatile uint16_t invader_x_coord, 
-        volatile uint16_t invader_y_coord, 
+        volatile uint16_t galaga_enemy_X_COORD[], 
+        volatile uint16_t galaga_enemy_Y_COORD[], 
         uint8_t invader_height, 
         uint8_t invader_width
 );

@@ -1,6 +1,6 @@
 #include "hw3_interrupts.h"
 
-volatile PS2_DIR_t direction;
+volatile DIR_t direction;
 //*****************************************************************************
 // TIMER2 ISR is used to determine when to move the Invader
 //*****************************************************************************
@@ -22,9 +22,9 @@ void TIMER2A_Handler(void)
 //*****************************************************************************
 void TIMER3A_Handler(void)
 {
-		static PS2_DIR_t current_dir = PS2_DIR_CENTER;
+		static DIR_t current_dir;
     static uint16_t move_count = 0; 
-		static PS2_DIR_t next_dir;
+		static DIR_t next_dir;
     static uint16_t next_count; 
 	
 	  TIMER0_Type *timer;
@@ -33,9 +33,9 @@ void TIMER3A_Handler(void)
 		move_count = next_count;
 		current_dir = next_dir;
 	
-		if ((move_count > 0) && (!contact_edge( current_dir, galaga_enemy0_X_COORD, galaga_enemy0_Y_COORD, galaga_enemyHeightPixels, galaga_enemyWidthPixels))) {
+		if ((move_count > 0) && (!contact_edge( current_dir, galaga_enemy_X_COORD[0], galaga_enemy_Y_COORD[0], galaga_enemyHeightPixels, galaga_enemyWidthPixels))) {
 			next_count--;
-			move_image( current_dir, &galaga_enemy0_X_COORD, &galaga_enemy0_Y_COORD, galaga_enemyHeightPixels, galaga_enemyWidthPixels);//MOVE
+			move_image( current_dir, &galaga_enemy_X_COORD[0], &galaga_enemy_Y_COORD[0], galaga_enemyHeightPixels, galaga_enemyWidthPixels);//MOVE
 			MOVE_INVADER = true;
 		}
 		else { // get new count and dir if count hits 0 or ship hits edge
@@ -52,12 +52,22 @@ void TIMER3A_Handler(void)
 //*****************************************************************************
 void TIMER4A_Handler(void)
 {	
+		int16_t x;
 		TIMER0_Type *timer;
 		timer = (TIMER0_Type *) TIMER4_BASE;
 	
-		ADC0 ->ACTSS |= ADC_ACTSS_ASEN2;	// enable Sample sequencer
-		ADC0 ->PSSI |= ADC_PSSI_SS2;			// start sample sequencer
-		
+		// ADC0 ->ACTSS |= ADC_ACTSS_ASEN2;	// enable Sample sequencer
+		// ADC0 ->PSSI |= ADC_PSSI_SS2;			// start sample sequencer
+		x = accel_read_x();	
+	if(x > 4000){
+		direction = DIR_LEFT;
+	}
+	else if (x < -4000){
+		direction = DIR_RIGHT;
+	}
+	else {
+		direction = DIR_CENTER;
+	}		
 	
 		timer->ICR |= TIMER_ICR_TATOCINT; // clear interupt
 }
@@ -79,13 +89,13 @@ void ADC0SS2_Handler(void)
 	
 	
 	if(x > 2979){
-		direction = PS2_DIR_LEFT;
+		direction = DIR_LEFT;
 	}
 	else if (x < 1055){
-		direction = PS2_DIR_RIGHT;
+		direction = DIR_RIGHT;
 	}
 	else {
-		direction = PS2_DIR_CENTER;
+		direction = DIR_CENTER;
 	}
 	
 	adc->ISC |= 0x4; // clear interupt
