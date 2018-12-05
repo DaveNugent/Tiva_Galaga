@@ -326,6 +326,8 @@ void hw3_main(void)
 	while(!check_game_over(SHIP_X_COORD, SHIP_Y_COORD, shipHeightPixels, shipWidthPixels, 
 												 galaga_enemy_X_COORD, galaga_enemy_Y_COORD, galaga_enemyHeightPixels, galaga_enemyWidthPixels))
 	{
+    lcd_draw_image(20, zeroWidthPixels, 15, zeroHeightPixels, zeroBitmaps, LCD_COLOR_RED, LCD_COLOR_BLACK);
+		
 		NVIC_DisableIRQ(TIMER2A_IRQn);
 		NVIC_DisableIRQ(TIMER3A_IRQn);
 		NVIC_DisableIRQ(TIMER4A_IRQn);
