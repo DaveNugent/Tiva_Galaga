@@ -3,7 +3,7 @@
 volatile uint16_t SHIP_X_COORD = 190;
 volatile uint16_t SHIP_Y_COORD = 300;
 volatile uint16_t galaga_enemy_X_COORD[] = {50};
-volatile uint16_t galaga_enemy_Y_COORD[] = {40};
+volatile uint16_t galaga_enemy_Y_COORD[] = {250};
 volatile uint16_t laser_X_COORD[];
 volatile uint16_t laser_Y_COORD[];
 volatile bool MOVE_INVADER = true;
@@ -36,6 +36,12 @@ bool contact_edge(
     return true;
   }
   else if ((direction == DIR_FAR_LEFT) && (x_coord <= ((image_width + 4)/2))){
+    return true;
+	}	
+	else if ((direction == DIR_DOWN) && (y_coord > (ROWS - ((image_width + 8)/2)))){
+    return true;
+  }
+  else if ((direction == DIR_UP) && (y_coord <= ((image_height + 4)/2))){
     return true;
   }
   else{
@@ -73,6 +79,14 @@ void move_image(
 		
 		case DIR_FAR_LEFT:
 			*x_coord = (*x_coord) - 2;
+		break;
+		
+		case DIR_UP:
+			*y_coord = (*y_coord) - 1;
+		break;
+		
+		case DIR_DOWN:
+			*y_coord = (*y_coord) + 4;
 		break;
 		default:
 			return;
@@ -143,23 +157,23 @@ bool check_game_over(
         uint8_t ship_width,
         volatile uint16_t galaga_enemy_X_COORD[],
         volatile uint16_t galaga_enemy_Y_COORD[],
-        uint8_t invader_height,
-        uint8_t invader_width
+        uint8_t galaga_enemyHeightPixels,
+        uint8_t galaga_enemyWidthPixels
 )
 {
-	if (((ship_x_coord + (ship_width/2)) > (galaga_enemy_X_COORD[0] - (invader_width/2))) && ((ship_x_coord + (ship_width/2)) <  (galaga_enemy_X_COORD[0] + (invader_width/2)))){
-		if (((ship_y_coord + (ship_height/2)) > (galaga_enemy_Y_COORD[0] - (invader_height/2))) && ((ship_y_coord + (ship_height/2)) <  (galaga_enemy_Y_COORD[0] + (invader_height/2)))){
+	if (((ship_x_coord + 5) > (galaga_enemy_X_COORD[0] - 5)) && ((ship_x_coord + 5) <  (galaga_enemy_X_COORD[0] + 5))){
+		if (((ship_y_coord + 15) > (galaga_enemy_Y_COORD[0] - 15)) && ((ship_y_coord + 15) <  (galaga_enemy_Y_COORD[0] + 15))){
 			return true;
 		}
-		else if(((ship_y_coord - (ship_height/2)) > (galaga_enemy_Y_COORD[0] - (invader_height/2))) && ((ship_y_coord - (ship_height/2)) <  ((galaga_enemy_Y_COORD[0] + (invader_height/2))))){
+		else if(((ship_y_coord - 15) > (galaga_enemy_Y_COORD[0] - 15)) && ((ship_y_coord - 15) <  ((galaga_enemy_Y_COORD[0] + 15)))){
 			return true;
 		}
 	}
-	else if (((ship_x_coord - (ship_width/2)) > (galaga_enemy_X_COORD[0] - (invader_width/2))) && ((ship_x_coord - (ship_width/2)) <  (galaga_enemy_X_COORD[0] + (invader_width/2)))){
-		if (((ship_y_coord + (ship_height/2)) > (galaga_enemy_Y_COORD[0] - (invader_height/2))) && ((ship_y_coord + (ship_height/2)) <  (galaga_enemy_Y_COORD[0] + (invader_height/2)))){
+	else if (((ship_x_coord - 5) > (galaga_enemy_X_COORD[0] - 5)) && ((ship_x_coord - 5) <  (galaga_enemy_X_COORD[0] + 5))){
+		if (((ship_y_coord + 15) > (galaga_enemy_Y_COORD[0] - 15)) && ((ship_y_coord + 15) <  (galaga_enemy_Y_COORD[0] + 15))){
 			return true;
 		}
-		else if(((ship_y_coord - (ship_height/2)) > (galaga_enemy_Y_COORD[0] - (invader_height/2))) && ((ship_y_coord - (ship_height/2)) <  (galaga_enemy_Y_COORD[0] + (invader_height/2)))){
+		else if(((ship_y_coord - 15) > (galaga_enemy_Y_COORD[0] - 15)) && ((ship_y_coord - 15) <  (galaga_enemy_Y_COORD[0] + 15))){
 			return true;
 		}
 	}

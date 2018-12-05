@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\obj\ece353_base_project.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\obj\ece353_base_project.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Wed Dec 05 16:18:31 2018
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Wed Dec 05 17:19:08 2018
 <BR><P>
 <H3>Maximum Stack Usage =        112 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -304,15 +304,15 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;hw3_main
 </UL>
 
-<P><STRONG><a name="[95]"></a>contact_edge</STRONG> (Thumb, 128 bytes, Stack size 24 bytes, hw3.o(.text))
+<P><STRONG><a name="[95]"></a>contact_edge</STRONG> (Thumb, 190 bytes, Stack size 24 bytes, hw3.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = contact_edge
 </UL>
 <BR>[Called By]<UL><LI><a href="#[2d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIMER3A_Handler
 <LI><a href="#[21]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIMER2A_Handler
 </UL>
 
-<P><STRONG><a name="[96]"></a>move_image</STRONG> (Thumb, 62 bytes, Stack size 24 bytes, hw3.o(.text))
-<BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = move_image
+<P><STRONG><a name="[96]"></a>move_image</STRONG> (Thumb, 78 bytes, Stack size 28 bytes, hw3.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 28<LI>Call Chain = move_image
 </UL>
 <BR>[Called By]<UL><LI><a href="#[2d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIMER3A_Handler
 <LI><a href="#[21]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIMER2A_Handler
@@ -326,8 +326,8 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;init_hardware
 </UL>
 
-<P><STRONG><a name="[94]"></a>check_game_over</STRONG> (Thumb, 372 bytes, Stack size 52 bytes, hw3.o(.text))
-<BR><BR>[Stack]<UL><LI>Max Depth = 52<LI>Call Chain = check_game_over
+<P><STRONG><a name="[94]"></a>check_game_over</STRONG> (Thumb, 198 bytes, Stack size 36 bytes, hw3.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 36<LI>Call Chain = check_game_over
 </UL>
 <BR>[Called By]<UL><LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;hw3_main
 </UL>
@@ -348,7 +348,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;init_hardware
 </UL>
 
-<P><STRONG><a name="[88]"></a>init_hardware</STRONG> (Thumb, 202 bytes, Stack size 8 bytes, hw3.o(.text))
+<P><STRONG><a name="[88]"></a>init_hardware</STRONG> (Thumb, 208 bytes, Stack size 8 bytes, hw3.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 56<LI>Call Chain = init_hardware &rArr; lcd_clear_screen &rArr; lcd_set_pos &rArr; lcd_write_data_u16
 </UL>
 <BR>[Calls]<UL><LI><a href="#[8d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lcd_config_screen
@@ -381,15 +381,15 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[21]"></a>TIMER2A_Handler</STRONG> (Thumb, 70 bytes, Stack size 16 bytes, hw3_interrupts.o(.text))
-<BR><BR>[Stack]<UL><LI>Max Depth = 40<LI>Call Chain = TIMER2A_Handler &rArr; move_image
+<BR><BR>[Stack]<UL><LI>Max Depth = 44<LI>Call Chain = TIMER2A_Handler &rArr; move_image
 </UL>
 <BR>[Calls]<UL><LI><a href="#[96]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;move_image
 <LI><a href="#[95]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;contact_edge
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> startup_tm4c123.o(RESET)
 </UL>
-<P><STRONG><a name="[2d]"></a>TIMER3A_Handler</STRONG> (Thumb, 102 bytes, Stack size 16 bytes, hw3_interrupts.o(.text))
-<BR><BR>[Stack]<UL><LI>Max Depth = 40<LI>Call Chain = TIMER3A_Handler &rArr; move_image
+<P><STRONG><a name="[2d]"></a>TIMER3A_Handler</STRONG> (Thumb, 142 bytes, Stack size 16 bytes, hw3_interrupts.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 44<LI>Call Chain = TIMER3A_Handler &rArr; move_image
 </UL>
 <BR>[Calls]<UL><LI><a href="#[96]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;move_image
 <LI><a href="#[95]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;contact_edge

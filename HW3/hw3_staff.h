@@ -14,10 +14,12 @@
 #include "hw3_images.h"
 
 typedef enum{
+	DIR_LEFT,
+  DIR_RIGHT,
+	DIR_DOWN,
+	DIR_UP,
   DIR_FAR_LEFT,
   DIR_FAR_RIGHT,
-  DIR_LEFT,
-  DIR_RIGHT,
   DIR_CENTER,
   DIR_INIT,
 } DIR_t;

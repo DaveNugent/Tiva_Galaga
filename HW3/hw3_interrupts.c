@@ -27,7 +27,6 @@ void TIMER3A_Handler(void)
 	
 	  TIMER0_Type *timer;
 		timer = (TIMER0_Type *) TIMER3_BASE;
-	
 		current_dir = next_dir;
 	
 		if ((!contact_edge( current_dir, galaga_enemy_X_COORD[0], galaga_enemy_Y_COORD[0], galaga_enemyHeightPixels, galaga_enemyWidthPixels))) {
@@ -35,9 +34,11 @@ void TIMER3A_Handler(void)
 			MOVE_INVADER = true;
 		}
 		else if (current_dir == DIR_RIGHT){ // get new count and dir ship hits edge
+			move_image( DIR_DOWN, &galaga_enemy_X_COORD[0], &galaga_enemy_Y_COORD[0], galaga_enemyHeightPixels, galaga_enemyWidthPixels);//MOVE
 			next_dir = DIR_LEFT;
 		}
-		else{ // get new count and dir ship hits edge
+		else{ // get new dir if ship hits edge
+			move_image( DIR_DOWN, &galaga_enemy_X_COORD[0], &galaga_enemy_Y_COORD[0], galaga_enemyHeightPixels, galaga_enemyWidthPixels);//MOVE
 			next_dir = DIR_RIGHT;
 		}
 	
