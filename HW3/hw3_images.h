@@ -40,52 +40,52 @@ extern const uint8_t laserHeight;
 extern const uint8_t laserWidth;
 
 // Bitmap info for _0
-extern const uint8_t zeroBitmaps;
+extern const uint8_t zeroBitmaps[];
 extern const uint8_t zeroWidthPixels;
 extern const uint8_t zeroHeightPixels;
 
 // Bitmap info for _1
-extern const uint8_t oneBitmaps;
+extern const uint8_t oneBitmaps[];
 extern const uint8_t oneWidthPixels;
 extern const uint8_t oneHeightPixels;
 
 // Bitmap info for _2
-extern const uint8_t twoBitmaps;
+extern const uint8_t twoBitmaps[];
 extern const uint8_t twoWidthPixels;
 extern const uint8_t twoHeightPixels;
 
 // Bitmap info for _3
-extern const uint8_t threeBitmaps;
+extern const uint8_t threeBitmaps[];
 extern const uint8_t threeWidthPixels;
 extern const uint8_t threeHeightPixels;
 
 // Bitmap info for _4
-extern const uint8_t fourBitmaps;
+extern const uint8_t fourBitmaps[];
 extern const uint8_t fourWidthPixels;
 extern const uint8_t fourHeightPixels;
 
 // Bitmap info for _5
-extern const uint8_t fiveBitmaps;
+extern const uint8_t fiveBitmaps[];
 extern const uint8_t fiveWidthPixels;
 extern const uint8_t fiveHeightPixels;
 
 // Bitmap info for _6
-extern const uint8_t sixBitmaps;
+extern const uint8_t sixBitmaps[];
 extern const uint8_t sixWidthPixels;
 extern const uint8_t sixHeightPixels;
 
 // Bitmap info for _7
-extern const uint8_t sevenBitmaps;
+extern const uint8_t sevenBitmaps[];
 extern const uint8_t sevenWidthPixels;
 extern const uint8_t sevenHeightPixels;
 
 // Bitmap info for _8
-extern const uint8_t eightBitmaps;
+extern const uint8_t eightBitmaps[];
 extern const uint8_t eightWidthPixels;
 extern const uint8_t eightHeightPixels;
 
 // Bitmap info for _9
-extern const uint8_t nineBitmaps;
+extern const uint8_t nineBitmaps[];
 extern const uint8_t nineWidthPixels;
 extern const uint8_t nineHeightPixels;
 

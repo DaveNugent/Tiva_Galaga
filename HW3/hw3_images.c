@@ -87,6 +87,8 @@ const uint8_t shipHeightPixels = 32;
 const uint8_t galaga_enemyBitmaps[] =
 {
 	0x00, 0x00, 0x00, 0x00, //                               
+	0x00, 0x00, 0x00, 0x00, //
+	0x00, 0x00, 0x00, 0x00, //                               
 	0x00, 0x00, 0x00, 0x00, //                               
 	0x0E, 0x00, 0x03, 0xC0, //     ###               ####    
 	0x3F, 0x80, 0x07, 0xE0, //   #######            ######   
@@ -120,7 +122,7 @@ const uint8_t galaga_enemyBitmaps[] =
 
 // Bitmap sizes for galaga_enemy
 const uint8_t galaga_enemyWidthPixels = 30;
-const uint8_t galaga_enemyHeightPixels = 30;
+const uint8_t galaga_enemyHeightPixels = 32;
 
 const uint8_t laser[] =
 {

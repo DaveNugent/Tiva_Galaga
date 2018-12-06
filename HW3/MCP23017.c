@@ -1,17 +1,18 @@
-#include "eeprom.h"
+#include "IO_EXPANDER.h"
+#include "MCP23017.h"
 
 //*****************************************************************************
-// Used to determine if the EEPROM is busy writing the last transaction to 
+// Used to determine if the IO_EXPANDER is busy writing the last transaction to 
 // non-volatile storage
 //
 // Paramters
 //    i2c_base:   a valid base address of an I2C peripheral
 //
 // Returns
-// I2C_OK is returned one the EEPROM is ready to write the next byte
+// I2C_OK is returned one the IO_EXPANDER is ready to write the next byte
 //*****************************************************************************
 static 
-i2c_status_t eeprom_wait_for_write( int32_t  i2c_base)
+i2c_status_t IO_EXPANDER_wait_for_write( int32_t  i2c_base)
 {
   
   i2c_status_t status;
@@ -21,8 +22,8 @@ i2c_status_t eeprom_wait_for_write( int32_t  i2c_base)
     return  I2C_INVALID_BASE;
   }
 
-  // Set the I2C address to be the EEPROM and in Write Mode
-  status = i2cSetSlaveAddr(i2c_base, MCP24LC32AT_DEV_ID, I2C_WRITE);
+  // Set the I2C address to be the IO_EXPANDER and in Write Mode
+  status = i2cSetSlaveAddr(i2c_base, MCP23017_DEV_ID, I2C_WRITE);
 
   // Poll while the device is busy.  The  MCP24LC32AT will not ACK
   // writing an address while the write has not finished.
@@ -43,20 +44,20 @@ i2c_status_t eeprom_wait_for_write( int32_t  i2c_base)
   
   
 //*****************************************************************************
-// Writes a single byte of data out to the  MCP24LC32AT EEPROM.  
+// Writes a single byte of data out to the  MCP24LC32AT IO_EXPANDER.  
 //
 // Paramters
 //    i2c_base:   a valid base address of an I2C peripheral
 //
 //    address:    16-bit address of the byte being written.  Only the lower
-//                12 bits is used by the EEPROM
+//                12 bits is used by the IO_EXPANDER
 //
-//    data:       Data written to the EEPROM.
+//    data:       Data written to the IO_EXPANDER.
 //
 // Returns
-// I2C_OK if the byte was written to the EEPROM.
+// I2C_OK if the byte was written to the IO_EXPANDER.
 //*****************************************************************************
-i2c_status_t eeprom_byte_write
+i2c_status_t IO_EXPANDER_byte_write
 ( 
   uint32_t  i2c_base,
   uint16_t  address,
@@ -72,23 +73,23 @@ i2c_status_t eeprom_byte_write
   while ( I2CMasterBusy(i2c_base)) {};
 
   //==============================================================
-  // Set the I2C address to be the EEPROM
+  // Set the I2C address to be the IO_EXPANDER
 	// ADD CODE
   //==============================================================
-	status = i2cSetSlaveAddr(i2c_base, MCP24LC32AT_DEV_ID, I2C_WRITE);
+	status = i2cSetSlaveAddr(i2c_base, MCP23017_DEV_ID, I2C_WRITE);
 		if ( status != I2C_OK )
   {
     return status;
   }
   
-  // If the EEPROM is still writing the last byte written, wait
-  eeprom_wait_for_write(i2c_base);
+  // If the IO_EXPANDER is still writing the last byte written, wait
+  IO_EXPANDER_wait_for_write(i2c_base);
   
   //==============================================================
   // Send the Upper byte of the address
 	// ADD CODE	
   //==============================================================
-	
+/*	
 	upperByte = (address & 0xFF00) >> 8;
 	//printf("ERROR: addr: %i upper: %i\n\r",address,upperByte);
 	i2cSendByte(
@@ -96,6 +97,7 @@ i2c_status_t eeprom_byte_write
      upperByte ,
      I2C_MCS_START | I2C_MCS_RUN
 	);	
+*/
   //==============================================================
   // Send the Lower byte of the address
 	// ADD CODE
@@ -120,20 +122,20 @@ i2c_status_t eeprom_byte_write
 }
 
 //*****************************************************************************
-// Reads a single byte of data from the  MCP24LC32AT EEPROM.  
+// Reads a single byte of data from the  MCP24LC32AT IO_EXPANDER.  
 //
 // Paramters
 //    i2c_base:   a valid base address of an I2C peripheral
 //
 //    address:    16-bit address of the byte being read.  Only the lower
-//                12 bits is used by the EEPROM
+//                12 bits is used by the IO_EXPANDER
 //
-//    data:       data read from the EEPROM is returned to a uint8_t pointer.
+//    data:       data read from the IO_EXPANDER is returned to a uint8_t pointer.
 //
 // Returns
-// I2C_OK if the byte was read from the EEPROM.
+// I2C_OK if the byte was read from the IO_EXPANDER.
 //*****************************************************************************
-i2c_status_t eeprom_byte_read
+i2c_status_t IO_EXPANDER_byte_read
 ( 
   uint32_t  i2c_base,
   uint16_t  address,
@@ -149,14 +151,14 @@ i2c_status_t eeprom_byte_read
   // Before doing anything, make sure the I2C device is idle
   while ( I2CMasterBusy(i2c_base)) {};
 
-  // If the EEPROM is still writing the last byte written, wait
-  eeprom_wait_for_write(i2c_base);
+  // If the IO_EXPANDER is still writing the last byte written, wait
+  IO_EXPANDER_wait_for_write(i2c_base);
 
   //==============================================================
-  // Set the I2C slave address to be the EEPROM and in Write Mode
+  // Set the I2C slave address to be the IO_EXPANDER and in Write Mode
 	// ADD CODE
   //==============================================================
-	status = i2cSetSlaveAddr(i2c_base, MCP24LC32AT_DEV_ID, I2C_WRITE);
+	status = i2cSetSlaveAddr(i2c_base, MCP23017_DEV_ID, I2C_WRITE);
 if ( status != I2C_OK )
   {
     return status;
@@ -166,6 +168,7 @@ if ( status != I2C_OK )
   // Send the Upper byte of the address
 	// ADD CODE
   //==============================================================
+	/*
 	upperByte = (address & 0xFF00) >> 8;
 	//printf("ERROR: addr: %i upper: %i\n\r",address,upperByte);
 	i2cSendByte(
@@ -173,7 +176,7 @@ if ( status != I2C_OK )
      upperByte ,
      I2C_MCS_START | I2C_MCS_RUN
 	);	
-
+	*/
   //==============================================================
   // Send the Lower byte of the address
 	// ADD CODE
@@ -187,17 +190,17 @@ if ( status != I2C_OK )
 	);
 
   //==============================================================
-  // Set the I2C slave address to be the EEPROM and in Read Mode
+  // Set the I2C slave address to be the IO_EXPANDER and in Read Mode
 	// ADD CODE
   //==============================================================
-	status = i2cSetSlaveAddr(i2c_base, MCP24LC32AT_DEV_ID, I2C_READ);
+	status = i2cSetSlaveAddr(i2c_base, MCP23017_DEV_ID, I2C_READ);
 if ( status != I2C_OK )
   {
     return status;
   }
 
   //==============================================================
-  // Read the data returned by the EEPROM
+  // Read the data returned by the IO_EXPANDER
 	// ADD CODE
   //==============================================================
   i2cGetByte(
@@ -211,26 +214,26 @@ if ( status != I2C_OK )
 //*****************************************************************************
 // Initialize the I2C peripheral
 //*****************************************************************************
-bool eeprom_init(void)
+bool IO_EXPANDER_init(void)
 {
   
-  if(gpio_enable_port(EEPROM_GPIO_BASE) == false)
+  if(gpio_enable_port(IO_EXPANDER_GPIO_BASE) == false)
   {
     return false;
   }
   
   // Configure SCL 
-  if(gpio_config_digital_enable(EEPROM_GPIO_BASE, EEPROM_I2C_SCL_PIN)== false)
+  if(gpio_config_digital_enable(IO_EXPANDER_GPIO_BASE, IO_EXPANDER_I2C_SCL_PIN)== false)
   {
     return false;
   }
     
-  if(gpio_config_alternate_function(EEPROM_GPIO_BASE, EEPROM_I2C_SCL_PIN)== false)
+  if(gpio_config_alternate_function(IO_EXPANDER_GPIO_BASE, IO_EXPANDER_I2C_SCL_PIN)== false)
   {
     return false;
   }
     
-  if(gpio_config_port_control(EEPROM_GPIO_BASE, EEPROM_I2C_SCL_PCTL_M, EEPROM_I2C_SCL_PIN_PCTL)== false)
+  if(gpio_config_port_control(IO_EXPANDER_GPIO_BASE, IO_EXPANDER_I2C_SCL_PCTL_M, IO_EXPANDER_I2C_SCL_PIN_PCTL)== false)
   {
     return false;
   }
@@ -238,28 +241,28 @@ bool eeprom_init(void)
 
   
   // Configure SDA 
-  if(gpio_config_digital_enable(EEPROM_GPIO_BASE, EEPROM_I2C_SDA_PIN)== false)
+  if(gpio_config_digital_enable(IO_EXPANDER_GPIO_BASE, IO_EXPANDER_I2C_SDA_PIN)== false)
   {
     return false;
   }
     
-  if(gpio_config_open_drain(EEPROM_GPIO_BASE, EEPROM_I2C_SDA_PIN)== false)
+  if(gpio_config_open_drain(IO_EXPANDER_GPIO_BASE, IO_EXPANDER_I2C_SDA_PIN)== false)
   {
     return false;
   }
     
-  if(gpio_config_alternate_function(EEPROM_GPIO_BASE, EEPROM_I2C_SDA_PIN)== false)
+  if(gpio_config_alternate_function(IO_EXPANDER_GPIO_BASE, IO_EXPANDER_I2C_SDA_PIN)== false)
   {
     return false;
   }
     
-  if(gpio_config_port_control(EEPROM_GPIO_BASE, EEPROM_I2C_SDA_PCTL_M, EEPROM_I2C_SDA_PIN_PCTL)== false)
+  if(gpio_config_port_control(IO_EXPANDER_GPIO_BASE, IO_EXPANDER_I2C_SDA_PCTL_M, IO_EXPANDER_I2C_SDA_PIN_PCTL)== false)
   {
     return false;
   }
     
   //  Initialize the I2C peripheral
-  if( initializeI2CMaster(EEPROM_I2C_BASE)!= I2C_OK)
+  if( initializeI2CMaster(IO_EXPANDER_I2C_BASE)!= I2C_OK)
   {
     return false;
   }
