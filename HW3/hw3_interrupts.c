@@ -50,13 +50,11 @@ void TIMER3A_Handler(void)
 // TIMER4 ISR is used to trigger the ADC
 //*****************************************************************************
 void TIMER4A_Handler(void)
-{	
+{		
 		int16_t x;
 		TIMER0_Type *timer;
 		timer = (TIMER0_Type *) TIMER4_BASE;
-	
-		// ADC0 ->ACTSS |= ADC_ACTSS_ASEN2;	// enable Sample sequencer
-		// ADC0 ->PSSI |= ADC_PSSI_SS2;			// start sample sequencer
+
 		x = accel_read_x();	
 	if(x > 6000){
 		direction = DIR_FAR_LEFT;

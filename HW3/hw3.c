@@ -284,8 +284,12 @@ void init_hardware(void)
   // Initialize ADC and Timer used to provide analog data from the PS2
   init_interrupt_adc(ADC0_BASE);
 
-  // inirialize accel
+  // initialize accel
   accel_initialize();
+
+  // initialize push buttons (IO Expander)
+  mcp23017_init();
+  initialize_buttons();
 
   // Initialize Timer 2
   gp_timer_config_32(TIMER2_BASE, TIMER_TAMR_TAMR_PERIOD, false, true);
@@ -303,7 +307,7 @@ void init_hardware(void)
 	
 	// Initialize Timer 4
   gp_timer_config_32(TIMER4_BASE, TIMER_TAMR_TAMR_PERIOD, false, true);
-	countdown_timer (TIMER4_BASE, 50000); //1 ms
+	countdown_timer (TIMER4_BASE, 400000); //8 ms
 	NVIC_SetPriority(TIMER4A_IRQn, 2);
 	NVIC_EnableIRQ(TIMER4A_IRQn);
 }
