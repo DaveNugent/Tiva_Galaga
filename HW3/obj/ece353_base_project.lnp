@@ -14,6 +14,7 @@
 ".\obj\accel.o"
 ".\obj\spi_select.o"
 ".\obj\mcp23017.o"
+".\obj\eeprom.o"
 ".\hw3_f18.lib"
 ".\obj\startup_tm4c123.o"
 ".\obj\system_tm4c123.o"
