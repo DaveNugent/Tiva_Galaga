@@ -11,6 +11,12 @@ volatile bool MOVE_SHIP = true;
 
 char STUDENT_NAME[] = "Dave Nugent";
 
+// masks for IO expander buttons
+#define RIGHT_BUTTON_M		8
+#define LEFT_BUTTON_M		  4
+#define DOWN_BUTTON_M			2
+#define UP_BUTTON_M       1
+
 //*****************************************************************************
 // If any part of the image would be off the screen if the image
 // is moved in the specified direction, return true.  If the image would not
@@ -323,6 +329,8 @@ void init_hardware(void)
 //*****************************************************************************
 void hw3_main(void)
 {
+		uint8_t button_press;
+	
     init_hardware();
     hw3_hardware_validate();
 
@@ -330,7 +338,14 @@ void hw3_main(void)
 	while(!check_game_over(SHIP_X_COORD, SHIP_Y_COORD, shipHeightPixels, shipWidthPixels, 
 												 galaga_enemy_X_COORD, galaga_enemy_Y_COORD, galaga_enemyHeightPixels, galaga_enemyWidthPixels))
 	{
-    lcd_draw_image(20, zeroWidthPixels, 15, zeroHeightPixels, zeroBitmaps, LCD_COLOR_RED, LCD_COLOR_BLACK);
+		
+		read_button(&button_press);
+		button_press = ~button_press;
+		button_press &= DOWN_BUTTON_M;
+		
+		if (button_press){
+			lcd_draw_image(20, zeroWidthPixels, 15, zeroHeightPixels, zeroBitmaps, LCD_COLOR_RED, LCD_COLOR_BLACK); //FIXME just testing
+	}
 		
 		NVIC_DisableIRQ(TIMER2A_IRQn);
 		NVIC_DisableIRQ(TIMER3A_IRQn);
@@ -352,139 +367,4 @@ void hw3_main(void)
 	}
 		
 
-}
-
-#include "eeprom.h"
-#define ADDR_START1    0
-#define ADDR_START2    80
-#define ADDR_START3    160
-#define ADDR_START_GAME_DATA    240
-#define NUM_BYTES      80
-
-char string1[NUM_BYTES] = "Student 1: Dave Nugent";
-char string2[NUM_BYTES] = "Student 2: Carter Steffen";
-char string3[NUM_BYTES] = "Team Number: 10";
-
-
-void eeprom_game_data(void)
-{
-	uint16_t addr;
-  uint8_t values[20];
-  uint8_t read_val;
-  bool status = true;
-  
-  for(addr = ADDR_START_GAME_DATA; addr <(ADDR_START_GAME_DATA+NUM_BYTES); addr++)
-  {
-		//write high score data instead of rand
-      values[ addr - ADDR_START_GAME_DATA] = rand();
-      printf("Writing %i\n\r",values[addr-ADDR_START_GAME_DATA]);
-      eeprom_byte_write(I2C1_BASE,addr, values[addr-ADDR_START_GAME_DATA]);
-  }
-  
-  for(addr = ADDR_START_GAME_DATA; addr <(ADDR_START_GAME_DATA+NUM_BYTES); addr++)
-  {
-      eeprom_byte_read(I2C1_BASE,addr, &read_val);
-      if( read_val != values[addr-ADDR_START_GAME_DATA])
-      {
-        printf("ERROR: addr: %i write: %i read %i\n\r",addr,values[addr-ADDR_START_GAME_DATA], read_val);
-        status = false;
-      }
-  }
-  
-  if(status)
-  {
-    printf("EEPROM Test passed\n\r");
-  }
-  else
-  {
-    printf("EEPROM Test failed\n\r");
-  }
-}
-
-void eeprom_read_board_data(void)
-{
-	uint16_t addr;
-	uint16_t temp;
-  uint8_t values[20];
-  uint8_t read_val;
-	char currChar;
-	char line[NUM_BYTES];
-  bool status = true;
-	int index = 0;
-	int numChar1;
-	int numChar2;
-	int numChar3;
-	int i;
- 
-  for(i = 0; i < 3; i++) {
-		index = 0;
-		if(i == 1) {
-			temp = ADDR_START1;
-		} else if(i == 2) {
-			temp = ADDR_START2;
-		} else {
-			temp = ADDR_START3;
-		}
-		for(addr = temp; addr <(temp+NUM_BYTES); addr++)
-		{
-				eeprom_byte_read(I2C1_BASE,addr, &read_val);
-				currChar = (char)read_val;
-				if(currChar == '\0') {
-					//end of line
-					break;
-				} else {
-					line[index] = currChar;
-					index++;
-				}
-		}
-		if(i == 1) {
-			char newstring1[NUM_BYTES];
-			strcpy(newstring1, line);
-			printf("Reading %s\n\r",newstring1);
-		} else if(i == 2) {
-			char newstring2[NUM_BYTES];
-			strcpy(newstring2, line);
-			printf("Reading %s\n\r",newstring2);
-		} else {
-			char newstring3[NUM_BYTES];
-			strcpy(newstring3, line);
-			printf("Reading %s\n\r",newstring3);
-		}
-		
-	}
-	
-}
-
-void eeprom_write(void)
-{
-	uint16_t addr;
-	uint16_t temp;
-  uint8_t values[80];
-  uint8_t read_val;
-  bool status = true;
-	int i;
-	int idx = 0;
-  for(i = 0; i < 3; i++) {
-		idx = 0;
-		if(i == 1) {
-			temp = ADDR_START1;
-		} else if(i == 2) {
-			temp = ADDR_START2;
-		} else {
-			temp = ADDR_START3;
-		}
-		for(addr = temp; addr <(temp+NUM_BYTES); addr++)
-		{
-			if(i == 1) {
-				values[ addr - temp] = string1[idx];	
-			} else if(i == 2) {
-				values[ addr - temp] = string2[idx];
-			} else {
-				values[ addr - temp] = string3[idx];
-			}
-			printf("Writing %i\n\r",values[addr-temp]);
-			eeprom_byte_write(I2C1_BASE,addr, values[addr-temp]);
-			idx++;				
-		}
-	}
 }

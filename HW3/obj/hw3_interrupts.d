@@ -26,3 +26,5 @@
 .\obj\hw3_interrupts.o: ..\peripherals\include\accel.h
 .\obj\hw3_interrupts.o: ..\drivers\include\spi.h
 .\obj\hw3_interrupts.o: ..\peripherals\include\spi_select.h
+.\obj\hw3_interrupts.o: ..\peripherals\include\mcp23017.h
+.\obj\hw3_interrupts.o: ..\drivers\include\i2c.h

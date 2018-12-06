@@ -15,6 +15,7 @@
 #include "hw3_staff.h"
 #include "accel.h"
 #include "spi.h"
+#include "mcp23017.h"
 
 extern volatile uint16_t SHIP_X_COORD;
 extern volatile uint16_t SHIP_Y_COORD;
