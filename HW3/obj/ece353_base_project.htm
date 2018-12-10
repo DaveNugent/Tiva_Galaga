@@ -3,11 +3,11 @@
 <title>Static Call Graph - [.\obj\ece353_base_project.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\obj\ece353_base_project.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Mon Dec 10 08:40:00 2018
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Mon Dec 10 08:50:52 2018
 <BR><P>
-<H3>Maximum Stack Usage =        112 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
+<H3>Maximum Stack Usage =        136 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
-main &rArr; hw3_main &rArr; lcd_draw_image &rArr; lcd_set_pos &rArr; lcd_write_data_u16
+main &rArr; hw3_main &rArr; eeprom_game_data &rArr; eeprom_byte_write &rArr; eeprom_wait_for_write &rArr; i2cSendByte &rArr; I2CMasterBusy
 <P>
 <H3>
 Mutually Recursive functions
@@ -279,7 +279,7 @@ Global Symbols
 <P><STRONG><a name="[d8]"></a>__rt_final_exit</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, entry11a.o(.ARM.Collect$$$$0000000F))
 
 <P><STRONG><a name="[76]"></a>main</STRONG> (Thumb, 42 bytes, Stack size 0 bytes, main.o(.text))
-<BR><BR>[Stack]<UL><LI>Max Depth = 112<LI>Call Chain = main &rArr; hw3_main &rArr; lcd_draw_image &rArr; lcd_set_pos &rArr; lcd_write_data_u16
+<BR><BR>[Stack]<UL><LI>Max Depth = 136<LI>Call Chain = main &rArr; hw3_main &rArr; eeprom_game_data &rArr; eeprom_byte_write &rArr; eeprom_wait_for_write &rArr; i2cSendByte &rArr; I2CMasterBusy
 </UL>
 <BR>[Calls]<UL><LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;put_string
 <LI><a href="#[7d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;initialize_serial_debug
@@ -340,11 +340,15 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[8d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;init_interrupt_adc
 </UL>
 
-<P><STRONG><a name="[85]"></a>eeprom_game_data</STRONG> (Thumb, 140 bytes, Stack size 40 bytes, hw3.o(.text), UNUSED)
-<BR><BR>[Calls]<UL><LI><a href="#[88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;eeprom_byte_write
+<P><STRONG><a name="[85]"></a>eeprom_game_data</STRONG> (Thumb, 140 bytes, Stack size 40 bytes, hw3.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 112<LI>Call Chain = eeprom_game_data &rArr; eeprom_byte_write &rArr; eeprom_wait_for_write &rArr; i2cSendByte &rArr; I2CMasterBusy
+</UL>
+<BR>[Calls]<UL><LI><a href="#[88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;eeprom_byte_write
 <LI><a href="#[89]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;eeprom_byte_read
 <LI><a href="#[87]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2printf
 <LI><a href="#[86]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rand
+</UL>
+<BR>[Called By]<UL><LI><a href="#[7f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;hw3_main
 </UL>
 
 <P><STRONG><a name="[8a]"></a>eeprom_read_board_data</STRONG> (Thumb, 316 bytes, Stack size 192 bytes, hw3.o(.text), UNUSED)
@@ -389,12 +393,13 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[7f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;hw3_main
 </UL>
 
-<P><STRONG><a name="[7f]"></a>hw3_main</STRONG> (Thumb, 252 bytes, Stack size 24 bytes, hw3.o(.text))
-<BR><BR>[Stack]<UL><LI>Max Depth = 112<LI>Call Chain = hw3_main &rArr; lcd_draw_image &rArr; lcd_set_pos &rArr; lcd_write_data_u16
+<P><STRONG><a name="[7f]"></a>hw3_main</STRONG> (Thumb, 256 bytes, Stack size 24 bytes, hw3.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 136<LI>Call Chain = hw3_main &rArr; eeprom_game_data &rArr; eeprom_byte_write &rArr; eeprom_wait_for_write &rArr; i2cSendByte &rArr; I2CMasterBusy
 </UL>
 <BR>[Calls]<UL><LI><a href="#[9d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;read_button
 <LI><a href="#[9e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lcd_draw_image
 <LI><a href="#[91]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;init_hardware
+<LI><a href="#[85]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;eeprom_game_data
 <LI><a href="#[a0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;check_game_over
 <LI><a href="#[90]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__NVIC_EnableIRQ
 <LI><a href="#[9f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__NVIC_DisableIRQ
@@ -611,8 +616,10 @@ Global Symbols
 <LI><a href="#[89]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;eeprom_byte_read
 </UL>
 
-<P><STRONG><a name="[b4]"></a>I2CMasterAdrAck</STRONG> (Thumb, 34 bytes, Stack size 8 bytes, i2c.o(.text), UNUSED)
-<BR><BR>[Calls]<UL><LI><a href="#[b1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;i2cVerifyBaseAddr
+<P><STRONG><a name="[b4]"></a>I2CMasterAdrAck</STRONG> (Thumb, 34 bytes, Stack size 8 bytes, i2c.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = I2CMasterAdrAck
+</UL>
+<BR>[Calls]<UL><LI><a href="#[b1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;i2cVerifyBaseAddr
 </UL>
 <BR>[Called By]<UL><LI><a href="#[c7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;eeprom_wait_for_write
 </UL>
@@ -744,8 +751,10 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[98]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;accel_initialize
 </UL>
 
-<P><STRONG><a name="[88]"></a>eeprom_byte_write</STRONG> (Thumb, 88 bytes, Stack size 32 bytes, eeprom.o(.text), UNUSED)
-<BR><BR>[Calls]<UL><LI><a href="#[c7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;eeprom_wait_for_write
+<P><STRONG><a name="[88]"></a>eeprom_byte_write</STRONG> (Thumb, 88 bytes, Stack size 32 bytes, eeprom.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 72<LI>Call Chain = eeprom_byte_write &rArr; eeprom_wait_for_write &rArr; i2cSendByte &rArr; I2CMasterBusy
+</UL>
+<BR>[Calls]<UL><LI><a href="#[c7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;eeprom_wait_for_write
 <LI><a href="#[b6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;i2cSendByte
 <LI><a href="#[b3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2CMasterBusy
 <LI><a href="#[b0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;i2cSetSlaveAddr
@@ -754,8 +763,10 @@ Global Symbols
 <LI><a href="#[85]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;eeprom_game_data
 </UL>
 
-<P><STRONG><a name="[89]"></a>eeprom_byte_read</STRONG> (Thumb, 106 bytes, Stack size 32 bytes, eeprom.o(.text), UNUSED)
-<BR><BR>[Calls]<UL><LI><a href="#[c7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;eeprom_wait_for_write
+<P><STRONG><a name="[89]"></a>eeprom_byte_read</STRONG> (Thumb, 106 bytes, Stack size 32 bytes, eeprom.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 72<LI>Call Chain = eeprom_byte_read &rArr; eeprom_wait_for_write &rArr; i2cSendByte &rArr; I2CMasterBusy
+</UL>
+<BR>[Calls]<UL><LI><a href="#[c7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;eeprom_wait_for_write
 <LI><a href="#[b7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;i2cGetByte
 <LI><a href="#[b6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;i2cSendByte
 <LI><a href="#[b3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2CMasterBusy
@@ -1628,7 +1639,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[76]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[86]"></a>rand</STRONG> (Thumb, 20 bytes, Stack size 0 bytes, rand.o(.text), UNUSED)
+<P><STRONG><a name="[86]"></a>rand</STRONG> (Thumb, 20 bytes, Stack size 0 bytes, rand.o(.text))
 <BR><BR>[Called By]<UL><LI><a href="#[85]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;eeprom_game_data
 </UL>
 
@@ -1658,8 +1669,10 @@ Global Symbols
 
 <P><STRONG><a name="[e1]"></a>__1printf$3</STRONG> (Thumb, 0 bytes, Stack size 24 bytes, printf3.o(i.__0printf$3), UNUSED)
 
-<P><STRONG><a name="[87]"></a>__2printf</STRONG> (Thumb, 0 bytes, Stack size 24 bytes, printf3.o(i.__0printf$3), UNUSED)
-<BR><BR>[Called By]<UL><LI><a href="#[8c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;eeprom_write
+<P><STRONG><a name="[87]"></a>__2printf</STRONG> (Thumb, 0 bytes, Stack size 24 bytes, printf3.o(i.__0printf$3))
+<BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = __2printf
+</UL>
+<BR>[Called By]<UL><LI><a href="#[8c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;eeprom_write
 <LI><a href="#[8a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;eeprom_read_board_data
 <LI><a href="#[85]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;eeprom_game_data
 </UL>
@@ -1781,8 +1794,10 @@ Local Symbols
 <LI><a href="#[bd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;accel_reg_read
 </UL>
 
-<P><STRONG><a name="[c7]"></a>eeprom_wait_for_write</STRONG> (Thumb, 68 bytes, Stack size 16 bytes, eeprom.o(.text), UNUSED)
-<BR><BR>[Calls]<UL><LI><a href="#[b6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;i2cSendByte
+<P><STRONG><a name="[c7]"></a>eeprom_wait_for_write</STRONG> (Thumb, 68 bytes, Stack size 16 bytes, eeprom.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 40<LI>Call Chain = eeprom_wait_for_write &rArr; i2cSendByte &rArr; I2CMasterBusy
+</UL>
+<BR>[Calls]<UL><LI><a href="#[b6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;i2cSendByte
 <LI><a href="#[b4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2CMasterAdrAck
 <LI><a href="#[b3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2CMasterBusy
 <LI><a href="#[b0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;i2cSetSlaveAddr

@@ -16,6 +16,13 @@
 #include "accel.h"
 #include "spi.h"
 #include "mcp23017.h"
+#include "eeprom.h"
+
+#define ADDR_START1    0
+#define ADDR_START2    80
+#define ADDR_START3    160
+#define ADDR_START_GAME_DATA    240
+#define NUM_BYTES      80
 
 extern volatile uint16_t SHIP_X_COORD;
 extern volatile uint16_t SHIP_Y_COORD;
@@ -76,7 +83,22 @@ bool check_game_over(
 // Initializes all of the peripherls used in HW3
 //*****************************************************************************
 void init_hardware(void);
-        
+				
+//*****************************************************************************
+// Initializes all of the peripherls used in HW3
+//*****************************************************************************				
+void eeprom_game_data(void);
+
+//*****************************************************************************
+// Initializes all of the peripherls used in HW3
+//*****************************************************************************				
+void eeprom_read_board_data(void);
+
+//*****************************************************************************
+// Initializes all of the peripherls used in HW3
+//*****************************************************************************				
+void eeprom_write(void);
+
 //*****************************************************************************
 // Main application for HW3
 //*****************************************************************************

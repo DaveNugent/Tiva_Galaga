@@ -232,12 +232,7 @@ bool init_adc(  uint32_t adc_base )
   return true;
 }
 
-#include "eeprom.h"
-#define ADDR_START1    0
-#define ADDR_START2    80
-#define ADDR_START3    160
-#define ADDR_START_GAME_DATA    240
-#define NUM_BYTES      80
+
 
 char string1[NUM_BYTES] = "Student 1: Dave Nugent";
 char string2[NUM_BYTES] = "Student 2: Carter Steffen";
@@ -251,7 +246,7 @@ void eeprom_game_data(void)
   uint8_t read_val;
   bool status = true;
   
-  for(addr = ADDR_START_GAME_DATA; addr <(ADDR_START_GAME_DATA+NUM_BYTES); addr++)
+  for(addr = ADDR_START_GAME_DATA; addr <(ADDR_START_GAME_DATA+1); addr++)
   {
 		//write high score data instead of rand
       values[ addr - ADDR_START_GAME_DATA] = rand();
@@ -259,7 +254,7 @@ void eeprom_game_data(void)
       eeprom_byte_write(I2C1_BASE,addr, values[addr-ADDR_START_GAME_DATA]);
   }
   
-  for(addr = ADDR_START_GAME_DATA; addr <(ADDR_START_GAME_DATA+NUM_BYTES); addr++)
+  for(addr = ADDR_START_GAME_DATA; addr <(ADDR_START_GAME_DATA+1); addr++)
   {
       eeprom_byte_read(I2C1_BASE,addr, &read_val);
       if( read_val != values[addr-ADDR_START_GAME_DATA])
@@ -468,6 +463,7 @@ void hw3_main(void)
 	
     init_hardware();
     hw3_hardware_validate();
+	
 
 	// while the game is not over
 	while(!check_game_over(SHIP_X_COORD, SHIP_Y_COORD, shipHeightPixels, shipWidthPixels, 
@@ -480,6 +476,7 @@ void hw3_main(void)
 		
 		if (button_press){
 			lcd_draw_image(20, zeroWidthPixels, 15, zeroHeightPixels, zeroBitmaps, LCD_COLOR_RED, LCD_COLOR_BLACK); //FIXME just testing
+			eeprom_game_data();
 	}
 		
 		NVIC_DisableIRQ(TIMER2A_IRQn);

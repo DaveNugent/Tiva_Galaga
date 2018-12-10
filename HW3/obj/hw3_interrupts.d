@@ -28,3 +28,4 @@
 .\obj\hw3_interrupts.o: ..\peripherals\include\spi_select.h
 .\obj\hw3_interrupts.o: ..\peripherals\include\mcp23017.h
 .\obj\hw3_interrupts.o: ..\drivers\include\i2c.h
+.\obj\hw3_interrupts.o: ..\peripherals\include\eeprom.h
