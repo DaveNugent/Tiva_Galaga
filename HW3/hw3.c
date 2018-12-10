@@ -272,12 +272,12 @@ void eeprom_game_data(void)
 		//write high score data instead of rand
       values[ addr - ADDR_START_GAME_DATA] = rand();
       printf("Writing %i\n\r",values[addr-ADDR_START_GAME_DATA]);
-      eeprom_byte_write(I2C2_BASE,addr, values[addr-ADDR_START_GAME_DATA]);
+      eeprom_byte_write(I2C1_BASE,addr, values[addr-ADDR_START_GAME_DATA]);
   }
   
   for(addr = ADDR_START_GAME_DATA; addr <(ADDR_START_GAME_DATA+1); addr++)
   {
-      eeprom_byte_read(I2C2_BASE,addr, &read_val);
+      eeprom_byte_read(I2C1_BASE,addr, &read_val);
       if( read_val != values[addr-ADDR_START_GAME_DATA])
       {
         printf("ERROR: addr: %i write: %i read %i\n\r",addr,values[addr-ADDR_START_GAME_DATA], read_val);
@@ -321,7 +321,7 @@ void eeprom_read_board_data(void)
 		}
 		for(addr = temp; addr <(temp+NUM_BYTES); addr++)
 		{
-				eeprom_byte_read(I2C2_BASE,addr, &read_val);
+				eeprom_byte_read(I2C1_BASE,addr, &read_val);
 				currChar = (char)read_val;
 				if(currChar == '\0') {
 					//end of line
@@ -377,7 +377,7 @@ void eeprom_write(void)
 				values[ addr - temp] = string3[idx];
 			}
 			printf("Writing %i\n\r",values[addr-temp]);
-			eeprom_byte_write(I2C2_BASE,addr, values[addr-temp]);
+			eeprom_byte_write(I2C1_BASE,addr, values[addr-temp]);
 			idx++;				
 		}
 	}
@@ -501,7 +501,9 @@ void hw3_main(void)
 		
 		if (button_press){
 			lcd_draw_image(20, zeroWidthPixels, 15, zeroHeightPixels, zeroBitmaps, LCD_COLOR_RED, LCD_COLOR_BLACK); //FIXME just testing
-			eeprom_game_data();
+			//eeprom_game_data();
+			eeprom_write();
+			eeprom_read_board_data();
 	}
 		
 		NVIC_DisableIRQ(TIMER2A_IRQn);
