@@ -58,6 +58,13 @@ void move_image(
         uint8_t image_width
 );
 
+// struct for each enemy
+typedef struct {
+	 bool alive;
+   uint16_t X_COORD;
+   uint16_t Y_COORD;
+} galaga_enemy;
+
 //*****************************************************************************
 // Determines is any portion of the two images are overlapping.  An image is
 // considered to be overlapping if the two rectangles determined by the image

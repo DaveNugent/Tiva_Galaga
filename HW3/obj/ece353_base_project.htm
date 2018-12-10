@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\obj\ece353_base_project.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\obj\ece353_base_project.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Mon Dec 10 09:18:33 2018
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Mon Dec 10 14:20:08 2018
 <BR><P>
 <H3>Maximum Stack Usage =        136 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -312,6 +312,8 @@ Global Symbols
 <LI><a href="#[21]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIMER2A_Handler
 </UL>
 
+<P><STRONG><a name="[d9]"></a>initalize_enemies</STRONG> (Thumb, 72 bytes, Stack size 12 bytes, hw3.o(.text), UNUSED)
+
 <P><STRONG><a name="[a2]"></a>move_image</STRONG> (Thumb, 78 bytes, Stack size 28 bytes, hw3.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 28<LI>Call Chain = move_image
 </UL>
@@ -351,7 +353,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[7f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;hw3_main
 </UL>
 
-<P><STRONG><a name="[8a]"></a>eeprom_read_board_data</STRONG> (Thumb, 316 bytes, Stack size 192 bytes, hw3.o(.text), UNUSED)
+<P><STRONG><a name="[8a]"></a>eeprom_read_board_data</STRONG> (Thumb, 306 bytes, Stack size 192 bytes, hw3.o(.text), UNUSED)
 <BR><BR>[Calls]<UL><LI><a href="#[89]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;eeprom_byte_read
 <LI><a href="#[87]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2printf
 <LI><a href="#[8b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;strcpy
@@ -393,7 +395,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[7f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;hw3_main
 </UL>
 
-<P><STRONG><a name="[7f]"></a>hw3_main</STRONG> (Thumb, 238 bytes, Stack size 24 bytes, hw3.o(.text))
+<P><STRONG><a name="[7f]"></a>hw3_main</STRONG> (Thumb, 256 bytes, Stack size 24 bytes, hw3.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 136<LI>Call Chain = hw3_main &rArr; eeprom_game_data &rArr; eeprom_byte_write &rArr; eeprom_wait_for_write &rArr; i2cSendByte &rArr; I2CMasterBusy
 </UL>
 <BR>[Calls]<UL><LI><a href="#[9d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;read_button
@@ -444,7 +446,7 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> startup_tm4c123.o(RESET)
 </UL>
-<P><STRONG><a name="[d9]"></a>gpio_get_irq_num</STRONG> (Thumb, 74 bytes, Stack size 0 bytes, gpio_port.o(.text), UNUSED)
+<P><STRONG><a name="[da]"></a>gpio_get_irq_num</STRONG> (Thumb, 74 bytes, Stack size 0 bytes, gpio_port.o(.text), UNUSED)
 
 <P><STRONG><a name="[92]"></a>gpio_enable_port</STRONG> (Thumb, 166 bytes, Stack size 8 bytes, gpio_port.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = gpio_enable_port
@@ -555,7 +557,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[91]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;init_hardware
 </UL>
 
-<P><STRONG><a name="[da]"></a>spiVerifyBaseAddr</STRONG> (Thumb, 34 bytes, Stack size 0 bytes, spi.o(.text), UNUSED)
+<P><STRONG><a name="[db]"></a>spiVerifyBaseAddr</STRONG> (Thumb, 34 bytes, Stack size 0 bytes, spi.o(.text), UNUSED)
 
 <P><STRONG><a name="[c6]"></a>initialize_spi</STRONG> (Thumb, 258 bytes, Stack size 12 bytes, spi.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 12<LI>Call Chain = initialize_spi
@@ -1624,11 +1626,11 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[76]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[db]"></a>put_char</STRONG> (Thumb, 20 bytes, Stack size 0 bytes, hw2.o(.text), UNUSED)
+<P><STRONG><a name="[dc]"></a>put_char</STRONG> (Thumb, 20 bytes, Stack size 0 bytes, hw2.o(.text), UNUSED)
 
-<P><STRONG><a name="[dc]"></a>get_char</STRONG> (Thumb, 62 bytes, Stack size 0 bytes, hw2.o(.text), UNUSED)
+<P><STRONG><a name="[dd]"></a>get_char</STRONG> (Thumb, 62 bytes, Stack size 0 bytes, hw2.o(.text), UNUSED)
 
-<P><STRONG><a name="[dd]"></a>get_string</STRONG> (Thumb, 40 bytes, Stack size 0 bytes, hw2.o(.text), UNUSED)
+<P><STRONG><a name="[de]"></a>get_string</STRONG> (Thumb, 40 bytes, Stack size 0 bytes, hw2.o(.text), UNUSED)
 
 <P><STRONG><a name="[7d]"></a>initialize_serial_debug</STRONG> (Thumb, 12 bytes, Stack size 4 bytes, hw2.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 4<LI>Call Chain = initialize_serial_debug
@@ -1643,13 +1645,13 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[85]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;eeprom_game_data
 </UL>
 
-<P><STRONG><a name="[de]"></a>srand</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, rand.o(.text), UNUSED)
+<P><STRONG><a name="[df]"></a>srand</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, rand.o(.text), UNUSED)
 
 <P><STRONG><a name="[8b]"></a>strcpy</STRONG> (Thumb, 18 bytes, Stack size 0 bytes, strcpy.o(.text), UNUSED)
 <BR><BR>[Called By]<UL><LI><a href="#[8a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;eeprom_read_board_data
 </UL>
 
-<P><STRONG><a name="[df]"></a>__aeabi_uidiv</STRONG> (Thumb, 0 bytes, Stack size 12 bytes, uidiv.o(.text), UNUSED)
+<P><STRONG><a name="[e0]"></a>__aeabi_uidiv</STRONG> (Thumb, 0 bytes, Stack size 12 bytes, uidiv.o(.text), UNUSED)
 
 <P><STRONG><a name="[d2]"></a>__aeabi_uidivmod</STRONG> (Thumb, 44 bytes, Stack size 12 bytes, uidiv.o(.text), UNUSED)
 <BR><BR>[Called By]<UL><LI><a href="#[d1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_printf_core
@@ -1661,13 +1663,13 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[7b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_main_scatterload
 </UL>
 
-<P><STRONG><a name="[e0]"></a>__scatterload_rt2</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, init.o(.text), UNUSED)
+<P><STRONG><a name="[e1]"></a>__scatterload_rt2</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, init.o(.text), UNUSED)
 
 <P><STRONG><a name="[d0]"></a>__0printf$3</STRONG> (Thumb, 22 bytes, Stack size 24 bytes, printf3.o(i.__0printf$3), UNUSED)
 <BR><BR>[Calls]<UL><LI><a href="#[d1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_printf_core
 </UL>
 
-<P><STRONG><a name="[e1]"></a>__1printf$3</STRONG> (Thumb, 0 bytes, Stack size 24 bytes, printf3.o(i.__0printf$3), UNUSED)
+<P><STRONG><a name="[e2]"></a>__1printf$3</STRONG> (Thumb, 0 bytes, Stack size 24 bytes, printf3.o(i.__0printf$3), UNUSED)
 
 <P><STRONG><a name="[87]"></a>__2printf</STRONG> (Thumb, 0 bytes, Stack size 24 bytes, printf3.o(i.__0printf$3))
 <BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = __2printf
@@ -1677,15 +1679,15 @@ Global Symbols
 <LI><a href="#[85]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;eeprom_game_data
 </UL>
 
-<P><STRONG><a name="[e2]"></a>__I$use$semihosting$fputc</STRONG> (Thumb, 0 bytes, Stack size 24 bytes, iusesemip.o(.text), UNUSED)
+<P><STRONG><a name="[e3]"></a>__I$use$semihosting$fputc</STRONG> (Thumb, 0 bytes, Stack size 24 bytes, iusesemip.o(.text), UNUSED)
 
-<P><STRONG><a name="[e3]"></a>__semihosting_library_function</STRONG> (Thumb, 0 bytes, Stack size 24 bytes, semi.o(.text), UNUSED)
+<P><STRONG><a name="[e4]"></a>__semihosting_library_function</STRONG> (Thumb, 0 bytes, Stack size 24 bytes, semi.o(.text), UNUSED)
 
-<P><STRONG><a name="[e4]"></a>__scatterload_copy</STRONG> (Thumb, 14 bytes, Stack size unknown bytes, handlers.o(i.__scatterload_copy), UNUSED)
+<P><STRONG><a name="[e5]"></a>__scatterload_copy</STRONG> (Thumb, 14 bytes, Stack size unknown bytes, handlers.o(i.__scatterload_copy), UNUSED)
 
-<P><STRONG><a name="[e5]"></a>__scatterload_null</STRONG> (Thumb, 2 bytes, Stack size unknown bytes, handlers.o(i.__scatterload_null), UNUSED)
+<P><STRONG><a name="[e6]"></a>__scatterload_null</STRONG> (Thumb, 2 bytes, Stack size unknown bytes, handlers.o(i.__scatterload_null), UNUSED)
 
-<P><STRONG><a name="[e6]"></a>__scatterload_zeroinit</STRONG> (Thumb, 14 bytes, Stack size unknown bytes, handlers.o(i.__scatterload_zeroinit), UNUSED)
+<P><STRONG><a name="[e7]"></a>__scatterload_zeroinit</STRONG> (Thumb, 14 bytes, Stack size unknown bytes, handlers.o(i.__scatterload_zeroinit), UNUSED)
 
 <P><STRONG><a name="[79]"></a>fputc</STRONG> (Thumb, 18 bytes, Stack size 16 bytes, fputc.o(i.fputc))
 <BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = fputc

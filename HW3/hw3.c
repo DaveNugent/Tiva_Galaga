@@ -4,6 +4,7 @@ volatile uint16_t SHIP_X_COORD = 190;
 volatile uint16_t SHIP_Y_COORD = 300;
 volatile uint16_t galaga_enemy_X_COORD[] = {50};
 volatile uint16_t galaga_enemy_Y_COORD[] = {50};
+volatile galaga_enemy galaga_enemy_array[8];
 volatile uint16_t laser_X_COORD[];
 volatile uint16_t laser_Y_COORD[];
 volatile bool MOVE_INVADER = true;
@@ -16,6 +17,7 @@ char STUDENT_NAME[] = "Dave Nugent";
 #define LEFT_BUTTON_M		  4
 #define DOWN_BUTTON_M			2
 #define UP_BUTTON_M       1
+
 
 //*****************************************************************************
 // If any part of the image would be off the screen if the image
@@ -53,6 +55,25 @@ bool contact_edge(
   else{
     return false; // image can move in dir w/o leaving screen
   }
+}
+
+// initalize 8 enemies on 240x320 lcd
+void initalize_enemies(void){
+	uint8_t i;
+	uint16_t y;
+	uint16_t x;
+
+	i = 0;
+	// two rows of invaders at y = 30 and 60
+	for (y = 30; y < 61; y = y + 30){
+		// 4 columns of invaders at x = 39 - 201 (30x30 invaders 24 pixels between)
+		for (x = 39; x < 217 ; x = x + 54 ){
+			galaga_enemy_array[i].X_COORD = x;
+			galaga_enemy_array[i].Y_COORD = y;
+			galaga_enemy_array[i].alive = true;
+			i++;
+		}
+	}
 }
 
 //*****************************************************************************
