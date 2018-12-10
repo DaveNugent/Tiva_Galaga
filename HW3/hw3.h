@@ -17,6 +17,7 @@
 #include "spi.h"
 #include "mcp23017.h"
 #include "eeprom.h"
+#include "serial_debug.h"
 
 #define ADDR_START1    0
 #define ADDR_START2    80

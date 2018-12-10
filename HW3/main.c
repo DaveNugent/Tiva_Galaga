@@ -27,15 +27,6 @@
 int 
 main(void)
 {
-   
-  initialize_serial_debug();
-    
-  put_string("\n\r******************************\n\r");
-  put_string("ECE353 HW3 Fall 2018\n\r");
-  put_string(STUDENT_NAME);
-  put_string("\n\r");
-  put_string("******************************\n\r");    
-
   hw3_main();
                     
   // Reach infinite loop after the game is over.

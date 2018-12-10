@@ -467,6 +467,10 @@ void init_hardware(void)
 	countdown_timer (TIMER4_BASE, 400000); //8 ms
 	NVIC_SetPriority(TIMER4A_IRQn, 2);
 	NVIC_EnableIRQ(TIMER4A_IRQn);
+	
+	//initialize eeprom
+	init_serial_debug(true, true);
+	eeprom_init();
 }
 
 //*****************************************************************************
