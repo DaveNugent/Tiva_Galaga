@@ -53,6 +53,7 @@ i2c_status_t initialize_buttons(void)
 	// Enable GPIOF for interrupt
   gpio_enable_port(GPIOF_BASE);
 	
+  
 	// setting bit 0 to be an input
 	gpio_config_enable_input(GPIOF_BASE, 0x01);
 	
