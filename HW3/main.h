@@ -39,6 +39,7 @@
 #include "hw3_interrupts.h"
 #include "accel.h"
 #include "spi.h"
+#include "serial_debug.h"
 
 extern void initialize_serial_debug(void);
 extern void put_string(char *data);
