@@ -50,6 +50,18 @@ i2c_status_t initialize_buttons(void)
 	// set lower 4 bit to pull up bc pressing them shorts to ground
 	status = IO_expander_byte_write(MCP23017_I2C_BASE, MCP23017_GPPUB, 0x0F);
 
+	// Enable GPIOF for interrupt
+  gpio_enable_port(GPIOF_BASE);
+	
+	// setting bit 0 to be an input
+	gpio_config_enable_input(GPIOF_BASE, 0x01);
+	
+	// enabling interupt
+	NVIC_SetPriority(GPIOF_IRQn, 3);
+	NVIC_EnableIRQ(GPIOF_IRQn);
+	
+	
+
 	return status;
 }
 
@@ -84,8 +96,9 @@ i2c_status_t read_button(uint8_t *data)
 
   // get data from buttons
 	status = i2cGetByte(MCP23017_I2C_BASE, data, I2C_MCS_RUN | I2C_MCS_STOP | I2C_MCS_START);
-
-  return status;
+	
+	//invert to make 1 hot status with a 1 in the position of the button pressed
+  return ~status;
 }
 
 

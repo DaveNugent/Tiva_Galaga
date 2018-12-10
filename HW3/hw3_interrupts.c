@@ -103,3 +103,17 @@ void ADC0SS2_Handler(void)
 	
 	adc->ISC |= 0x4; // clear interupt
 }
+
+// portF bit 0
+void GPIOF_Handler(void)
+{	
+    //GPIOF__Type;
+		//timer = (TIMER0_Type *) TIMER2_BASE;
+		if (!contact_edge( direction, SHIP_X_COORD, SHIP_Y_COORD, shipHeightPixels, shipWidthPixels))
+		{
+			move_image( direction, &SHIP_X_COORD, &SHIP_Y_COORD, shipHeightPixels, shipWidthPixels);//MOVE
+			MOVE_SHIP = true;
+		}
+		
+		//timer->ICR |= TIMER_ICR_TATOCINT; // clear interupt
+}
