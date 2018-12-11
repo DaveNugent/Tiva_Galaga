@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\obj\ece353_base_project.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\obj\ece353_base_project.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Tue Dec 11 12:19:18 2018
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Tue Dec 11 12:27:13 2018
 <BR><P>
 <H3>Maximum Stack Usage =        304 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -448,10 +448,11 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[7d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;hw3_main
 </UL>
 
-<P><STRONG><a name="[7d]"></a>hw3_main</STRONG> (Thumb, 876 bytes, Stack size 40 bytes, hw3.o(.text))
+<P><STRONG><a name="[7d]"></a>hw3_main</STRONG> (Thumb, 848 bytes, Stack size 40 bytes, hw3.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 304<LI>Call Chain = hw3_main &rArr; eeprom_read_board_data &rArr; eeprom_byte_read &rArr; eeprom_wait_for_write &rArr; i2cSendByte &rArr; I2CMasterBusy
 </UL>
 <BR>[Calls]<UL><LI><a href="#[a8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lcd_draw_image
+<LI><a href="#[9a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lcd_clear_screen
 <LI><a href="#[94]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;init_hardware
 <LI><a href="#[93]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;enable_all_interupts
 <LI><a href="#[91]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;disable_all_interupts
@@ -813,6 +814,7 @@ Global Symbols
 <LI><a href="#[cb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lcd_set_pos
 </UL>
 <BR>[Called By]<UL><LI><a href="#[94]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;init_hardware
+<LI><a href="#[7d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;hw3_main
 </UL>
 
 <P><STRONG><a name="[a8]"></a>lcd_draw_image</STRONG> (Thumb, 242 bytes, Stack size 56 bytes, lcd.o(.text))
@@ -942,7 +944,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[94]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;init_hardware
 </UL>
 
-<P><STRONG><a name="[af]"></a>read_button</STRONG> (Thumb, 88 bytes, Stack size 16 bytes, mcp23017.o(.text))
+<P><STRONG><a name="[af]"></a>read_button</STRONG> (Thumb, 86 bytes, Stack size 16 bytes, mcp23017.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 40<LI>Call Chain = read_button &rArr; i2cGetByte &rArr; I2CMasterBusy
 </UL>
 <BR>[Calls]<UL><LI><a href="#[c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;i2cGetByte

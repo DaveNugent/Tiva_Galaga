@@ -601,7 +601,7 @@ void init_hardware(void)
 //*****************************************************************************
 void hw3_main(void)
 {
-		uint8_t currScore = 0;
+		volatile uint8_t currScore = 0;
 		uint8_t highScore;
 		uint8_t i,j;
 		bool game_over;
@@ -657,8 +657,8 @@ void hw3_main(void)
 									laser_array[i].alive = false;
 									//draw explosion image on top of the galaga enemy image that got hit
 									lcd_draw_image(galaga_enemy_array[j].X_COORD, pixelfireWidthPixels, galaga_enemy_array[j].Y_COORD, pixelfireHeightPixels, pixelfireBitmaps, LCD_COLOR_YELLOW, LCD_COLOR_BLACK);
-									//draw black image where explosion occurred to clear explosion
-									lcd_draw_image(galaga_enemy_array[j].X_COORD, pixelfireWidthPixels, galaga_enemy_array[j].Y_COORD, pixelfireHeightPixels, pixelfireBitmaps, LCD_COLOR_BLACK, LCD_COLOR_BLACK);
+									// clear screen to remove invader and laser
+									lcd_clear_screen(LCD_COLOR_BLACK);
 								}
 			
 							}

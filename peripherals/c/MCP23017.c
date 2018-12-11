@@ -41,7 +41,7 @@ i2c_status_t initialize_buttons(void)
 	
 	status = IO_expander_byte_write(MCP23017_I2C_BASE, MCP23017_IOCON, 0x00);
 
-  // make sure setting to input correctly
+  // error checking
 	if (status != I2C_OK){
    return status;
   }
@@ -114,8 +114,8 @@ i2c_status_t read_button(uint8_t *data)
   // get data from buttons
 	status = i2cGetByte(MCP23017_I2C_BASE, data, I2C_MCS_RUN | I2C_MCS_STOP | I2C_MCS_START);
 	
-	//invert to make 1 hot status with a 1 in the position of the button pressed
-  return ~status;
+	//return 1 byte where buttom 4 bits are active low buttons
+  return status;
 }
 
 
