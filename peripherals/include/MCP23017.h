@@ -8,13 +8,16 @@
 #define MCP23017_DEV_ID			0x27
 
 // macros used to initalize io_expander
-#define MCP23017_IODIRB			0x01
-#define MCP23017_GPIOB			0x13
-#define MCP23017_GPPUB			0x0D
-#define MCP23017_GPINTENB    0x05
-#define MCP23017_DEFVALB     0x07
-#define MCP23017_INTCONB			0x09
-#define MCP23017_IOCON			 0x0A
+#define MCP23017_IOPOLB			 0x03
+#define MCP23017_INTFB			 0x0F
+#define MCP23017_OLATB			 0x15
+#define MCP23017_IODIRB			 0x01
+#define MCP23017_GPIOB			 0x13
+#define MCP23017_GPPUB			 0x0D
+#define MCP23017_GPINTENB        0x05
+#define MCP23017_DEFVALB         0x07
+#define MCP23017_INTCONB		 0x09
+#define MCP23017_IOCON			 0x0B
 #define MCP23017_INTCAP			 0x11
 
 #define MCP23017_GPIO_BASE         	GPIOA_BASE

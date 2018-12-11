@@ -62,13 +62,13 @@ i2c_status_t initialize_buttons(void)
    return status;
   }
 	
-	status = IO_expander_byte_write(MCP23017_I2C_BASE, MCP23017_INTCONB, 0x00);
+	status = IO_expander_byte_write(MCP23017_I2C_BASE, MCP23017_INTCONB, 0x0F);
 
   if (status != I2C_OK){
    return status;
   }
 
-  //status = IO_expander_byte_write(MCP23017_I2C_BASE, MCP23017_DEFVALB, 0x0F);
+  status = IO_expander_byte_write(MCP23017_I2C_BASE, MCP23017_DEFVALB, 0x0F);
 
   if (status != I2C_OK){
    return status;
