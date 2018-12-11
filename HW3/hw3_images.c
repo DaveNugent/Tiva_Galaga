@@ -124,14 +124,14 @@ const uint8_t galaga_enemyBitmaps[] =
 const uint8_t galaga_enemyWidthPixels = 30;
 const uint8_t galaga_enemyHeightPixels = 32;
 
-const uint8_t laser[] =
+const uint8_t laserBitmap[] =
 {
-	0x00, // 
 	0x60, // ##
 	0x60, // ##
 	0x60, // ##
 	0x60, // ##
-	0x00  //
+	0x00, //
+	0x00  // 
 };
  //Bitmap sizes for laser
 const uint8_t laserHeight = 6;

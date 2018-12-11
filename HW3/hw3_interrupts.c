@@ -23,25 +23,45 @@ void TIMER2A_Handler(void)
 void TIMER3A_Handler(void)
 {
 		static DIR_t current_dir, next_dir;
-    static uint16_t move_count = 0; 
+		uint8_t i;
+		bool move_line;
 	
 	  TIMER0_Type *timer;
 		timer = (TIMER0_Type *) TIMER3_BASE;
 		current_dir = next_dir;
-	
-		if ((!contact_edge( current_dir, galaga_enemy_X_COORD[0], galaga_enemy_Y_COORD[0], galaga_enemyHeightPixels, galaga_enemyWidthPixels))) {
-			move_image( current_dir, &galaga_enemy_X_COORD[0], &galaga_enemy_Y_COORD[0], galaga_enemyHeightPixels, galaga_enemyWidthPixels);//MOVE
-			MOVE_INVADER = true;
+		move_line = false;
+
+
+		for (i = 0; i < 8; i++){
+			if (galaga_enemy_array[i].alive){
+				if (contact_edge(current_dir, galaga_enemy_array[i].X_COORD, galaga_enemy_array[i].Y_COORD, galaga_enemyHeightPixels, galaga_enemyWidthPixels)) 
+					{
+						move_line = true;
+					}
+			}
+		}	
+	for (i = 0; i < 8; i++){
+			if (galaga_enemy_array[i].alive){
+				if (move_line) 
+					{
+					if (current_dir == DIR_RIGHT){ // move down if ship hits wall and change direction
+						move_image( DIR_DOWN, &galaga_enemy_array[i].X_COORD, &galaga_enemy_array[i].Y_COORD, galaga_enemyHeightPixels, galaga_enemyWidthPixels);//MOVE
+						next_dir = DIR_LEFT;
+						move_line = true;
+					}
+					else{ // move down if ship hits wall and change direction
+						move_image( DIR_DOWN, &galaga_enemy_array[i].X_COORD, &galaga_enemy_array[i].Y_COORD, galaga_enemyHeightPixels, galaga_enemyWidthPixels);//MOVE
+						next_dir = DIR_RIGHT;
+						move_line = true;
+					}
+				}
+				else{ //keep going if ship doesnt hit wall
+					move_image( current_dir, &galaga_enemy_array[i].X_COORD, &galaga_enemy_array[i].Y_COORD, galaga_enemyHeightPixels, galaga_enemyWidthPixels);//MOVE
+				}
+			}
 		}
-		else if (current_dir == DIR_RIGHT){ // get new count and dir ship hits edge
-			move_image( DIR_DOWN, &galaga_enemy_X_COORD[0], &galaga_enemy_Y_COORD[0], galaga_enemyHeightPixels, galaga_enemyWidthPixels);//MOVE
-			next_dir = DIR_LEFT;
-		}
-		else{ // get new dir if ship hits edge
-			move_image( DIR_DOWN, &galaga_enemy_X_COORD[0], &galaga_enemy_Y_COORD[0], galaga_enemyHeightPixels, galaga_enemyWidthPixels);//MOVE
-			next_dir = DIR_RIGHT;
-		}
-	
+		MOVE_ENEMY = true;
+		MOVE_LASER = true;
 		timer->ICR |= TIMER_ICR_TATOCINT; // clear interupt
     
 }
@@ -78,7 +98,7 @@ void TIMER4A_Handler(void)
 //*****************************************************************************
 // ADC0 SS2 ISR
 //*****************************************************************************
-void ADC0SS2_Handler(void)
+/*void ADC0SS2_Handler(void)
 {
 	uint16_t x;
 	uint16_t y;
@@ -103,6 +123,7 @@ void ADC0SS2_Handler(void)
 	
 	adc->ISC |= 0x4; // clear interupt
 }
+*/
 
 // portF bit 0
 void GPIOF_Handler(void)

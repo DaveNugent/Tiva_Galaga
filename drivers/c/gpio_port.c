@@ -296,8 +296,6 @@ bool  gpio_config_enable_input(uint32_t baseAddr, uint8_t pins)
     return false;
   }
 
-  return true;
-
 }
 
 
@@ -325,8 +323,6 @@ bool  gpio_config_enable_pullup(uint32_t baseAddr, uint8_t pins)
   else{
     return false;
   }
-
-  return true;
 }
 
 //*****************************************************************************
@@ -353,8 +349,6 @@ bool  gpio_config_enable_pulldown(uint32_t baseAddr, uint8_t pins)
   else{
     return false;
   }
-
-  return true;
 }
 
 
@@ -430,7 +424,6 @@ bool  gpio_config_port_control(uint32_t baseAddr, uint32_t mask, uint32_t pctl)
   // Verify that the base address is a valid GPIO base address
   // using the verify_base_addr function provided above
 
-  return true;
 }
 
 /******************************************************************************
@@ -470,7 +463,7 @@ bool  gpio_config_open_drain(uint32_t gpioBase, uint8_t pins)
 //*****************************************************************************
 bool  gpio_config_falling_edge_irq(uint32_t gpioBase, uint8_t pins)
 {
-  GPIOA_Type  *gpioPort;
+  //GPIOA_Type  *gpioPort;
 
   // ADD CODE
   // Verify that the base address is a valid GPIO base address

@@ -24,14 +24,16 @@
 #define ADDR_START3    160
 #define ADDR_START_GAME_DATA    240
 #define NUM_BYTES      80
+#define MAX_LASERS     8
 
 extern volatile uint16_t SHIP_X_COORD;
 extern volatile uint16_t SHIP_Y_COORD;
-extern volatile uint16_t galaga_enemy_X_COORD[];
-extern volatile uint16_t galaga_enemy_Y_COORD[];
-extern volatile bool MOVE_INVADER;
+extern volatile bool MOVE_ENEMY;
 extern volatile bool MOVE_SHIP;
+extern volatile bool MOVE_LASER;
 extern char STUDENT_NAME[];
+
+
 
 //*****************************************************************************
 // If any part of the image would be off the screen if the image
@@ -61,10 +63,23 @@ void move_image(
 
 // struct for each enemy
 typedef struct {
-	 bool alive;
-   uint16_t X_COORD;
-   uint16_t Y_COORD;
+   volatile bool alive;
+   volatile uint16_t X_COORD;
+   volatile uint16_t Y_COORD;
 } galaga_enemy;
+
+// struct for each laser
+typedef struct {
+	 volatile bool alive;
+   volatile uint16_t X_COORD;
+   volatile uint16_t Y_COORD;
+} laser;
+
+extern volatile laser laser_array[MAX_LASERS];
+
+extern volatile galaga_enemy galaga_enemy_array[8];
+
+
 
 //*****************************************************************************
 // Determines is any portion of the two images are overlapping.  An image is
@@ -77,14 +92,14 @@ typedef struct {
 // If the two images are NOT overlapping, return false.
 //*****************************************************************************
 bool check_game_over(
-        volatile uint16_t ship_x_coord, 
-        const uint16_t ship_y_coord, 
-        uint8_t ship_height, 
+        volatile uint16_t ship_x_coord,
+        volatile uint16_t ship_y_coord,
+        uint8_t ship_height,
         uint8_t ship_width,
-        volatile uint16_t galaga_enemy_X_COORD[], 
-        volatile uint16_t galaga_enemy_Y_COORD[], 
-        uint8_t invader_height, 
-        uint8_t invader_width
+        volatile uint16_t galaga_enemy_X_COORD,
+        volatile uint16_t galaga_enemy_Y_COORD,
+        uint8_t galaga_enemyHeightPixels,
+        uint8_t galaga_enemyWidthPixels
 );
 
 //*****************************************************************************

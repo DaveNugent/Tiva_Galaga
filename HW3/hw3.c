@@ -2,13 +2,13 @@
 
 volatile uint16_t SHIP_X_COORD = 190;
 volatile uint16_t SHIP_Y_COORD = 300;
-volatile uint16_t galaga_enemy_X_COORD[] = {50};
-volatile uint16_t galaga_enemy_Y_COORD[] = {50};
-volatile galaga_enemy galaga_enemy_array[8];
 volatile uint16_t laser_X_COORD[];
 volatile uint16_t laser_Y_COORD[];
-volatile bool MOVE_INVADER = true;
+volatile bool MOVE_ENEMY = true;
 volatile bool MOVE_SHIP = true;
+volatile bool MOVE_LASER = false;
+volatile galaga_enemy galaga_enemy_array[8];
+volatile laser laser_array[MAX_LASERS];
 
 char STUDENT_NAME[] = "Dave Nugent";
 
@@ -60,8 +60,8 @@ bool contact_edge(
 // initalize 8 enemies on 240x320 lcd
 void initalize_enemies(void){
 	uint8_t i;
-	uint16_t y;
-	uint16_t x;
+	volatile uint16_t y;
+	volatile uint16_t x;
 
 	i = 0;
 	// two rows of invaders at y = 30 and 60
@@ -76,6 +76,39 @@ void initalize_enemies(void){
 	}
 }
 
+//checking if player won
+bool check_won(void){
+	uint8_t i;
+	bool won;
+	won = true; // initalizing won to true, turned false if any enemies are alive
+
+	for (i = 0; i < 8; i++){
+		won &= ~galaga_enemy_array[i].alive; //setting one to false if any enemies alive
+	}
+	return won;
+}
+
+// used to fire laser from ship
+void shoot_laser(void){
+	static uint8_t laser_count = 0;
+	laser_array[laser_count].alive = true;
+	laser_array[laser_count].X_COORD = SHIP_X_COORD;
+	laser_array[laser_count].Y_COORD = SHIP_Y_COORD;
+	laser_count = ((laser_count + 1) % MAX_LASERS); // overwriting lasers every MAX_LASERS shots
+}
+
+void move_lasers(void){
+	uint8_t i;
+	for (i = 0; i < MAX_LASERS; i++) {
+	if (contact_edge(DIR_UP, laser_array[i].X_COORD, laser_array[i].Y_COORD, laserHeight, laserWidth)){
+		laser_array[i].alive = false;
+	}
+	if (laser_array[i].alive){
+		laser_array[i].Y_COORD = laser_array[i].Y_COORD - 2;
+	}
+}
+	MOVE_LASER = true;
+}
 //*****************************************************************************
 // Moves the image by one pixel in the provided direction.  The second and
 // third parameter should modify the current location of the image (pass by
@@ -89,7 +122,6 @@ void move_image(
         uint8_t image_width
 )
 {
-	uint16_t temp;
 	switch (direction)
 	{
 		case DIR_RIGHT:
@@ -182,34 +214,34 @@ bool check_game_over(
         volatile uint16_t ship_y_coord,
         uint8_t ship_height,
         uint8_t ship_width,
-        volatile uint16_t galaga_enemy_X_COORD[],
-        volatile uint16_t galaga_enemy_Y_COORD[],
+        volatile uint16_t galaga_enemy_X_COORD,
+        volatile uint16_t galaga_enemy_Y_COORD,
         uint8_t galaga_enemyHeightPixels,
         uint8_t galaga_enemyWidthPixels
 )
 {
-	if (((ship_x_coord + 5) > (galaga_enemy_X_COORD[0] - 5)) && ((ship_x_coord + 5) <  (galaga_enemy_X_COORD[0] + 5))){
-		if (((ship_y_coord + 15) > (galaga_enemy_Y_COORD[0] - 15)) && ((ship_y_coord + 15) <  (galaga_enemy_Y_COORD[0] + 15))){
+	if (((ship_x_coord + 5) > (galaga_enemy_X_COORD - 5)) && ((ship_x_coord + 5) <  (galaga_enemy_X_COORD + 5))){
+		if (((ship_y_coord + 15) > (galaga_enemy_Y_COORD - 15)) && ((ship_y_coord + 15) <  (galaga_enemy_Y_COORD + 15))){
 			return true;
 		}
-		else if(((ship_y_coord - 15) > (galaga_enemy_Y_COORD[0] - 15)) && ((ship_y_coord - 15) <  ((galaga_enemy_Y_COORD[0] + 15)))){
-			return true;
-		}
-	}
-	else if (((ship_x_coord - 5) > (galaga_enemy_X_COORD[0] - 5)) && ((ship_x_coord - 5) <  (galaga_enemy_X_COORD[0] + 5))){
-		if (((ship_y_coord + 15) > (galaga_enemy_Y_COORD[0] - 15)) && ((ship_y_coord + 15) <  (galaga_enemy_Y_COORD[0] + 15))){
-			return true;
-		}
-		else if(((ship_y_coord - 15) > (galaga_enemy_Y_COORD[0] - 15)) && ((ship_y_coord - 15) <  (galaga_enemy_Y_COORD[0] + 15))){
+		else if(((ship_y_coord - 15) > (galaga_enemy_Y_COORD - 15)) && ((ship_y_coord - 15) <  ((galaga_enemy_Y_COORD + 15)))){
 			return true;
 		}
 	}
+	else if (((ship_x_coord - 5) > (galaga_enemy_X_COORD - 5)) && ((ship_x_coord - 5) <  (galaga_enemy_X_COORD + 5))){
+		if (((ship_y_coord + 15) > (galaga_enemy_Y_COORD - 15)) && ((ship_y_coord + 15) <  (galaga_enemy_Y_COORD + 15))){
+			return true;
+		}
+		else if(((ship_y_coord - 15) > (galaga_enemy_Y_COORD - 15)) && ((ship_y_coord - 15) <  (galaga_enemy_Y_COORD + 15))){
+			return true;
+		}
+	}
+
 	return false;
 }
 
 bool init_adc(  uint32_t adc_base )
 {
-  ADC0_Type  *myADC;
   uint32_t rcgc_adc_mask;
   uint32_t pr_mask;
 
@@ -485,45 +517,83 @@ void init_hardware(void)
 void hw3_main(void)
 {
 		uint8_t button_press;
+		uint8_t i;
+		bool game_over;
+		bool first;
 	
     init_hardware();
     hw3_hardware_validate();
 	
-
+	//FIXME Main menu Logic
+	
+	initalize_enemies();
+	game_over = false;
+	first = true;
 	// while the game is not over
-	while(!check_game_over(SHIP_X_COORD, SHIP_Y_COORD, shipHeightPixels, shipWidthPixels, 
-												 galaga_enemy_X_COORD, galaga_enemy_Y_COORD, galaga_enemyHeightPixels, galaga_enemyWidthPixels))
+	while(!game_over)
 	{
-		
 		read_button(&button_press);
 		button_press = ~button_press;
 		button_press &= DOWN_BUTTON_M;
 		
-		if (button_press){
+		if (button_press && first){
 			lcd_draw_image(20, zeroWidthPixels, 15, zeroHeightPixels, zeroBitmaps, LCD_COLOR_RED, LCD_COLOR_BLACK); //FIXME just testing
+			shoot_laser();
+			first = false;
 			//eeprom_game_data();
-			eeprom_write();
-			eeprom_read_board_data();
+			//eeprom_write();
+			//eeprom_read_board_data();
 	}
 		
 		NVIC_DisableIRQ(TIMER2A_IRQn);
 		NVIC_DisableIRQ(TIMER3A_IRQn);
 		NVIC_DisableIRQ(TIMER4A_IRQn);
-		if (MOVE_INVADER)
+		if (MOVE_ENEMY)
 		{
-			lcd_draw_image(galaga_enemy_X_COORD[0], galaga_enemyWidthPixels, galaga_enemy_Y_COORD[0], galaga_enemyHeightPixels, galaga_enemyBitmaps, LCD_COLOR_RED, LCD_COLOR_BLACK);
-			MOVE_INVADER = false;
+			for (i=0; i<8; i++)
+			{
+				if(galaga_enemy_array[i].alive)
+				{
+					lcd_draw_image( galaga_enemy_array[i].X_COORD, galaga_enemyWidthPixels, galaga_enemy_array[i].Y_COORD, galaga_enemyHeightPixels, galaga_enemyBitmaps, LCD_COLOR_RED, LCD_COLOR_BLACK);
+					MOVE_ENEMY = false;
+				}
+			}
 		}
 		if (MOVE_SHIP)
 		{
 			lcd_draw_image(SHIP_X_COORD, shipWidthPixels, SHIP_Y_COORD, shipHeightPixels, shipBitmaps, LCD_COLOR_WHITE, LCD_COLOR_BLACK);
 			MOVE_SHIP = false;
 		}
+		if (MOVE_LASER)
+		{
+			move_lasers();
+			for (i=0; i<MAX_LASERS; i++)
+			{
+				if(laser_array[i].alive)
+				{
+					lcd_draw_image( laser_array[i].X_COORD, laserWidth, laser_array[i].Y_COORD, laserHeight, laserBitmap, LCD_COLOR_BLUE, LCD_COLOR_BLACK);
+
+				}
+				else {
+					lcd_draw_image( laser_array[i].X_COORD, laserWidth, laser_array[i].Y_COORD, laserHeight, laserBitmap, LCD_COLOR_BLACK, LCD_COLOR_BLACK);
+				}
+			}
+			MOVE_LASER = false;
+		}
 		NVIC_EnableIRQ(TIMER2A_IRQn);
 		NVIC_EnableIRQ(TIMER3A_IRQn);
 		NVIC_EnableIRQ(TIMER4A_IRQn);
-
+		for (i=0; i < 8; i++){
+			if(check_game_over(SHIP_X_COORD, SHIP_Y_COORD, shipHeightPixels, shipWidthPixels, 
+												 galaga_enemy_array[i].X_COORD, galaga_enemy_array[i].Y_COORD, galaga_enemyHeightPixels, galaga_enemyWidthPixels)){
+													game_over = true;;
+												 }
+			
+		}
 	}
+	// FIXME game over screen
+	// FIXME use 5 sec timer to wait
+	// FIXME back to main menue
 		
 
 }

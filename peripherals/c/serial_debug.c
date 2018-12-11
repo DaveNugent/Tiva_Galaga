@@ -170,8 +170,6 @@ int fgetc(FILE* stream)
 // ****************************************************************************/
 int fputc(int c, FILE* stream)
 {
-   uint32_t uart_base;
-   PC_Buffer *tx_buffer;
 
    if ( Tx_Interrupts_Enabled)
    {
