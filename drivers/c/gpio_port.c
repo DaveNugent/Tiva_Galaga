@@ -463,16 +463,30 @@ bool  gpio_config_open_drain(uint32_t gpioBase, uint8_t pins)
 //*****************************************************************************
 bool  gpio_config_falling_edge_irq(uint32_t gpioBase, uint8_t pins)
 {
-  //GPIOA_Type  *gpioPort;
+  GPIOA_Type  *gpioPort;
 
   // ADD CODE
   // Verify that the base address is a valid GPIO base address
   // using the verify_base_addr function provided above
 
-  if (!(verify_base_addr(gpioBase))){
-		return false;
-	}
 
+  // ADD CODE
+  // Verify that the base address is a valid GPIO base address
+  // using the verify_base_addr function provided above
+  if(verify_base_addr(gpioBase)){
+    // Type Cast the base address to a GPIOA_Type pointer
+    gpioPort = (GPIOA_Type *)gpioBase;
+    gpioPort->IM &= ~pins;
+		gpioPort->IS &= ~pins;
+		gpioPort->ICR |=  pins;
+		gpioPort->IBE &= ~pins;
+    gpioPort->IEV &= ~pins;
+		gpioPort->IM |= pins;
+  return true;
+  }
+  else{
+    return false;
+  }
   return true;
 }
   

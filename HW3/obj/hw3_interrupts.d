@@ -32,3 +32,4 @@
 .\obj\hw3_interrupts.o: ..\peripherals\include\serial_debug.h
 .\obj\hw3_interrupts.o: ..\drivers\include\pc_buffer.h
 .\obj\hw3_interrupts.o: ..\drivers\include\uart.h
+.\obj\hw3_interrupts.o: hw3_interrupts.h

@@ -128,10 +128,20 @@ void TIMER4A_Handler(void)
 // portF bit 0
 void GPIOF_Handler(void)
 {	
-    GPIOA_Type *PORTF;
-		PORTF = (GPIOA_Type *) GPIOF_BASE;
+		GPIOA_Type  *gpioPort;
+		uint8_t button_press;
 	
-		PORTF->ICR |= 0x1; // clear interupt
+		gpioPort = (GPIOA_Type *)GPIOF_BASE;
+		
+		read_button(&button_press);
+		button_press = ~button_press;
+		button_press &= DOWN_BUTTON_M;
+
+			if (button_press){
+				FIRE_LASER = true;
+			}
+			
+		gpioPort->ICR |= PF0; // clear interupt
 		
 		//timer->ICR |= TIMER_ICR_TATOCINT; // clear interupt
 }

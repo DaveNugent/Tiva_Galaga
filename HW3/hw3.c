@@ -2,21 +2,15 @@
 
 volatile uint16_t SHIP_X_COORD = 190;
 volatile uint16_t SHIP_Y_COORD = 300;
-volatile uint16_t laser_X_COORD[];
-volatile uint16_t laser_Y_COORD[];
 volatile bool MOVE_ENEMY = true;
 volatile bool MOVE_SHIP = true;
 volatile bool MOVE_LASER = false;
+volatile bool FIRE_LASER = false;
 volatile galaga_enemy galaga_enemy_array[8];
 volatile laser laser_array[MAX_LASERS];
 
 char STUDENT_NAME[] = "Dave Nugent";
 
-// masks for IO expander buttons
-#define RIGHT_BUTTON_M		8
-#define LEFT_BUTTON_M		  4
-#define DOWN_BUTTON_M			2
-#define UP_BUTTON_M       1
 
 
 //*****************************************************************************
@@ -497,6 +491,13 @@ void init_hardware(void)
   // initialize push buttons (IO Expander)
   mcp23017_init();
   initialize_buttons();
+	gpio_enable_port(GPIOF_BASE);
+	gpio_config_enable_input(GPIOF_BASE, PF0);
+	gpio_config_digital_enable(GPIOF_BASE, PF0);
+	gpio_config_enable_pullup(GPIOF_BASE, PF0);
+	gpio_config_falling_edge_irq(GPIOF_BASE, PF0);
+	NVIC_SetPriority(GPIOF_IRQn, 3);
+	NVIC_EnableIRQ(GPIOF_IRQn);
 
 
   // Initialize Timer 2
@@ -536,10 +537,9 @@ void init_hardware(void)
 //*****************************************************************************
 void hw3_main(void)
 {
-		uint8_t button_press;
+	
 		uint8_t i;
 		bool game_over;
-		bool first;
 	
     init_hardware();
     hw3_hardware_validate();
@@ -548,22 +548,10 @@ void hw3_main(void)
 	
 	initalize_enemies();
 	game_over = false;
-	first = true;
 	// while the game is not over
 	while(!game_over)
 	{
-		read_button(&button_press);
-		button_press = ~button_press;
-		button_press &= DOWN_BUTTON_M;
-		
-		if (button_press && first){
-			lcd_draw_image(20, zeroWidthPixels, 15, zeroHeightPixels, zeroBitmaps, LCD_COLOR_RED, LCD_COLOR_BLACK); //FIXME just testing
-			shoot_laser();
-			first = false;
-			//eeprom_game_data();
-			//eeprom_write();
-			//eeprom_read_board_data();
-	}
+	
 		
 		disable_all_interupts();
 		if (MOVE_ENEMY)
@@ -581,6 +569,10 @@ void hw3_main(void)
 		{
 			lcd_draw_image(SHIP_X_COORD, shipWidthPixels, SHIP_Y_COORD, shipHeightPixels, shipBitmaps, LCD_COLOR_WHITE, LCD_COLOR_BLACK);
 			MOVE_SHIP = false;
+		}
+		if (FIRE_LASER){
+			shoot_laser();
+			FIRE_LASER = false;
 		}
 		if (MOVE_LASER)
 		{

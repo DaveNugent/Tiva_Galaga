@@ -33,3 +33,4 @@
 .\obj\main.o: ..\drivers\include\pc_buffer.h
 .\obj\main.o: ..\drivers\include\uart.h
 .\obj\main.o: hw3_interrupts.h
+.\obj\main.o: hw3.h

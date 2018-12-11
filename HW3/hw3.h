@@ -18,6 +18,7 @@
 #include "mcp23017.h"
 #include "eeprom.h"
 #include "serial_debug.h"
+#include "hw3_interrupts.h"
 
 #define ADDR_START1    0
 #define ADDR_START2    80
@@ -31,6 +32,7 @@ extern volatile uint16_t SHIP_Y_COORD;
 extern volatile bool MOVE_ENEMY;
 extern volatile bool MOVE_SHIP;
 extern volatile bool MOVE_LASER;
+extern volatile bool FIRE_LASER;
 extern char STUDENT_NAME[];
 
 
