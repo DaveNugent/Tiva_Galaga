@@ -15,7 +15,7 @@
 #define MCP23017_DEFVALB     0x07
 #define MCP23017_INTCONB			0x09
 #define MCP23017_IOCON			 0x0A
-
+#define MCP23017_INTCAP			 0x11
 
 #define MCP23017_GPIO_BASE         	GPIOA_BASE
 #define MCP23017_I2C_BASE          	I2C1_BASE
