@@ -460,7 +460,19 @@ bool init_interrupt_adc (uint32_t adc_base){
 	
 }
 
+void disable_all_interupts(void){
+		NVIC_DisableIRQ(TIMER2A_IRQn);
+		NVIC_DisableIRQ(TIMER3A_IRQn);
+		NVIC_DisableIRQ(TIMER4A_IRQn);
+		NVIC_DisableIRQ(GPIOF_IRQn);
+}
 
+void enable_all_interupts(void){
+		NVIC_EnableIRQ(TIMER2A_IRQn);
+		NVIC_EnableIRQ(TIMER3A_IRQn);
+		NVIC_EnableIRQ(TIMER4A_IRQn);
+		NVIC_EnableIRQ(GPIOF_IRQn);
+}
 //*****************************************************************************
 // Initializes all of the peripherls used in HW3
 //*****************************************************************************
@@ -486,6 +498,7 @@ void init_hardware(void)
   mcp23017_init();
   initialize_buttons();
 
+
   // Initialize Timer 2
   gp_timer_config_32(TIMER2_BASE, TIMER_TAMR_TAMR_PERIOD, false, true);
 	
@@ -509,6 +522,7 @@ void init_hardware(void)
 	//initialize eeprom
 	init_serial_debug(true, true);
 	eeprom_init();
+	
 }
 
 //*****************************************************************************
@@ -551,9 +565,7 @@ void hw3_main(void)
 			//eeprom_read_board_data();
 	}
 		
-		NVIC_DisableIRQ(TIMER2A_IRQn);
-		NVIC_DisableIRQ(TIMER3A_IRQn);
-		NVIC_DisableIRQ(TIMER4A_IRQn);
+		disable_all_interupts();
 		if (MOVE_ENEMY)
 		{
 			for (i=0; i<8; i++)
@@ -586,9 +598,7 @@ void hw3_main(void)
 			}
 			MOVE_LASER = false;
 		}
-		NVIC_EnableIRQ(TIMER2A_IRQn);
-		NVIC_EnableIRQ(TIMER3A_IRQn);
-		NVIC_EnableIRQ(TIMER4A_IRQn);
+		enable_all_interupts();
 		for (i=0; i < 8; i++){
 			if(check_game_over(SHIP_X_COORD, SHIP_Y_COORD, shipHeightPixels, shipWidthPixels, 
 												 galaga_enemy_array[i].X_COORD, galaga_enemy_array[i].Y_COORD, galaga_enemyHeightPixels, galaga_enemyWidthPixels)){
