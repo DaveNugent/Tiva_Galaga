@@ -390,26 +390,46 @@ void eeprom_write(void)
 		idx = 0;
 		if(i == 0) {
 			temp = ADDR_START1;
+			for(addr = temp; addr <(temp+NUM_BYTES); addr++)
+			{
+				eeprom_byte_write(I2C1_BASE,addr, string1[addr-temp]);
+				//idx++;
+			}
 		} else if(i == 1) {
 			temp = ADDR_START2;
+			for(addr = temp; addr <(temp+NUM_BYTES); addr++)
+			{
+				eeprom_byte_write(I2C1_BASE,addr, string2[addr-temp]);
+				//idx++;
+			}
 		} else {
 			temp = ADDR_START3;
+			for(addr = temp; addr <(temp+NUM_BYTES); addr++)
+			{
+				eeprom_byte_write(I2C1_BASE,addr, string3[addr-temp]);
+				//idx++;
+			}
 		}
+		/*
 		for(addr = temp; addr <(temp+NUM_BYTES); addr++)
 		{
 			if(i == 0) {
-				values[ addr - temp] = string1[idx];	
+				eeprom_byte_write(I2C1_BASE,addr, string1[idx]);
+				//values[ addr - temp] = string1[idx];	
 			} else if(i == 1) {
-				values[ addr - temp] = string2[idx];
+				eeprom_byte_write(I2C1_BASE,addr, string2[idx]);
+				//values[ addr - temp] = string2[idx];
 			} else {
-				values[ addr - temp] = string3[idx];
+				eeprom_byte_write(I2C1_BASE,addr, string3[idx]);
+				//values[ addr - temp] = string3[idx];
 			}
 			//printf("Writing %i\n\r",values[addr-temp]);
-			eeprom_byte_write(I2C1_BASE,addr, values[addr-temp]);
+			
 			idx++;				
 		}
 		
 		//eeprom_byte_write(I2C1_BASE,addr, '\0');
+		*/
 	}
 }
 
@@ -496,7 +516,7 @@ void init_hardware(void)
 	gpio_config_enable_input(GPIOF_BASE, PF0);
 	gpio_config_digital_enable(GPIOF_BASE, PF0);
 	gpio_config_falling_edge_irq(GPIOF_BASE, PF0);
-	NVIC_SetPriority(GPIOF_IRQn, 3);
+	NVIC_SetPriority(GPIOF_IRQn, 0);
 	NVIC_EnableIRQ(GPIOF_IRQn);
 
 
@@ -504,20 +524,20 @@ void init_hardware(void)
   gp_timer_config_32(TIMER2_BASE, TIMER_TAMR_TAMR_PERIOD, false, true);
 	
 	countdown_timer(TIMER2_BASE, 1000000); //20 ms
-	NVIC_SetPriority(TIMER2A_IRQn, 0);
+	NVIC_SetPriority(TIMER2A_IRQn, 1);
 	NVIC_EnableIRQ(TIMER2A_IRQn);
 	
 
   // Initialize Timer 3
   gp_timer_config_32(TIMER3_BASE, TIMER_TAMR_TAMR_PERIOD, false, true);
 	countdown_timer (TIMER3_BASE, 500000); //10 ms
-	NVIC_SetPriority(TIMER3A_IRQn, 1);
+	NVIC_SetPriority(TIMER3A_IRQn, 2);
 	NVIC_EnableIRQ(TIMER3A_IRQn);
 	
 	// Initialize Timer 4
   gp_timer_config_32(TIMER4_BASE, TIMER_TAMR_TAMR_PERIOD, false, true);
 	countdown_timer (TIMER4_BASE, 400000); //8 ms
-	NVIC_SetPriority(TIMER4A_IRQn, 2);
+	NVIC_SetPriority(TIMER4A_IRQn, 3);
 	NVIC_EnableIRQ(TIMER4A_IRQn);
 	
 	//initialize eeprom
@@ -558,24 +578,6 @@ void hw3_main(void)
 	
 	while(!game_over)
 	{
-		read_button(&button_press);
-		button_press = ~button_press;
-		button_press &= DOWN_BUTTON_M;
-		
-		if(!lp_io_read_pin(SW2_BIT)) {
-			//polling technique change to vector
-			eeprom_write();
-		}
-		
-		if (button_press && first){
-			lcd_draw_image(20, zeroWidthPixels, 15, zeroHeightPixels, zeroBitmaps, LCD_COLOR_RED, LCD_COLOR_BLACK); //FIXME just testing
-			shoot_laser();
-			first = false;
-			//eeprom_game_data();
-			//eeprom_write();
-			//eeprom_read_board_data();
-	}
-		
 		disable_all_interupts();
 		if (MOVE_ENEMY)
 		{
@@ -615,6 +617,7 @@ void hw3_main(void)
 		}
 		enable_all_interupts();
 		for (i=0; i < 8; i++){
+			//if(hit_invader(laser_array[i].X_COORD, laserWidth, laser_array[i].Y_COORD, laserHeight, laserWidth, galaga_enemy_array[i].X_COORD, galaga_enemy_array[i].Y_COORD, galaga_enemyHeightPixels, galaga_enemyWidthPixels))
 			if(check_game_over(SHIP_X_COORD, SHIP_Y_COORD, shipHeightPixels, shipWidthPixels, 
 												 galaga_enemy_array[i].X_COORD, galaga_enemy_array[i].Y_COORD, galaga_enemyHeightPixels, galaga_enemyWidthPixels)){
 													game_over = true;;

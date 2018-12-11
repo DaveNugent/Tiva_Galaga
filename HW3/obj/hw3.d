@@ -33,3 +33,4 @@
 .\obj\hw3.o: ..\drivers\include\uart.h
 .\obj\hw3.o: hw3_interrupts.h
 .\obj\hw3.o: hw3.h
+.\obj\hw3.o: ..\peripherals\include\launchpad_io.h

@@ -141,6 +141,11 @@ void GPIOF_Handler(void)
 				FIRE_LASER = true;
 			}
 			
+		if(!lp_io_read_pin(SW2_BIT)) {
+			//polling technique change to vector
+			eeprom_write();
+		}
+			
 		gpioPort->ICR |= PF0; // clear interupt
 		
 		//timer->ICR |= TIMER_ICR_TATOCINT; // clear interupt
