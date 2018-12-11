@@ -255,19 +255,19 @@ bool hit_invader(
         uint8_t galaga_enemyWidthPixels
 )
 {
-	if (((laser_x_coord + 5) > (galaga_enemy_X_COORD - 5)) && ((laser_x_coord + 5) <  (galaga_enemy_X_COORD + 5))){
-		if (((laser_y_coord + 15) > (galaga_enemy_Y_COORD - 15)) && ((laser_y_coord + 15) <  (galaga_enemy_Y_COORD + 15))){
+	if (((laser_x_coord) > (galaga_enemy_X_COORD - 15)) && ((laser_x_coord) <  (galaga_enemy_X_COORD + 15))){
+		if (((laser_y_coord) > (galaga_enemy_Y_COORD - 15)) && ((laser_y_coord) <  (galaga_enemy_Y_COORD + 15))){
 			return true;
 		}
-		else if(((laser_y_coord - 15) > (galaga_enemy_Y_COORD - 15)) && ((laser_y_coord - 15) <  ((galaga_enemy_Y_COORD + 15)))){
+		else if(((laser_y_coord) > (galaga_enemy_Y_COORD - 15)) && ((laser_y_coord) <  ((galaga_enemy_Y_COORD + 15)))){
 			return true;
 		}
 	}
-	else if (((laser_x_coord - 5) > (galaga_enemy_X_COORD - 5)) && ((laser_x_coord - 5) <  (galaga_enemy_X_COORD + 5))){
-		if (((laser_y_coord + 15) > (galaga_enemy_Y_COORD - 15)) && ((laser_y_coord + 15) <  (galaga_enemy_Y_COORD + 15))){
+	else if (((laser_x_coord) > (galaga_enemy_X_COORD - 15)) && ((laser_x_coord) <  (galaga_enemy_X_COORD + 15))){
+		if (((laser_y_coord) > (galaga_enemy_Y_COORD - 15)) && ((laser_y_coord) <  (galaga_enemy_Y_COORD + 15))){
 			return true;
 		}
-		else if(((laser_y_coord - 15) > (galaga_enemy_Y_COORD - 15)) && ((laser_y_coord - 15) <  (galaga_enemy_Y_COORD + 15))){
+		else if(((laser_y_coord) > (galaga_enemy_Y_COORD - 15)) && ((laser_y_coord) <  (galaga_enemy_Y_COORD + 15))){
 			return true;
 		}
 	}
@@ -603,7 +603,7 @@ void hw3_main(void)
 {
 		uint8_t currScore = 0;
 		uint8_t highScore;
-		uint8_t i;
+		uint8_t i,j;
 		bool game_over;
 	
     init_hardware();
@@ -649,30 +649,32 @@ void hw3_main(void)
 				if(laser_array[i].alive)
 				{
 					lcd_draw_image( laser_array[i].X_COORD, laserWidth, laser_array[i].Y_COORD, laserHeight, laserBitmap, LCD_COLOR_BLUE, LCD_COLOR_BLACK);
-
+							for (j=0; j < 8; j++){
+								if(hit_invader(laser_array[i].X_COORD, laser_array[i].Y_COORD, laserHeight, laserWidth, galaga_enemy_array[j].X_COORD, galaga_enemy_array[j].Y_COORD, galaga_enemyHeightPixels, galaga_enemyWidthPixels)) 
+								{
+									currScore = currScore++;
+									//draw explosion image on top of the galaga enemy image that got hit
+									lcd_draw_image(galaga_enemy_array[j].X_COORD, pixelfireWidthPixels, galaga_enemy_array[j].Y_COORD, pixelfireHeightPixels, pixelfireBitmaps, LCD_COLOR_YELLOW, LCD_COLOR_BLACK);
+									//draw black image where explosion occurred to clear explosion
+									lcd_draw_image(galaga_enemy_array[j].X_COORD, pixelfireWidthPixels, galaga_enemy_array[j].Y_COORD, pixelfireHeightPixels, pixelfireBitmaps, LCD_COLOR_BLACK, LCD_COLOR_BLACK);
+								}
+			
+							}
 				}
 				else {
 					lcd_draw_image( laser_array[i].X_COORD, laserWidth, laser_array[i].Y_COORD, laserHeight, laserBitmap, LCD_COLOR_BLACK, LCD_COLOR_BLACK);
 				}
 			}
+			for (i = 0; i < 8; i++){
+				if(check_game_over(SHIP_X_COORD, SHIP_Y_COORD, shipHeightPixels, shipWidthPixels, 
+										galaga_enemy_array[i].X_COORD, galaga_enemy_array[i].Y_COORD, galaga_enemyHeightPixels, galaga_enemyWidthPixels)){
+											game_over = true;;
+										}
+			}
 			MOVE_LASER = false;
 		}
+		check_won(); //FIXME do something with this
 		enable_all_interupts();
-		for (i=0; i < 8; i++){
-			//if(hit_invader(laser_array[i].X_COORD, laserWidth, laser_array[i].Y_COORD, laserHeight, laserWidth, galaga_enemy_array[i].X_COORD, galaga_enemy_array[i].Y_COORD, galaga_enemyHeightPixels, galaga_enemyWidthPixels)) 
-			{
-				currScore = currScore++;
-				//draw explosion image on top of the galaga enemy image that got hit
-				lcd_draw_image(galaga_enemy_array[i].X_COORD, pixelfireWidthPixels, galaga_enemy_array[i].Y_COORD, pixelfireHeightPixels, pixelfireBitmaps, LCD_COLOR_YELLOW, LCD_COLOR_BLACK);
-				//draw black image where explosion occurred to clear explosion
-				lcd_draw_image(galaga_enemy_array[i].X_COORD, pixelfireWidthPixels, galaga_enemy_array[i].Y_COORD, pixelfireHeightPixels, pixelfireBitmaps, LCD_COLOR_BLACK, LCD_COLOR_BLACK);
-			}
-			if(check_game_over(SHIP_X_COORD, SHIP_Y_COORD, shipHeightPixels, shipWidthPixels, 
-												 galaga_enemy_array[i].X_COORD, galaga_enemy_array[i].Y_COORD, galaga_enemyHeightPixels, galaga_enemyWidthPixels)){
-													game_over = true;;
-												 }
-			
-		}
 		
 		if(currScore > highScore) {
 			highScore = currScore;
