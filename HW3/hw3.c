@@ -492,9 +492,9 @@ void init_hardware(void)
   mcp23017_init();
   initialize_buttons();
 	gpio_enable_port(GPIOF_BASE);
+	gpio_config_enable_pullup(GPIOF_BASE, PF0);
 	gpio_config_enable_input(GPIOF_BASE, PF0);
 	gpio_config_digital_enable(GPIOF_BASE, PF0);
-	gpio_config_enable_pullup(GPIOF_BASE, PF0);
 	gpio_config_falling_edge_irq(GPIOF_BASE, PF0);
 	NVIC_SetPriority(GPIOF_IRQn, 3);
 	NVIC_EnableIRQ(GPIOF_IRQn);
