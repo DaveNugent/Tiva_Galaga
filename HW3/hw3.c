@@ -84,7 +84,7 @@ bool check_won(void){
 
 // used to fire laser from ship
 void shoot_laser(void){
-	static uint16_t laser_count = 0;
+	static uint8_t laser_count = 0;
 	laser_array[laser_count].alive = true;
 	laser_array[laser_count].X_COORD = SHIP_X_COORD;
 	laser_array[laser_count].Y_COORD = SHIP_Y_COORD;

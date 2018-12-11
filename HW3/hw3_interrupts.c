@@ -134,7 +134,6 @@ void GPIOF_Handler(void)
 		gpioPort = (GPIOA_Type *)GPIOF_BASE;
 		
 		read_button(&button_press);
-		button_press = ~button_press;
 		button_press &= DOWN_BUTTON_M;
 
 		if (button_press){
