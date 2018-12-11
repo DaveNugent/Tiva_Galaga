@@ -94,4 +94,19 @@ extern const uint8_t pixelfireBitmaps[];
 extern const uint8_t pixelfireWidthPixels;
 extern const uint8_t pixelfireHeightPixels;
 
+// Bitmap info for gameover
+extern const uint8_t gameoverBitmaps;
+extern const uint8_t gameoverWidthPixels;
+extern const uint8_t gameoverHeightPixels;
+
+// Bitmap info for playButton
+extern const uint8_t playButtonBitmaps;
+extern const uint8_t playButtonWidthPixels;
+extern const uint8_t playButtonHeightPixels;
+
+// Bitmap info for galaga_logo_hd
+extern const uint8_t galaga_logo_hdBitmaps;
+extern const uint8_t galaga_logo_hdWidthPixels;
+extern const uint8_t galaga_logo_hdHeightPixels;
+
 #endif
