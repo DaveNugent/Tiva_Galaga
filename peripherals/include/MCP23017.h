@@ -7,10 +7,15 @@
 
 #define MCP23017_DEV_ID			0x27
 
-// Addresses of registers associated with GPIO ports (GPIOB specifically)
+// macros used to initalize io_expander
 #define MCP23017_IODIRB			0x01
-#define MCP23017_GPPUB			0x0D
 #define MCP23017_GPIOB			0x13
+#define MCP23017_GPPUB			0x0D
+#define MCP23017_GPINTENB    0x05
+#define MCP23017_DEFVALB     0x07
+#define MCP23017_INTCONB			0x09
+#define MCP23017_IOCON			 0x0A
+
 
 #define MCP23017_GPIO_BASE         	GPIOA_BASE
 #define MCP23017_I2C_BASE          	I2C1_BASE

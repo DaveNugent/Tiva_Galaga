@@ -39,6 +39,14 @@ i2c_status_t initialize_buttons(void)
 {
 	i2c_status_t status;
 	
+	status = IO_expander_byte_write(MCP23017_I2C_BASE, MCP23017_IOCON, 0x00);
+
+  // make sure setting to input correctly
+	if (status != I2C_OK){
+   return status;
+  }
+	
+	
 	// set GpioB to be an input
 	status = IO_expander_byte_write(MCP23017_I2C_BASE, MCP23017_IODIRB, 0xFF);
 
@@ -49,9 +57,25 @@ i2c_status_t initialize_buttons(void)
 	
 	// set lower 4 bit to pull up bc pressing them shorts to ground
 	status = IO_expander_byte_write(MCP23017_I2C_BASE, MCP23017_GPPUB, 0x0F);
+  
+	if (status != I2C_OK){
+   return status;
+  }
 	
-	//registers in the datasheer
-	status = IO_expander_byte_write(MCP23017_I2C_BASE, MCP23017_GPPUB, 0x0F);
+	status = IO_expander_byte_write(MCP23017_I2C_BASE, MCP23017_INTCONB, 0x0F);
+
+  if (status != I2C_OK){
+   return status;
+  }
+
+	status = IO_expander_byte_write(MCP23017_I2C_BASE, MCP23017_DEFVALB, 0x0F);
+
+  if (status != I2C_OK){
+   return status;
+  }
+	
+	//set to interupt on change
+	status = IO_expander_byte_write(MCP23017_I2C_BASE, MCP23017_GPINTENB, 0x0F);
 	
 	return status;
 }
