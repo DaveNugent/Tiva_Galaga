@@ -234,6 +234,47 @@ bool check_game_over(
 	return false;
 }
 
+//*****************************************************************************
+// Determines is any portion of the two images are overlapping.  An image is
+// considered to be overlapping if the two rectangles determined by the image
+// height and widths are overlapping.  An overlap occurs even if the area that
+// overlaps are portions of the images where the pixels do not display on the
+// screen.
+//
+// If the two images are overlapping, return true.
+// If the two images are NOT overlapping, return false.
+//*****************************************************************************
+bool hit_invader(
+        volatile uint16_t laser_x_coord,
+        volatile uint16_t laser_y_coord,
+        uint8_t laser_height,
+        uint8_t laser_width,
+        volatile uint16_t galaga_enemy_X_COORD,
+        volatile uint16_t galaga_enemy_Y_COORD,
+        uint8_t galaga_enemyHeightPixels,
+        uint8_t galaga_enemyWidthPixels
+)
+{
+	if (((laser_x_coord + 5) > (galaga_enemy_X_COORD - 5)) && ((laser_x_coord + 5) <  (galaga_enemy_X_COORD + 5))){
+		if (((laser_y_coord + 15) > (galaga_enemy_Y_COORD - 15)) && ((laser_y_coord + 15) <  (galaga_enemy_Y_COORD + 15))){
+			return true;
+		}
+		else if(((laser_y_coord - 15) > (galaga_enemy_Y_COORD - 15)) && ((laser_y_coord - 15) <  ((galaga_enemy_Y_COORD + 15)))){
+			return true;
+		}
+	}
+	else if (((laser_x_coord - 5) > (galaga_enemy_X_COORD - 5)) && ((laser_x_coord - 5) <  (galaga_enemy_X_COORD + 5))){
+		if (((laser_y_coord + 15) > (galaga_enemy_Y_COORD - 15)) && ((laser_y_coord + 15) <  (galaga_enemy_Y_COORD + 15))){
+			return true;
+		}
+		else if(((laser_y_coord - 15) > (galaga_enemy_Y_COORD - 15)) && ((laser_y_coord - 15) <  (galaga_enemy_Y_COORD + 15))){
+			return true;
+		}
+	}
+
+	return false;
+}
+
 bool init_adc(  uint32_t adc_base )
 {
   uint32_t rcgc_adc_mask;
@@ -286,7 +327,7 @@ char string2[NUM_BYTES] = "Student 2: Carter Steffen";
 char string3[NUM_BYTES] = "Team Number: 10";
 
 
-void eeprom_game_data(void)
+void eeprom_game_data(uint8_t highScore)
 {
 	uint16_t addr;
   uint8_t values[20];
@@ -296,7 +337,7 @@ void eeprom_game_data(void)
   for(addr = ADDR_START_GAME_DATA; addr <(ADDR_START_GAME_DATA+1); addr++)
   {
 		//write high score data instead of rand
-      values[ addr - ADDR_START_GAME_DATA] = rand();
+      values[ addr - ADDR_START_GAME_DATA] = highScore;
       printf("Writing %i\n\r",values[addr-ADDR_START_GAME_DATA]);
       eeprom_byte_write(I2C1_BASE,addr, values[addr-ADDR_START_GAME_DATA]);
   }
@@ -560,7 +601,8 @@ void init_hardware(void)
 //*****************************************************************************
 void hw3_main(void)
 {
-	
+		uint8_t currScore = 0;
+		uint8_t highScore;
 		uint8_t i;
 		bool game_over;
 	
@@ -617,12 +659,24 @@ void hw3_main(void)
 		}
 		enable_all_interupts();
 		for (i=0; i < 8; i++){
-			//if(hit_invader(laser_array[i].X_COORD, laserWidth, laser_array[i].Y_COORD, laserHeight, laserWidth, galaga_enemy_array[i].X_COORD, galaga_enemy_array[i].Y_COORD, galaga_enemyHeightPixels, galaga_enemyWidthPixels))
+			//if(hit_invader(laser_array[i].X_COORD, laserWidth, laser_array[i].Y_COORD, laserHeight, laserWidth, galaga_enemy_array[i].X_COORD, galaga_enemy_array[i].Y_COORD, galaga_enemyHeightPixels, galaga_enemyWidthPixels)) 
+			{
+				currScore = currScore++;
+				//draw explosion image on top of the galaga enemy image that got hit
+				lcd_draw_image(galaga_enemy_array[i].X_COORD, pixelfireWidthPixels, galaga_enemy_array[i].Y_COORD, pixelfireHeightPixels, pixelfireBitmaps, LCD_COLOR_YELLOW, LCD_COLOR_BLACK);
+				//draw black image where explosion occurred to clear explosion
+				lcd_draw_image(galaga_enemy_array[i].X_COORD, pixelfireWidthPixels, galaga_enemy_array[i].Y_COORD, pixelfireHeightPixels, pixelfireBitmaps, LCD_COLOR_BLACK, LCD_COLOR_BLACK);
+			}
 			if(check_game_over(SHIP_X_COORD, SHIP_Y_COORD, shipHeightPixels, shipWidthPixels, 
 												 galaga_enemy_array[i].X_COORD, galaga_enemy_array[i].Y_COORD, galaga_enemyHeightPixels, galaga_enemyWidthPixels)){
 													game_over = true;;
 												 }
 			
+		}
+		
+		if(currScore > highScore) {
+			highScore = currScore;
+			eeprom_game_data(highScore);
 		}
 	}
 	// FIXME game over screen
