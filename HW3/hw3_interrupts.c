@@ -137,11 +137,10 @@ void GPIOF_Handler(void)
 		button_press = ~button_press;
 		button_press &= DOWN_BUTTON_M;
 
-			if (button_press){
+		if (button_press){
 				FIRE_LASER = true;
-			}
-			
-		if(!lp_io_read_pin(SW2_BIT)) {
+		}
+		else if(!lp_io_read_pin(SW2_BIT)) {
 			//polling technique change to vector
 			eeprom_write();
 		}

@@ -6,6 +6,7 @@ volatile bool MOVE_ENEMY = true;
 volatile bool MOVE_SHIP = true;
 volatile bool MOVE_LASER = false;
 volatile bool FIRE_LASER = false;
+volatile bool won = false;
 volatile galaga_enemy galaga_enemy_array[8];
 volatile laser laser_array[MAX_LASERS];
 
@@ -73,7 +74,6 @@ void initalize_enemies(void){
 //checking if player won
 bool check_won(void){
 	uint8_t i;
-	bool won;
 	won = true; // initalizing won to true, turned false if any enemies are alive
 
 	for (i = 0; i < 8; i++){
@@ -618,7 +618,7 @@ void hw3_main(void)
 	//when the MCU is reset, read the board data
 	eeprom_read_board_data();
 	
-	while(!game_over)
+	while(!game_over && !won)
 	{
 		disable_all_interupts();
 		if (MOVE_ENEMY)
@@ -659,6 +659,7 @@ void hw3_main(void)
 									lcd_draw_image(galaga_enemy_array[j].X_COORD, pixelfireWidthPixels, galaga_enemy_array[j].Y_COORD, pixelfireHeightPixels, pixelfireBitmaps, LCD_COLOR_YELLOW, LCD_COLOR_BLACK);
 									// clear screen to remove invader and laser
 									lcd_clear_screen(LCD_COLOR_BLACK);
+									won = check_won();
 								}
 			
 							}
@@ -675,7 +676,6 @@ void hw3_main(void)
 			}
 			MOVE_LASER = false;
 		}
-		check_won(); //FIXME do something with this
 		enable_all_interupts();
 		
 		if(currScore > highScore) {

@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\obj\ece353_base_project.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\obj\ece353_base_project.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Tue Dec 11 12:27:13 2018
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Tue Dec 11 12:38:16 2018
 <BR><P>
 <H3>Maximum Stack Usage =        304 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -316,7 +316,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[7d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;hw3_main
 </UL>
 
-<P><STRONG><a name="[ac]"></a>check_won</STRONG> (Thumb, 28 bytes, Stack size 0 bytes, hw3.o(.text))
+<P><STRONG><a name="[ab]"></a>check_won</STRONG> (Thumb, 44 bytes, Stack size 0 bytes, hw3.o(.text))
 <BR><BR>[Called By]<UL><LI><a href="#[7d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;hw3_main
 </UL>
 
@@ -347,7 +347,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[94]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;init_hardware
 </UL>
 
-<P><STRONG><a name="[ab]"></a>check_game_over</STRONG> (Thumb, 274 bytes, Stack size 28 bytes, hw3.o(.text))
+<P><STRONG><a name="[ac]"></a>check_game_over</STRONG> (Thumb, 278 bytes, Stack size 28 bytes, hw3.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 28<LI>Call Chain = check_game_over
 </UL>
 <BR>[Called By]<UL><LI><a href="#[7d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;hw3_main
@@ -448,7 +448,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[7d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;hw3_main
 </UL>
 
-<P><STRONG><a name="[7d]"></a>hw3_main</STRONG> (Thumb, 848 bytes, Stack size 40 bytes, hw3.o(.text))
+<P><STRONG><a name="[7d]"></a>hw3_main</STRONG> (Thumb, 858 bytes, Stack size 40 bytes, hw3.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 304<LI>Call Chain = hw3_main &rArr; eeprom_read_board_data &rArr; eeprom_byte_read &rArr; eeprom_wait_for_write &rArr; i2cSendByte &rArr; I2CMasterBusy
 </UL>
 <BR>[Calls]<UL><LI><a href="#[a8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lcd_draw_image
@@ -459,10 +459,10 @@ Global Symbols
 <LI><a href="#[89]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;eeprom_read_board_data
 <LI><a href="#[85]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;eeprom_game_data
 <LI><a href="#[aa]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;hit_invader
-<LI><a href="#[ab]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;check_game_over
+<LI><a href="#[ac]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;check_game_over
 <LI><a href="#[81]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;move_lasers
 <LI><a href="#[a9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;shoot_laser
-<LI><a href="#[ac]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;check_won
+<LI><a href="#[ab]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;check_won
 <LI><a href="#[a7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;initalize_enemies
 <LI><a href="#[a6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;hw3_hardware_validate
 </UL>
@@ -492,7 +492,7 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> startup_tm4c123.o(RESET)
 </UL>
-<P><STRONG><a name="[28]"></a>GPIOF_Handler</STRONG> (Thumb, 68 bytes, Stack size 16 bytes, hw3_interrupts.o(.text))
+<P><STRONG><a name="[28]"></a>GPIOF_Handler</STRONG> (Thumb, 70 bytes, Stack size 16 bytes, hw3_interrupts.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 112<LI>Call Chain = GPIOF_Handler &rArr; eeprom_write &rArr; eeprom_byte_write &rArr; eeprom_wait_for_write &rArr; i2cSendByte &rArr; I2CMasterBusy
 </UL>
 <BR>[Calls]<UL><LI><a href="#[af]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;read_button
