@@ -19,6 +19,7 @@
 #include "eeprom.h"
 #include "serial_debug.h"
 #include "hw3_interrupts.h"
+#include "launchpad_io.h"
 
 #define ADDR_START1    0
 #define ADDR_START2    80

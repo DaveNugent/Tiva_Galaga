@@ -524,6 +524,9 @@ void init_hardware(void)
 	init_serial_debug(true, true);
 	eeprom_init();
 	
+	//initialize the launchpad io
+	lp_io_init();
+	
 }
 
 //*****************************************************************************
@@ -549,9 +552,29 @@ void hw3_main(void)
 	initalize_enemies();
 	game_over = false;
 	// while the game is not over
+	
+	//when the MCU is reset, read the board data
+	eeprom_read_board_data();
+	
 	while(!game_over)
 	{
-	
+		read_button(&button_press);
+		button_press = ~button_press;
+		button_press &= DOWN_BUTTON_M;
+		
+		if(!lp_io_read_pin(SW2_BIT)) {
+			//polling technique change to vector
+			eeprom_write();
+		}
+		
+		if (button_press && first){
+			lcd_draw_image(20, zeroWidthPixels, 15, zeroHeightPixels, zeroBitmaps, LCD_COLOR_RED, LCD_COLOR_BLACK); //FIXME just testing
+			shoot_laser();
+			first = false;
+			//eeprom_game_data();
+			//eeprom_write();
+			//eeprom_read_board_data();
+	}
 		
 		disable_all_interupts();
 		if (MOVE_ENEMY)

@@ -89,4 +89,9 @@ extern const uint8_t nineBitmaps[];
 extern const uint8_t nineWidthPixels;
 extern const uint8_t nineHeightPixels;
 
+// Bitmap info for pixelfire
+extern const uint8_t pixelfireBitmaps[];
+extern const uint8_t pixelfireWidthPixels;
+extern const uint8_t pixelfireHeightPixels;
+
 #endif
