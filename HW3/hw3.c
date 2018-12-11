@@ -84,7 +84,7 @@ bool check_won(void){
 
 // used to fire laser from ship
 void shoot_laser(void){
-	static uint8_t laser_count = 0;
+	static uint16_t laser_count = 0;
 	laser_array[laser_count].alive = true;
 	laser_array[laser_count].X_COORD = SHIP_X_COORD;
 	laser_array[laser_count].Y_COORD = SHIP_Y_COORD;
@@ -94,12 +94,15 @@ void shoot_laser(void){
 void move_lasers(void){
 	uint8_t i;
 	for (i = 0; i < MAX_LASERS; i++) {
-	if (contact_edge(DIR_UP, laser_array[i].X_COORD, laser_array[i].Y_COORD, laserHeight, laserWidth)){
-		laser_array[i].alive = false;
-	}
-	if (laser_array[i].alive){
-		laser_array[i].Y_COORD = laser_array[i].Y_COORD - 2;
-	}
+		if (contact_edge(DIR_UP, laser_array[i].X_COORD, laser_array[i].Y_COORD, laserHeight, laserWidth)){
+			laser_array[i].alive = false;
+			// black image out of screen
+			lcd_draw_image( laser_array[i].X_COORD, laserWidth, laser_array[i].Y_COORD, laserHeight, laserBitmap, LCD_COLOR_BLACK, LCD_COLOR_BLACK);
+
+		}
+		if (laser_array[i].alive){
+			laser_array[i].Y_COORD = laser_array[i].Y_COORD - 2;
+		}
 }
 	MOVE_LASER = true;
 }
@@ -650,7 +653,7 @@ void hw3_main(void)
 				{
 					lcd_draw_image( laser_array[i].X_COORD, laserWidth, laser_array[i].Y_COORD, laserHeight, laserBitmap, LCD_COLOR_BLUE, LCD_COLOR_BLACK);
 							for (j=0; j < 8; j++){
-								if(laser_array[i].alive && galaga_enemy_array[j].alive && hit_invader(laser_array[i].X_COORD, laser_array[i].Y_COORD, laserHeight, laserWidth, galaga_enemy_array[j].X_COORD, galaga_enemy_array[j].Y_COORD, galaga_enemyHeightPixels, galaga_enemyWidthPixels)) 
+								if(galaga_enemy_array[j].alive && hit_invader(laser_array[i].X_COORD, laser_array[i].Y_COORD, laserHeight, laserWidth, galaga_enemy_array[j].X_COORD, galaga_enemy_array[j].Y_COORD, galaga_enemyHeightPixels, galaga_enemyWidthPixels)) 
 								{
 									currScore = currScore++;
 									galaga_enemy_array[j].alive = false;
@@ -663,9 +666,6 @@ void hw3_main(void)
 								}
 			
 							}
-				}
-				else {
-					lcd_draw_image( laser_array[i].X_COORD, laserWidth, laser_array[i].Y_COORD, laserHeight, laserBitmap, LCD_COLOR_BLACK, LCD_COLOR_BLACK);
 				}
 			}
 			for (i = 0; i < 8; i++){
