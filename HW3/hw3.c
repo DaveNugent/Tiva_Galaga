@@ -331,7 +331,7 @@ void eeprom_read_board_data(void)
 {
 	uint16_t addr;
 	uint16_t temp;
-  uint8_t values[20];
+  uint8_t values[80];
   uint8_t read_val;
 	char currChar;
 	char line[NUM_BYTES];
@@ -344,15 +344,17 @@ void eeprom_read_board_data(void)
  
   for(i = 0; i < 3; i++) {
 		index = 0;
-		if(i == 1) {
+		memset(line, 0, NUM_BYTES);
+		if(i == 0) {
 			temp = ADDR_START1;
-		} else if(i == 2) {
+		} else if(i == 1) {
 			temp = ADDR_START2;
 		} else {
 			temp = ADDR_START3;
 		}
 		for(addr = temp; addr <(temp+NUM_BYTES); addr++)
 		{
+			
 				eeprom_byte_read(I2C1_BASE,addr, &read_val);
 				currChar = (char)read_val;
 				if(currChar == '\0') {
@@ -363,11 +365,11 @@ void eeprom_read_board_data(void)
 					index++;
 				}
 		}
-		if(i == 1) {
+		if(i == 0) {
 			char newstring1[NUM_BYTES];
 			strcpy(newstring1, line);
 			printf("Reading %s\n\r",newstring1);
-		} else if(i == 2) {
+		} else if(i == 1) {
 			char newstring2[NUM_BYTES];
 			strcpy(newstring2, line);
 			printf("Reading %s\n\r",newstring2);
@@ -392,28 +394,32 @@ void eeprom_write(void)
 	int idx = 0;
   for(i = 0; i < 3; i++) {
 		idx = 0;
-		if(i == 1) {
+		if(i == 0) {
 			temp = ADDR_START1;
-		} else if(i == 2) {
+		} else if(i == 1) {
 			temp = ADDR_START2;
 		} else {
 			temp = ADDR_START3;
 		}
 		for(addr = temp; addr <(temp+NUM_BYTES); addr++)
 		{
-			if(i == 1) {
+			if(i == 0) {
 				values[ addr - temp] = string1[idx];	
-			} else if(i == 2) {
+			} else if(i == 1) {
 				values[ addr - temp] = string2[idx];
 			} else {
 				values[ addr - temp] = string3[idx];
 			}
-			printf("Writing %i\n\r",values[addr-temp]);
+			//printf("Writing %i\n\r",values[addr-temp]);
 			eeprom_byte_write(I2C1_BASE,addr, values[addr-temp]);
 			idx++;				
 		}
+		
+		//eeprom_byte_write(I2C1_BASE,addr, '\0');
 	}
 }
+
+
 
 
 
