@@ -2,6 +2,7 @@
 
 volatile uint16_t SHIP_X_COORD = 190;
 volatile uint16_t SHIP_Y_COORD = 300;
+volatile uint16_t SHIP_COLOR = LCD_COLOR_WHITE;
 volatile bool MOVE_ENEMY = true;
 volatile bool MOVE_SHIP = true;
 volatile bool MOVE_LASER = false;
@@ -10,6 +11,7 @@ volatile bool won = false;
 volatile galaga_enemy galaga_enemy_array[8];
 volatile laser laser_array[MAX_LASERS];
 volatile uint8_t currScore;
+
 
 char STUDENT_NAME[] = "Dave Nugent";
 
@@ -342,6 +344,7 @@ uint8_t eeprom_read_game_data(void)
   for(addr = ADDR_START_GAME_DATA; addr <(ADDR_START_GAME_DATA+1); addr++)
   {
       eeprom_byte_read(I2C1_BASE,addr, &read_val);
+	  printf("%s\n\r", read_val);
   }
 
 }
@@ -728,6 +731,7 @@ void hw3_main(void)
 	eeprom_read_board_data();
 	won = false;
 	updateScore();
+
 	while(!game_over && !won)
 	{
 		disable_all_interupts();
@@ -744,7 +748,7 @@ void hw3_main(void)
 		}
 		if (MOVE_SHIP)
 		{
-			lcd_draw_image(SHIP_X_COORD, shipWidthPixels, SHIP_Y_COORD, shipHeightPixels, shipBitmaps, LCD_COLOR_WHITE, LCD_COLOR_BLACK);
+			lcd_draw_image(SHIP_X_COORD, shipWidthPixels, SHIP_Y_COORD, shipHeightPixels, shipBitmaps, SHIP_COLOR, LCD_COLOR_BLACK);
 			MOVE_SHIP = false;
 		}
 		if (FIRE_LASER){
@@ -786,10 +790,6 @@ void hw3_main(void)
 			MOVE_LASER = false;
 			updateScore();
 		}
-		if(currScore > highScore) {
-			highScore = currScore;
-			eeprom_write_game_data(highScore);
-		}
 		enable_all_interupts();
 	}
 	lcd_clear_screen(LCD_COLOR_BLACK);
@@ -804,6 +804,10 @@ void hw3_main(void)
 	{
 		laser_array[i].alive = false;
 	}
+			if(currScore > highScore) {
+			highScore = currScore;
+			eeprom_write_game_data(highScore);
+		}
 		gp_timer_wait(TIMER0_BASE, 250000000); // wait 5 seconds
 		lcd_clear_screen(LCD_COLOR_BLACK);
 	}
