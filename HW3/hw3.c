@@ -3,6 +3,7 @@
 volatile uint16_t SHIP_X_COORD = 190;
 volatile uint16_t SHIP_Y_COORD = 300;
 volatile uint16_t SHIP_COLOR = LCD_COLOR_WHITE;
+volatile uint16_t LASER_COLOR = LCD_COLOR_BLUE;
 volatile bool MOVE_ENEMY = true;
 volatile bool MOVE_SHIP = true;
 volatile bool MOVE_LASER = false;
@@ -567,6 +568,8 @@ void init_hardware(void)
 	initialize_buttons();
 	NVIC_SetPriority(GPIOF_IRQn, 0);
 	NVIC_EnableIRQ(GPIOF_IRQn);
+	
+	initialize_leds();
 
 
 
@@ -807,7 +810,6 @@ void hw3_main(void)
 	updateScore();
 	displayHighScore(highScore);
 	highScore = eeprom_read_game_data();
-
 	while(!game_over && !won)
 	{
 		disable_all_interupts();
@@ -827,12 +829,19 @@ void hw3_main(void)
 			lcd_draw_image(SHIP_X_COORD, shipWidthPixels, SHIP_Y_COORD, shipHeightPixels, shipBitmaps, SHIP_COLOR, LCD_COLOR_BLACK);
 			MOVE_SHIP = false;
 		}
+		if (overheated){
+			red_leds(0xFF);
+		}
+		else{
+			red_leds(0x00);
+		}
 		if (FIRE_LASER){
 			overheated = true;
 			for (i=0; i<MAX_LASERS; i++){
 				overheated &= laser_array[i].alive; //check to see if all lasers already out
 			}
 			if (!overheated){
+				SHIP_COLOR = LCD_COLOR_WHITE;
 				shoot_laser();
 			}
 			else{
@@ -847,7 +856,7 @@ void hw3_main(void)
 			{
 				if(laser_array[i].alive)
 				{
-					lcd_draw_image( laser_array[i].X_COORD, laserWidth, laser_array[i].Y_COORD, laserHeight, laserBitmap, LCD_COLOR_BLUE, LCD_COLOR_BLACK);
+					lcd_draw_image( laser_array[i].X_COORD, laserWidth, laser_array[i].Y_COORD, laserHeight, laserBitmap, LASER_COLOR, LCD_COLOR_BLACK);
 							for (j=0; j < 8; j++){
 								if(galaga_enemy_array[j].alive && hit_invader(laser_array[i].X_COORD, laser_array[i].Y_COORD, laserHeight, laserWidth, galaga_enemy_array[j].X_COORD, galaga_enemy_array[j].Y_COORD, galaga_enemyHeightPixels, galaga_enemyWidthPixels)) 
 								{

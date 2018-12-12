@@ -105,16 +105,20 @@ void GPIOF_Handler(void)
 		read_button(&button_press);
 
 		if (button_press & DOWN_BUTTON_M){
+				LASER_COLOR = LCD_COLOR_BLUE;
 				FIRE_LASER = true;
 		}
 		else if (button_press & UP_BUTTON_M){
-			SHIP_COLOR = LCD_COLOR_CYAN;
+			LASER_COLOR = LCD_COLOR_CYAN;
+			FIRE_LASER = true;
 		}
 		else if (button_press & LEFT_BUTTON_M){
-			SHIP_COLOR = LCD_COLOR_WHITE;
+			LASER_COLOR = LCD_COLOR_WHITE;
+			FIRE_LASER = true;
 		}
 		else if (button_press & RIGHT_BUTTON_M){
-			SHIP_COLOR = LCD_COLOR_GREEN2;
+			LASER_COLOR = LCD_COLOR_GREEN2;
+			FIRE_LASER = true;
 		}
 		else if(!lp_io_read_pin(SW2_BIT)) {
 			//polling technique change to vector

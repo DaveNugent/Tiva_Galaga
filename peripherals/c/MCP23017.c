@@ -104,7 +104,7 @@ i2c_status_t read_button(uint8_t *data)
     return status;
   }
 	// send address
-	status = i2cSendByte(MCP23017_I2C_BASE, MCP23017_GPIOB, I2C_MCS_START | I2C_MCS_RUN);
+	status = i2cSendByte(MCP23017_I2C_BASE, MCP23017_GPIOB, I2C_MCS_START | I2C_MCS_RUN | I2C_MCS_STOP);
   
   if (status != I2C_OK){
     return status;
@@ -162,4 +162,21 @@ bool mcp23017_init(void)
     return false;
   }
   return true;
+}
+i2c_status_t initialize_leds(void)
+{
+	i2c_status_t status;
+	
+		// set GpioA to be an input
+	status = IO_expander_byte_write(MCP23017_I2C_BASE, MCP23017_IODIRA, 0x00);
+
+  // make sure setting to input correctly
+	if (status != I2C_OK){
+   return status;
+  }
+	
+	return status;
+}
+void red_leds(uint8_t data){
+		IO_expander_byte_write(MCP23017_I2C_BASE, MCP23017_GPIOA, data);
 }

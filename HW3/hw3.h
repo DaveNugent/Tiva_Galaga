@@ -35,6 +35,7 @@ extern volatile bool MOVE_SHIP;
 extern volatile bool MOVE_LASER;
 extern volatile bool FIRE_LASER;
 extern volatile uint16_t SHIP_COLOR;
+extern volatile uint16_t LASER_COLOR;
 extern char STUDENT_NAME[];
 
 
