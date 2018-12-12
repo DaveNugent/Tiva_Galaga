@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\obj\ece353_base_project.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\obj\ece353_base_project.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Tue Dec 11 19:34:08 2018
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Tue Dec 11 19:45:28 2018
 <BR><P>
 <H3>Maximum Stack Usage =        288 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -349,8 +349,12 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[8c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;init_interrupt_adc
 </UL>
 
-<P><STRONG><a name="[83]"></a>eeprom_read_game_data</STRONG> (Thumb, 32 bytes, Stack size 16 bytes, hw3.o(.text), UNUSED)
-<BR><BR>[Calls]<UL><LI><a href="#[84]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;eeprom_byte_read
+<P><STRONG><a name="[83]"></a>eeprom_read_game_data</STRONG> (Thumb, 32 bytes, Stack size 16 bytes, hw3.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 88<LI>Call Chain = eeprom_read_game_data &rArr; eeprom_byte_read &rArr; eeprom_wait_for_write &rArr; i2cSendByte &rArr; I2CMasterBusy
+</UL>
+<BR>[Calls]<UL><LI><a href="#[84]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;eeprom_byte_read
+</UL>
+<BR>[Called By]<UL><LI><a href="#[7d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;hw3_main
 </UL>
 
 <P><STRONG><a name="[85]"></a>eeprom_write_game_data</STRONG> (Thumb, 52 bytes, Stack size 16 bytes, hw3.o(.text))
@@ -436,7 +440,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[7d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;hw3_main
 </UL>
 
-<P><STRONG><a name="[7d]"></a>hw3_main</STRONG> (Thumb, 972 bytes, Stack size 24 bytes, hw3.o(.text))
+<P><STRONG><a name="[7d]"></a>hw3_main</STRONG> (Thumb, 1564 bytes, Stack size 24 bytes, hw3.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 288<LI>Call Chain = hw3_main &rArr; eeprom_read_board_data &rArr; eeprom_byte_read &rArr; eeprom_wait_for_write &rArr; i2cSendByte &rArr; I2CMasterBusy
 </UL>
 <BR>[Calls]<UL><LI><a href="#[80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lcd_draw_image
@@ -450,6 +454,7 @@ Global Symbols
 <LI><a href="#[90]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;disable_all_interupts
 <LI><a href="#[88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;eeprom_read_board_data
 <LI><a href="#[85]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;eeprom_write_game_data
+<LI><a href="#[83]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;eeprom_read_game_data
 <LI><a href="#[ac]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;hit_invader
 <LI><a href="#[ae]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;check_game_over
 <LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;move_lasers
