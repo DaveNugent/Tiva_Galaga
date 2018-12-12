@@ -614,7 +614,7 @@ void hw3_main(void)
 		bool game_over;
 		volatile bool start;
 		uint16_t x,y; //x and y for touch event
-  	uint8_t touch_event; // number of touch events
+  		uint8_t touch_event; // number of touch events
 	
     init_hardware();
 
@@ -625,25 +625,27 @@ void hw3_main(void)
 	
 	while(1){
 	//Main menu Logic
-	lcd_draw_image(120, galaga_logo_hdWidthPixels, 100, galaga_logo_hdHeightPixels, galaga_logo_hdBitmaps, LCD_COLOR_GREEN, LCD_COLOR_BLACK);
-	lcd_draw_image(120, playButtonWidthPixels, 250, playButtonHeightPixels, playButtonBitmaps, LCD_COLOR_RED, LCD_COLOR_BLACK);
-	while (!start){
-		touch_event = ft6x06_read_td_status();
+	if (!won){
+		lcd_draw_image(120, galaga_logo_hdWidthPixels, 100, galaga_logo_hdHeightPixels, galaga_logo_hdBitmaps, LCD_COLOR_GREEN, LCD_COLOR_BLACK);
+		lcd_draw_image(120, playButtonWidthPixels, 250, playButtonHeightPixels, playButtonBitmaps, LCD_COLOR_RED, LCD_COLOR_BLACK);
+		while (!start){
+			touch_event = ft6x06_read_td_status();
 
-		if (touch_event > 0 && touch_event < 3) {
-			x = ft6x06_read_x();
-			y = ft6x06_read_y();
+			if (touch_event > 0 && touch_event < 3) {
+				x = ft6x06_read_x();
+				y = ft6x06_read_y();
 
-			if ((x > 20) && (x<220)){
-				if ((y < 286) && (y > 217))
-				{
-					start = true;
-					currScore = 0; // reset score
+				if ((x > 20) && (x<220)){
+					if ((y < 286) && (y > 217))
+					{
+						start = true;
+						currScore = 0; // reset score
+					}
 				}
 			}
+			gp_timer_wait(TIMER0_BASE, 500000);
+	
 		}
-		gp_timer_wait(TIMER0_BASE, 500000);
-  
 	}
 	lcd_clear_screen(LCD_COLOR_BLACK);
 	initalize_enemies();
