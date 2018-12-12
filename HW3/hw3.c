@@ -42,7 +42,7 @@ bool contact_edge(
   else if ((direction == DIR_FAR_LEFT) && (x_coord <= ((image_width + 4)/2))){
     return true;
 	}	
-	else if ((direction == DIR_DOWN) && (y_coord > (ROWS - ((image_width + 8)/2)))){
+	else if ((direction == DIR_DOWN) && (y_coord > (ROWS - ((image_height + 8)/2)))){
     return true;
   }
   else if ((direction == DIR_UP) && (y_coord <= ((image_height + 4)/2))){
@@ -549,15 +549,16 @@ void init_hardware(void)
   accel_initialize();
 
   // initialize push buttons (IO Expander)
-  mcp23017_init();
-  initialize_buttons();
+    mcp23017_init();
 	gpio_enable_port(GPIOF_BASE);
 	gpio_config_enable_pullup(GPIOF_BASE, PF0);
 	gpio_config_enable_input(GPIOF_BASE, PF0);
 	gpio_config_digital_enable(GPIOF_BASE, PF0);
 	gpio_config_falling_edge_irq(GPIOF_BASE, PF0);
+	initialize_buttons();
 	NVIC_SetPriority(GPIOF_IRQn, 0);
 	NVIC_EnableIRQ(GPIOF_IRQn);
+
 
 
   // Initialize Timer 2
@@ -649,7 +650,7 @@ void hw3_main(void)
 	
 	//when the MCU is reset, read the board data
 	eeprom_read_board_data();
-	
+	won = false;
 	while(!game_over && !won)
 	{
 		disable_all_interupts();
@@ -705,13 +706,13 @@ void hw3_main(void)
 			}
 			MOVE_LASER = false;
 		}
-		enable_all_interupts();
-		
 		if(currScore > highScore) {
 			highScore = currScore;
 			eeprom_write_game_data(highScore);
 		}
+		enable_all_interupts();
 	}
+	lcd_clear_screen(LCD_COLOR_BLACK);
 	if (game_over){
 		lcd_draw_image(120, gameoverWidthPixels, 160, gameoverHeightPixels, gameoverBitmaps, LCD_COLOR_RED, LCD_COLOR_BLACK);
 		start = false;
@@ -719,7 +720,11 @@ void hw3_main(void)
 	if (won){
 		//FIXME add positive screen
 	}
-	gp_timer_wait(TIMER0_BASE, 250000000); // wait 5 seconds
-	lcd_clear_screen(LCD_COLOR_BLACK);
+	for (i=0; i<MAX_LASERS; i++)
+	{
+		laser_array[i].alive = false;
+	}
+		gp_timer_wait(TIMER0_BASE, 250000000); // wait 5 seconds
+		lcd_clear_screen(LCD_COLOR_BLACK);
 	}
 }

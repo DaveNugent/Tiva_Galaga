@@ -132,7 +132,6 @@ void GPIOF_Handler(void)
 		uint8_t button_press;
 	
 		gpioPort = (GPIOA_Type *)GPIOF_BASE;
-		
 		read_button(&button_press);
 		button_press &= DOWN_BUTTON_M;
 
@@ -143,7 +142,7 @@ void GPIOF_Handler(void)
 			//polling technique change to vector
 			eeprom_write();
 		}
-			
+		read_button(&button_press);	
 		gpioPort->ICR |= PF0; // clear interupt
 		
 		//timer->ICR |= TIMER_ICR_TATOCINT; // clear interupt
