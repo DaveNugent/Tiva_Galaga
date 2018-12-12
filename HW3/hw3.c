@@ -642,7 +642,7 @@ void hw3_main(void)
 				}
 			}
 		}
-		gp_timer_wait(TIMER0_BASE, 5000000);
+		gp_timer_wait(TIMER0_BASE, 500000);
   
 	}
 	lcd_clear_screen(LCD_COLOR_BLACK);
