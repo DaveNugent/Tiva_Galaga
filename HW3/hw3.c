@@ -722,7 +722,7 @@ void hw3_main(void)
 	if (won){
 		//FIXME add positive screen
 	}
-	gp_timer_wait(TIMER0_BASE, 25000000);
+	gp_timer_wait(TIMER0_BASE, 250000000); // wait 5 seconds
 	lcd_clear_screen(LCD_COLOR_BLACK);
 	}
 }
