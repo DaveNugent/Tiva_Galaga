@@ -3,9 +3,9 @@
 <title>Static Call Graph - [.\obj\ece353_base_project.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\obj\ece353_base_project.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Tue Dec 11 17:58:43 2018
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Tue Dec 11 18:32:24 2018
 <BR><P>
-<H3>Maximum Stack Usage =        320 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
+<H3>Maximum Stack Usage =        288 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
 main &rArr; hw3_main &rArr; eeprom_read_board_data &rArr; eeprom_byte_read &rArr; eeprom_wait_for_write &rArr; i2cSendByte &rArr; I2CMasterBusy
 <P>
@@ -279,7 +279,7 @@ Global Symbols
 <P><STRONG><a name="[f4]"></a>__rt_final_exit</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, entry11a.o(.ARM.Collect$$$$0000000F))
 
 <P><STRONG><a name="[76]"></a>main</STRONG> (Thumb, 8 bytes, Stack size 0 bytes, main.o(.text))
-<BR><BR>[Stack]<UL><LI>Max Depth = 320<LI>Call Chain = main &rArr; hw3_main &rArr; eeprom_read_board_data &rArr; eeprom_byte_read &rArr; eeprom_wait_for_write &rArr; i2cSendByte &rArr; I2CMasterBusy
+<BR><BR>[Stack]<UL><LI>Max Depth = 288<LI>Call Chain = main &rArr; hw3_main &rArr; eeprom_read_board_data &rArr; eeprom_byte_read &rArr; eeprom_wait_for_write &rArr; i2cSendByte &rArr; I2CMasterBusy
 </UL>
 <BR>[Calls]<UL><LI><a href="#[7d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;hw3_main
 </UL>
@@ -433,8 +433,8 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[7d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;hw3_main
 </UL>
 
-<P><STRONG><a name="[7d]"></a>hw3_main</STRONG> (Thumb, 866 bytes, Stack size 56 bytes, hw3.o(.text))
-<BR><BR>[Stack]<UL><LI>Max Depth = 320<LI>Call Chain = hw3_main &rArr; eeprom_read_board_data &rArr; eeprom_byte_read &rArr; eeprom_wait_for_write &rArr; i2cSendByte &rArr; I2CMasterBusy
+<P><STRONG><a name="[7d]"></a>hw3_main</STRONG> (Thumb, 1010 bytes, Stack size 24 bytes, hw3.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 288<LI>Call Chain = hw3_main &rArr; eeprom_read_board_data &rArr; eeprom_byte_read &rArr; eeprom_wait_for_write &rArr; i2cSendByte &rArr; I2CMasterBusy
 </UL>
 <BR>[Calls]<UL><LI><a href="#[80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lcd_draw_image
 <LI><a href="#[98]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lcd_clear_screen
@@ -453,7 +453,6 @@ Global Symbols
 <LI><a href="#[aa]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;shoot_laser
 <LI><a href="#[ac]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;check_won
 <LI><a href="#[a9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;initalize_enemies
-<LI><a href="#[84]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2printf
 </UL>
 <BR>[Called By]<UL><LI><a href="#[76]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
@@ -1926,7 +1925,6 @@ Global Symbols
 </UL>
 <BR>[Called By]<UL><LI><a href="#[87]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;eeprom_read_board_data
 <LI><a href="#[83]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;eeprom_game_data
-<LI><a href="#[7d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;hw3_main
 </UL>
 
 <P><STRONG><a name="[ff]"></a>__scatterload_copy</STRONG> (Thumb, 14 bytes, Stack size unknown bytes, handlers.o(i.__scatterload_copy), UNUSED)

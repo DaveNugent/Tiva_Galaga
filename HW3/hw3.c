@@ -9,6 +9,7 @@ volatile bool FIRE_LASER = false;
 volatile bool won = false;
 volatile galaga_enemy galaga_enemy_array[8];
 volatile laser laser_array[MAX_LASERS];
+volatile uint8_t currScore;
 
 char STUDENT_NAME[] = "Dave Nugent";
 
@@ -608,39 +609,43 @@ void init_hardware(void)
 //*****************************************************************************
 void hw3_main(void)
 {
-		volatile uint8_t currScore = 0;
 		uint8_t highScore;
 		uint8_t i,j;
 		bool game_over;
 		volatile bool start;
 		uint16_t x,y; //x and y for touch event
-  		uint8_t touch_event; // number of touch events
+  	uint8_t touch_event; // number of touch events
 	
     init_hardware();
 
-
 	
-	//Main menu Logic
-	//lcd_draw_image(galaga);
-	//lcd_draw_image(start);
+
 	start = false;
 	
+	
+	while(1){
+	//Main menu Logic
+	lcd_draw_image(120, galaga_logo_hdWidthPixels, 100, galaga_logo_hdHeightPixels, galaga_logo_hdBitmaps, LCD_COLOR_GREEN, LCD_COLOR_BLACK);
+	lcd_draw_image(120, playButtonWidthPixels, 250, playButtonHeightPixels, playButtonBitmaps, LCD_COLOR_RED, LCD_COLOR_BLACK);
 	while (!start){
 		touch_event = ft6x06_read_td_status();
 
 		if (touch_event > 0 && touch_event < 3) {
-			printf("touch");
 			x = ft6x06_read_x();
 			y = ft6x06_read_y();
-			printf("%d,%d\n\r",x, y);
+
+			if ((x > 20) && (x<220)){
+				if ((y < 286) && (y > 217))
+				{
+					start = true;
+					currScore = 0; // reset score
+				}
+			}
 		}
-
-
-
 		gp_timer_wait(TIMER0_BASE, 5000000);
   
 	}
-
+	lcd_clear_screen(LCD_COLOR_BLACK);
 	initalize_enemies();
 	game_over = false;
 	// while the game is not over
@@ -710,9 +715,14 @@ void hw3_main(void)
 			eeprom_game_data(highScore);
 		}
 	}
-	// FIXME game over screen
-	// FIXME use 5 sec timer to wait
-	// FIXME back to main menue
-		
-
+	if (game_over){
+		lcd_draw_image(120, gameoverWidthPixels, 160, gameoverHeightPixels, gameoverBitmaps, LCD_COLOR_RED, LCD_COLOR_BLACK);
+		start = false;
+	}
+	if (won){
+		//FIXME add positive screen
+	}
+	gp_timer_wait(TIMER0_BASE, 25000000);
+	lcd_clear_screen(LCD_COLOR_BLACK);
+	}
 }
