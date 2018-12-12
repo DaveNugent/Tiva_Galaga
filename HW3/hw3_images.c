@@ -882,7 +882,7 @@ const uint8_t playButtonHeightPixels = 65;
 //  Image data for next_level
 // 
 
-const uint_8 next_levelBitmaps =
+const uint8_t next_levelBitmaps[] =
 {
 	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x78, //                                                                                                                                                                                  ####
 	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x78, //                                                                                                                                                                                  ####
@@ -913,13 +913,13 @@ const uint_8 next_levelBitmaps =
 };
 
 // Bitmap sizes for next_level
-const uint_8 next_levelWidthPixels = 181;
-const uint_8 next_levelHeightPixels = 26;
+const uint8_t next_levelWidthPixels = 181;
+const uint8_t next_levelHeightPixels = 26;
 // 
 //  Image data for highscore
 // 
 
-const uint_8 highscoreBitmaps =
+const uint8_t highscoreBitmaps[] =
 {
 	0x00, 0x00, 0x00, 0x01, 0xC0, 0x00, 0x00, 0x03, 0xC0, 0x03, 0x00, 0x07, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, //                                ###                            ####            ##             ###                                         
 	0xE0, 0x38, 0x70, 0x1F, 0xFC, 0x38, 0x06, 0x0F, 0xF0, 0x3F, 0xF0, 0x7F, 0xF0, 0x3F, 0xF0, 0xFF, 0xE0, 0x00, // ###       ###    ###       ###########    ###        ##     ########      ##########     ###########      ##########    ###########      
@@ -942,8 +942,8 @@ const uint_8 highscoreBitmaps =
 };
 
 // Bitmap sizes for highscore
-const uint_8 highscoreWidthPixels = 137;
-const uint_8 highscoreHeightPixels = 18;
+const uint8_t highscoreWidthPixels = 137;
+const uint8_t highscoreHeightPixels = 18;
 
 
 

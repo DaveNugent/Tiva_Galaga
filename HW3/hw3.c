@@ -639,34 +639,34 @@ void updateScore() {
 	}
 			switch((currScore % 10)) {
 				case 0:
-					lcd_draw_image( 30, zeroWidthPixels, 20, zeroHeightPixels, zeroBitmaps, LCD_COLOR_RED, LCD_COLOR_BLACK);
+					lcd_draw_image( 35, zeroWidthPixels, 20, zeroHeightPixels, zeroBitmaps, LCD_COLOR_RED, LCD_COLOR_BLACK);
 					break;
 				case 1:
-					lcd_draw_image( 30, oneWidthPixels, 20, oneHeightPixels, oneBitmaps, LCD_COLOR_RED, LCD_COLOR_BLACK);
+					lcd_draw_image( 35, oneWidthPixels, 20, oneHeightPixels, oneBitmaps, LCD_COLOR_RED, LCD_COLOR_BLACK);
 				break;
 				case 2:
-					lcd_draw_image( 30, twoWidthPixels, 20, twoHeightPixels, twoBitmaps, LCD_COLOR_RED, LCD_COLOR_BLACK);
+					lcd_draw_image( 35, twoWidthPixels, 20, twoHeightPixels, twoBitmaps, LCD_COLOR_RED, LCD_COLOR_BLACK);
 				break;
 				case 3:
-					lcd_draw_image( 30, threeWidthPixels, 20, threeHeightPixels, threeBitmaps, LCD_COLOR_RED, LCD_COLOR_BLACK);
+					lcd_draw_image( 35, threeWidthPixels, 20, threeHeightPixels, threeBitmaps, LCD_COLOR_RED, LCD_COLOR_BLACK);
 				break;
 				case 4:
-					lcd_draw_image( 30, fourWidthPixels, 20, fourHeightPixels, fourBitmaps, LCD_COLOR_RED, LCD_COLOR_BLACK);
+					lcd_draw_image( 35, fourWidthPixels, 20, fourHeightPixels, fourBitmaps, LCD_COLOR_RED, LCD_COLOR_BLACK);
 				break;
 				case 5:
-					lcd_draw_image( 30, fiveWidthPixels, 20, fiveHeightPixels, fiveBitmaps, LCD_COLOR_RED, LCD_COLOR_BLACK);
+					lcd_draw_image( 35, fiveWidthPixels, 20, fiveHeightPixels, fiveBitmaps, LCD_COLOR_RED, LCD_COLOR_BLACK);
 				break;
 				case 6:
-					lcd_draw_image( 30, sixWidthPixels, 20, sixHeightPixels, sixBitmaps, LCD_COLOR_RED, LCD_COLOR_BLACK);
+					lcd_draw_image( 35, sixWidthPixels, 20, sixHeightPixels, sixBitmaps, LCD_COLOR_RED, LCD_COLOR_BLACK);
 				break;
 				case 7:
-					lcd_draw_image(	30, sevenWidthPixels, 20, sevenHeightPixels, sevenBitmaps, LCD_COLOR_RED, LCD_COLOR_BLACK);
+					lcd_draw_image(	35, sevenWidthPixels, 20, sevenHeightPixels, sevenBitmaps, LCD_COLOR_RED, LCD_COLOR_BLACK);
 				break;
 				case 8:
-					lcd_draw_image( 30, eightWidthPixels, 20, eightHeightPixels, eightBitmaps, LCD_COLOR_RED, LCD_COLOR_BLACK);
+					lcd_draw_image( 35, eightWidthPixels, 20, eightHeightPixels, eightBitmaps, LCD_COLOR_RED, LCD_COLOR_BLACK);
 				break;
 				case 9:
-					lcd_draw_image( 30, nineWidthPixels, 20, nineHeightPixels, nineBitmaps, LCD_COLOR_RED, LCD_COLOR_BLACK);
+					lcd_draw_image( 35, nineWidthPixels, 20, nineHeightPixels, nineBitmaps, LCD_COLOR_RED, LCD_COLOR_BLACK);
 				break;
 			}
 
@@ -791,6 +791,9 @@ void hw3_main(void)
 										galaga_enemy_array[i].X_COORD, galaga_enemy_array[i].Y_COORD, galaga_enemyHeightPixels, galaga_enemyWidthPixels)){
 											game_over = true;;
 										}
+				if(galaga_enemy_array[i].Y_COORD >= 305){
+					game_over = true;
+				}
 			}
 			MOVE_LASER = false;
 			updateScore();
@@ -803,7 +806,7 @@ void hw3_main(void)
 		start = false;
 	}
 	if (won){
-		//FIXME add positive screen
+		lcd_draw_image(120, next_levelWidthPixels, 160, next_levelHeightPixels, next_levelBitmaps, LCD_COLOR_MAGENTA, LCD_COLOR_BLACK);
 	}
 	for (i=0; i<MAX_LASERS; i++)
 	{
