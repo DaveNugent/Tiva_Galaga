@@ -95,36 +95,6 @@ void TIMER4A_Handler(void)
 		timer->ICR |= TIMER_ICR_TATOCINT; // clear interupt
 }
 
-//*****************************************************************************
-// ADC0 SS2 ISR
-//*****************************************************************************
-/*void ADC0SS2_Handler(void)
-{
-	uint16_t x;
-	uint16_t y;
-	
-	ADC0_Type *adc;
-	adc = (ADC0_Type *) ADC0;
-	
-	x = adc->SSFIFO2;
-	y = adc->SSFIFO2;
-	
-	
-	
-	if(x > 2979){
-		direction = DIR_LEFT;
-	}
-	else if (x < 1055){
-		direction = DIR_RIGHT;
-	}
-	else {
-		direction = DIR_CENTER;
-	}
-	
-	adc->ISC |= 0x4; // clear interupt
-}
-*/
-
 // portF bit 0
 void GPIOF_Handler(void)
 {	

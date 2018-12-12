@@ -8,6 +8,7 @@ volatile bool MOVE_SHIP = true;
 volatile bool MOVE_LASER = false;
 volatile bool FIRE_LASER = false;
 volatile bool won = false;
+volatile bool overheated = false;
 volatile galaga_enemy galaga_enemy_array[8];
 volatile laser laser_array[MAX_LASERS];
 volatile uint8_t currScore;
@@ -101,7 +102,8 @@ void move_lasers(void){
 			laser_array[i].alive = false;
 			// black image out of screen
 			lcd_draw_image( laser_array[i].X_COORD, laserWidth, laser_array[i].Y_COORD, laserHeight, laserBitmap, LCD_COLOR_BLACK, LCD_COLOR_BLACK);
-
+			overheated = false;
+			SHIP_COLOR = LCD_COLOR_WHITE;
 		}
 		if (laser_array[i].alive){
 			laser_array[i].Y_COORD = laser_array[i].Y_COORD - 2;
@@ -600,7 +602,77 @@ void init_hardware(void)
 	gp_timer_config_32(TIMER0_BASE, TIMER_TAMR_TAMR_1_SHOT, false, false);
 	
 }
-
+void displayHighScore(uint8_t highScore){
+	lcd_draw_image(120, highscoreWidthPixels, 20, highscoreHeightPixels, highscoreBitmaps, LCD_COLOR_YELLOW, LCD_COLOR_BLACK);
+	
+	if (highScore >= 10){
+		switch((highScore / 10)) {
+				case 0:
+					lcd_draw_image( 205, zeroWidthPixels, 20, zeroHeightPixels, zeroBitmaps, LCD_COLOR_YELLOW, LCD_COLOR_BLACK);
+					break;
+				case 1:
+					lcd_draw_image( 205, oneWidthPixels, 20, oneHeightPixels, oneBitmaps, LCD_COLOR_YELLOW, LCD_COLOR_BLACK);
+				break;
+				case 2:
+					lcd_draw_image( 205, twoWidthPixels, 20, twoHeightPixels, twoBitmaps, LCD_COLOR_YELLOW, LCD_COLOR_BLACK);
+				break;
+				case 3:
+					lcd_draw_image( 205, threeWidthPixels, 20, threeHeightPixels, threeBitmaps, LCD_COLOR_YELLOW, LCD_COLOR_BLACK);
+				break;
+				case 4:
+					lcd_draw_image( 205, fourWidthPixels, 20, fourHeightPixels, fourBitmaps, LCD_COLOR_YELLOW, LCD_COLOR_BLACK);
+				break;
+				case 5:
+					lcd_draw_image( 205, fiveWidthPixels, 20, fiveHeightPixels, fiveBitmaps, LCD_COLOR_YELLOW, LCD_COLOR_BLACK);
+				break;
+				case 6:
+					lcd_draw_image( 205, sixWidthPixels, 20, sixHeightPixels, sixBitmaps, LCD_COLOR_YELLOW, LCD_COLOR_BLACK);
+				break;
+				case 7:
+					lcd_draw_image( 205, sevenWidthPixels, 20, sevenHeightPixels, sevenBitmaps, LCD_COLOR_YELLOW, LCD_COLOR_BLACK);
+				break;
+				case 8:
+					lcd_draw_image( 205, eightWidthPixels, 20, eightHeightPixels, eightBitmaps, LCD_COLOR_YELLOW, LCD_COLOR_BLACK);
+				break;
+				case 9:
+					lcd_draw_image( 205, nineWidthPixels, 20, nineHeightPixels, nineBitmaps, LCD_COLOR_YELLOW, LCD_COLOR_BLACK);
+				break;
+			}
+	}
+			switch((highScore % 10)) {
+				case 0:
+					lcd_draw_image( 225, zeroWidthPixels, 20, zeroHeightPixels, zeroBitmaps, LCD_COLOR_YELLOW, LCD_COLOR_BLACK);
+					break;
+				case 1:
+					lcd_draw_image( 225, oneWidthPixels, 20, oneHeightPixels, oneBitmaps, LCD_COLOR_YELLOW, LCD_COLOR_BLACK);
+				break;
+				case 2:
+					lcd_draw_image( 225, twoWidthPixels, 20, twoHeightPixels, twoBitmaps, LCD_COLOR_YELLOW, LCD_COLOR_BLACK);
+				break;
+				case 3:
+					lcd_draw_image( 225, threeWidthPixels, 20, threeHeightPixels, threeBitmaps, LCD_COLOR_YELLOW, LCD_COLOR_BLACK);
+				break;
+				case 4:
+					lcd_draw_image( 225, fourWidthPixels, 20, fourHeightPixels, fourBitmaps, LCD_COLOR_YELLOW, LCD_COLOR_BLACK);
+				break;
+				case 5:
+					lcd_draw_image( 225, fiveWidthPixels, 20, fiveHeightPixels, fiveBitmaps, LCD_COLOR_YELLOW, LCD_COLOR_BLACK);
+				break;
+				case 6:
+					lcd_draw_image( 225, sixWidthPixels, 20, sixHeightPixels, sixBitmaps, LCD_COLOR_YELLOW, LCD_COLOR_BLACK);
+				break;
+				case 7:
+					lcd_draw_image(	225, sevenWidthPixels, 20, sevenHeightPixels, sevenBitmaps, LCD_COLOR_YELLOW, LCD_COLOR_BLACK);
+				break;
+				case 8:
+					lcd_draw_image( 225, eightWidthPixels, 20, eightHeightPixels, eightBitmaps, LCD_COLOR_YELLOW, LCD_COLOR_BLACK);
+				break;
+				case 9:
+					lcd_draw_image( 225, nineWidthPixels, 20, nineHeightPixels, nineBitmaps, LCD_COLOR_YELLOW, LCD_COLOR_BLACK);
+				break;
+			}
+			
+}
 void updateScore() {
 	
 	if (currScore >= 10){
@@ -683,24 +755,19 @@ void updateScore() {
 //*****************************************************************************
 void hw3_main(void)
 {
-		uint8_t highScore;
 		uint8_t temp;
 		uint8_t i,j;
+		uint8_t highScore;
 		bool game_over;
 		volatile bool start;
 		uint16_t x,y; //x and y for touch event
-  		uint8_t touch_event; // number of touch events
+  	uint8_t touch_event; // number of touch events
 	
     init_hardware();
 
 	
 
 	start = false;
-	//highScore = eeprom_read_game_data();
-	//if(highScore == NULL) {
-		//	highScore = 0;
-		//}
-	//eeprom_write_game_data(0);
 	
 	
 	while(1){
@@ -735,7 +802,11 @@ void hw3_main(void)
 	//when the MCU is reset, read the board data
 	eeprom_read_board_data();
 	won = false;
+	overheated = false;
+	SHIP_COLOR = LCD_COLOR_WHITE;
 	updateScore();
+	displayHighScore(highScore);
+	highScore = eeprom_read_game_data();
 
 	while(!game_over && !won)
 	{
@@ -757,7 +828,16 @@ void hw3_main(void)
 			MOVE_SHIP = false;
 		}
 		if (FIRE_LASER){
-			shoot_laser();
+			overheated = true;
+			for (i=0; i<MAX_LASERS; i++){
+				overheated &= laser_array[i].alive; //check to see if all lasers already out
+			}
+			if (!overheated){
+				shoot_laser();
+			}
+			else{
+				SHIP_COLOR = LCD_COLOR_RED;
+			}
 			FIRE_LASER = false;
 		}
 		if (MOVE_LASER)
@@ -797,6 +877,7 @@ void hw3_main(void)
 			}
 			MOVE_LASER = false;
 			updateScore();
+			displayHighScore(highScore);
 		}
 		enable_all_interupts();
 	}
@@ -812,12 +893,12 @@ void hw3_main(void)
 	{
 		laser_array[i].alive = false;
 	}
-	temp = eeprom_read_game_data();
-	printf("Temp: %i\n\r", temp);
+	highScore = eeprom_read_game_data();
+	printf("highScore: %i\n\r", highScore);
 	printf("currScore: %i\n\r", currScore);
-	if(currScore > temp) {
-		//highScore = currScore;
-		eeprom_write_game_data(currScore);
+	if(currScore > highScore) {
+		highScore = currScore;
+		eeprom_write_game_data(highScore);
 		currScore = eeprom_read_game_data();
 	}
 		gp_timer_wait(TIMER0_BASE, 250000000); // wait 5 seconds
