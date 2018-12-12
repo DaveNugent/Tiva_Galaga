@@ -344,9 +344,13 @@ uint8_t eeprom_read_game_data(void)
   for(addr = ADDR_START_GAME_DATA; addr <(ADDR_START_GAME_DATA+1); addr++)
   {
       eeprom_byte_read(I2C1_BASE,addr, &read_val);
-	  printf("%s\n\r", read_val);
+			//if( read_val != 0)
+      //{
+        //printf("ERROR: addr: %i write: %i read %i\n\r",addr,0, read_val);
+        //status = false;
+      //}
   }
-
+	return read_val;
 }
 
 void eeprom_write_game_data(uint8_t highScore)
@@ -680,7 +684,7 @@ void updateScore() {
 void hw3_main(void)
 {
 		uint8_t highScore;
-		
+		uint8_t temp;
 		uint8_t i,j;
 		bool game_over;
 		volatile bool start;
@@ -692,10 +696,11 @@ void hw3_main(void)
 	
 
 	start = false;
-	highScore = eeprom_read_game_data();
-	if(highScore == NULL) {
-			highScore = 0;
-		}
+	//highScore = eeprom_read_game_data();
+	//if(highScore == NULL) {
+		//	highScore = 0;
+		//}
+	//eeprom_write_game_data(0);
 	
 	
 	while(1){
@@ -804,10 +809,14 @@ void hw3_main(void)
 	{
 		laser_array[i].alive = false;
 	}
-			if(currScore > highScore) {
-			highScore = currScore;
-			eeprom_write_game_data(highScore);
-		}
+	temp = eeprom_read_game_data();
+	printf("Temp: %i\n\r", temp);
+	printf("currScore: %i\n\r", currScore);
+	if(currScore > temp) {
+		//highScore = currScore;
+		eeprom_write_game_data(currScore);
+		currScore = eeprom_read_game_data();
+	}
 		gp_timer_wait(TIMER0_BASE, 250000000); // wait 5 seconds
 		lcd_clear_screen(LCD_COLOR_BLACK);
 	}
