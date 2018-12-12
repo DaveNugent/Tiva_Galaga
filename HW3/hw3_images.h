@@ -109,4 +109,13 @@ extern const uint8_t galaga_logo_hdBitmaps[];
 extern const uint8_t galaga_logo_hdWidthPixels;
 extern const uint8_t galaga_logo_hdHeightPixels;
 
+// Bitmap info for next_level
+extern const uint_8 next_levelBitmaps;
+extern const uint_8 next_levelWidthPixels;
+extern const uint_8 next_levelHeightPixels;
+
+// Bitmap info for highscore
+extern const uint_8 highscoreBitmaps;
+extern const uint_8 highscoreWidthPixels;
+extern const uint_8 highscoreHeightPixels;
 #endif
