@@ -595,38 +595,74 @@ void init_hardware(void)
 }
 
 void updateScore() {
-switch(currScore) {
-										case 0:
-											lcd_draw_image( 30, zeroWidthPixels, 30, zeroHeightPixels, zeroBitmaps, LCD_COLOR_RED, LCD_COLOR_BLACK);
-											break;
-										case 1:
-											lcd_draw_image( 30, oneWidthPixels, 30, oneHeightPixels, oneBitmaps, LCD_COLOR_RED, LCD_COLOR_BLACK);
-										break;
-										case 2:
-											lcd_draw_image( 30, twoWidthPixels, 30, twoHeightPixels, twoBitmaps, LCD_COLOR_RED, LCD_COLOR_BLACK);
-										break;
-										case 3:
-											lcd_draw_image( 30, threeWidthPixels, 30, threeHeightPixels, threeBitmaps, LCD_COLOR_RED, LCD_COLOR_BLACK);
-										break;
-										case 4:
-											lcd_draw_image( 30, fourWidthPixels, 30, fourHeightPixels, fourBitmaps, LCD_COLOR_RED, LCD_COLOR_BLACK);
-										break;
-										case 5:
-											lcd_draw_image( 30, fiveWidthPixels, 30, fiveHeightPixels, fiveBitmaps, LCD_COLOR_RED, LCD_COLOR_BLACK);
-										break;
-										case 6:
-											lcd_draw_image( 30, sixWidthPixels, 30, sixHeightPixels, sixBitmaps, LCD_COLOR_RED, LCD_COLOR_BLACK);
-										break;
-										case 7:
-											lcd_draw_image( 30, sevenWidthPixels, 30, sevenHeightPixels, sevenBitmaps, LCD_COLOR_RED, LCD_COLOR_BLACK);
-										break;
-										case 8:
-											lcd_draw_image( 30, eightWidthPixels, 30, eightHeightPixels, eightBitmaps, LCD_COLOR_RED, LCD_COLOR_BLACK);
-										break;
-										case 9:
-											lcd_draw_image( 30, nineWidthPixels, 30, nineHeightPixels, nineBitmaps, LCD_COLOR_RED, LCD_COLOR_BLACK);
-										break;
-									}
+	
+	if (currScore >= 10){
+		switch((currScore / 10)) {
+				case 0:
+					lcd_draw_image( 15, zeroWidthPixels, 20, zeroHeightPixels, zeroBitmaps, LCD_COLOR_RED, LCD_COLOR_BLACK);
+					break;
+				case 1:
+					lcd_draw_image( 15, oneWidthPixels, 20, oneHeightPixels, oneBitmaps, LCD_COLOR_RED, LCD_COLOR_BLACK);
+				break;
+				case 2:
+					lcd_draw_image( 15, twoWidthPixels, 20, twoHeightPixels, twoBitmaps, LCD_COLOR_RED, LCD_COLOR_BLACK);
+				break;
+				case 3:
+					lcd_draw_image( 15, threeWidthPixels, 20, threeHeightPixels, threeBitmaps, LCD_COLOR_RED, LCD_COLOR_BLACK);
+				break;
+				case 4:
+					lcd_draw_image( 15, fourWidthPixels, 20, fourHeightPixels, fourBitmaps, LCD_COLOR_RED, LCD_COLOR_BLACK);
+				break;
+				case 5:
+					lcd_draw_image( 15, fiveWidthPixels, 20, fiveHeightPixels, fiveBitmaps, LCD_COLOR_RED, LCD_COLOR_BLACK);
+				break;
+				case 6:
+					lcd_draw_image( 15, sixWidthPixels, 20, sixHeightPixels, sixBitmaps, LCD_COLOR_RED, LCD_COLOR_BLACK);
+				break;
+				case 7:
+					lcd_draw_image( 15, sevenWidthPixels, 20, sevenHeightPixels, sevenBitmaps, LCD_COLOR_RED, LCD_COLOR_BLACK);
+				break;
+				case 8:
+					lcd_draw_image( 15, eightWidthPixels, 20, eightHeightPixels, eightBitmaps, LCD_COLOR_RED, LCD_COLOR_BLACK);
+				break;
+				case 9:
+					lcd_draw_image( 15, nineWidthPixels, 20, nineHeightPixels, nineBitmaps, LCD_COLOR_RED, LCD_COLOR_BLACK);
+				break;
+			}
+	}
+			switch((currScore % 10)) {
+				case 0:
+					lcd_draw_image( 30, zeroWidthPixels, 20, zeroHeightPixels, zeroBitmaps, LCD_COLOR_RED, LCD_COLOR_BLACK);
+					break;
+				case 1:
+					lcd_draw_image( 30, oneWidthPixels, 20, oneHeightPixels, oneBitmaps, LCD_COLOR_RED, LCD_COLOR_BLACK);
+				break;
+				case 2:
+					lcd_draw_image( 30, twoWidthPixels, 20, twoHeightPixels, twoBitmaps, LCD_COLOR_RED, LCD_COLOR_BLACK);
+				break;
+				case 3:
+					lcd_draw_image( 30, threeWidthPixels, 20, threeHeightPixels, threeBitmaps, LCD_COLOR_RED, LCD_COLOR_BLACK);
+				break;
+				case 4:
+					lcd_draw_image( 30, fourWidthPixels, 20, fourHeightPixels, fourBitmaps, LCD_COLOR_RED, LCD_COLOR_BLACK);
+				break;
+				case 5:
+					lcd_draw_image( 30, fiveWidthPixels, 20, fiveHeightPixels, fiveBitmaps, LCD_COLOR_RED, LCD_COLOR_BLACK);
+				break;
+				case 6:
+					lcd_draw_image( 30, sixWidthPixels, 20, sixHeightPixels, sixBitmaps, LCD_COLOR_RED, LCD_COLOR_BLACK);
+				break;
+				case 7:
+					lcd_draw_image(	30, sevenWidthPixels, 20, sevenHeightPixels, sevenBitmaps, LCD_COLOR_RED, LCD_COLOR_BLACK);
+				break;
+				case 8:
+					lcd_draw_image( 30, eightWidthPixels, 20, eightHeightPixels, eightBitmaps, LCD_COLOR_RED, LCD_COLOR_BLACK);
+				break;
+				case 9:
+					lcd_draw_image( 30, nineWidthPixels, 20, nineHeightPixels, nineBitmaps, LCD_COLOR_RED, LCD_COLOR_BLACK);
+				break;
+			}
+
 }
 
 //*****************************************************************************
@@ -748,6 +784,7 @@ void hw3_main(void)
 										}
 			}
 			MOVE_LASER = false;
+			updateScore();
 		}
 		if(currScore > highScore) {
 			highScore = currScore;
