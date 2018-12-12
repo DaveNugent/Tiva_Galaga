@@ -590,6 +590,10 @@ void init_hardware(void)
 	
 	//initialize the launchpad io
 	lp_io_init();
+
+	//initalize touchscreen
+	ft6x06_init();
+	gp_timer_config_32(TIMER0_BASE, TIMER_TAMR_TAMR_1_SHOT, false, false);
 	
 }
 
@@ -608,12 +612,35 @@ void hw3_main(void)
 		uint8_t highScore;
 		uint8_t i,j;
 		bool game_over;
+		volatile bool start;
+		uint16_t x,y; //x and y for touch event
+  		uint8_t touch_event; // number of touch events
 	
     init_hardware();
-    hw3_hardware_validate();
+
+
 	
-	//FIXME Main menu Logic
+	//Main menu Logic
+	//lcd_draw_image(galaga);
+	//lcd_draw_image(start);
+	start = false;
 	
+	while (!start){
+		touch_event = ft6x06_read_td_status();
+
+		if (touch_event > 0 && touch_event < 3) {
+			printf("touch");
+			x = ft6x06_read_x();
+			y = ft6x06_read_y();
+			printf("%d,%d\n\r",x, y);
+		}
+
+
+
+		gp_timer_wait(TIMER0_BASE, 5000000);
+  
+	}
+
 	initalize_enemies();
 	game_over = false;
 	// while the game is not over
