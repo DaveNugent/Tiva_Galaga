@@ -113,7 +113,12 @@ void init_hardware(void);
 //*****************************************************************************
 // Initializes all of the peripherls used in HW3
 //*****************************************************************************				
-void eeprom_game_data(uint8_t highScore);
+uint8_t eeprom_read_game_data(void);
+				
+//*****************************************************************************
+// Initializes all of the peripherls used in HW3
+//*****************************************************************************				
+void eeprom_write_game_data(uint8_t highScore);
 
 //*****************************************************************************
 // Initializes all of the peripherls used in HW3

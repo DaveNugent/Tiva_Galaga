@@ -331,12 +331,26 @@ char string2[NUM_BYTES] = "Student 2: Carter Steffen";
 char string3[NUM_BYTES] = "Team Number: 10";
 
 
-void eeprom_game_data(uint8_t highScore)
+uint8_t eeprom_read_game_data(void)
 {
 	uint16_t addr;
-  uint8_t values[20];
+  uint8_t values[1];
   uint8_t read_val;
   bool status = true;
+  
+  
+  for(addr = ADDR_START_GAME_DATA; addr <(ADDR_START_GAME_DATA+1); addr++)
+  {
+      eeprom_byte_read(I2C1_BASE,addr, &read_val);
+  }
+
+}
+
+void eeprom_write_game_data(uint8_t highScore)
+{
+	uint16_t addr;
+  uint8_t values[1];
+
   
   for(addr = ADDR_START_GAME_DATA; addr <(ADDR_START_GAME_DATA+1); addr++)
   {
@@ -344,25 +358,6 @@ void eeprom_game_data(uint8_t highScore)
       values[ addr - ADDR_START_GAME_DATA] = highScore;
       printf("Writing %i\n\r",values[addr-ADDR_START_GAME_DATA]);
       eeprom_byte_write(I2C1_BASE,addr, values[addr-ADDR_START_GAME_DATA]);
-  }
-  
-  for(addr = ADDR_START_GAME_DATA; addr <(ADDR_START_GAME_DATA+1); addr++)
-  {
-      eeprom_byte_read(I2C1_BASE,addr, &read_val);
-      if( read_val != values[addr-ADDR_START_GAME_DATA])
-      {
-        printf("ERROR: addr: %i write: %i read %i\n\r",addr,values[addr-ADDR_START_GAME_DATA], read_val);
-        status = false;
-      }
-  }
-  
-  if(status)
-  {
-    printf("EEPROM Test passed\n\r");
-  }
-  else
-  {
-    printf("EEPROM Test failed\n\r");
   }
 }
 
@@ -714,7 +709,7 @@ void hw3_main(void)
 		
 		if(currScore > highScore) {
 			highScore = currScore;
-			eeprom_game_data(highScore);
+			eeprom_write_game_data(highScore);
 		}
 	}
 	if (game_over){
