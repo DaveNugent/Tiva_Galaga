@@ -61,7 +61,7 @@ void initalize_enemies(void){
 
 	i = 0;
 	// two rows of invaders at y = 30 and 60
-	for (y = 30; y < 61; y = y + 30){
+	for (y = 70; y < 101; y = y + 30){
 		// 4 columns of invaders at x = 39 - 201 (30x30 invaders 24 pixels between)
 		for (x = 39; x < 217 ; x = x + 54 ){
 			galaga_enemy_array[i].X_COORD = x;
@@ -594,6 +594,41 @@ void init_hardware(void)
 	
 }
 
+void updateScore() {
+switch(currScore) {
+										case 0:
+											lcd_draw_image( 30, zeroWidthPixels, 30, zeroHeightPixels, zeroBitmaps, LCD_COLOR_RED, LCD_COLOR_BLACK);
+											break;
+										case 1:
+											lcd_draw_image( 30, oneWidthPixels, 30, oneHeightPixels, oneBitmaps, LCD_COLOR_RED, LCD_COLOR_BLACK);
+										break;
+										case 2:
+											lcd_draw_image( 30, twoWidthPixels, 30, twoHeightPixels, twoBitmaps, LCD_COLOR_RED, LCD_COLOR_BLACK);
+										break;
+										case 3:
+											lcd_draw_image( 30, threeWidthPixels, 30, threeHeightPixels, threeBitmaps, LCD_COLOR_RED, LCD_COLOR_BLACK);
+										break;
+										case 4:
+											lcd_draw_image( 30, fourWidthPixels, 30, fourHeightPixels, fourBitmaps, LCD_COLOR_RED, LCD_COLOR_BLACK);
+										break;
+										case 5:
+											lcd_draw_image( 30, fiveWidthPixels, 30, fiveHeightPixels, fiveBitmaps, LCD_COLOR_RED, LCD_COLOR_BLACK);
+										break;
+										case 6:
+											lcd_draw_image( 30, sixWidthPixels, 30, sixHeightPixels, sixBitmaps, LCD_COLOR_RED, LCD_COLOR_BLACK);
+										break;
+										case 7:
+											lcd_draw_image( 30, sevenWidthPixels, 30, sevenHeightPixels, sevenBitmaps, LCD_COLOR_RED, LCD_COLOR_BLACK);
+										break;
+										case 8:
+											lcd_draw_image( 30, eightWidthPixels, 30, eightHeightPixels, eightBitmaps, LCD_COLOR_RED, LCD_COLOR_BLACK);
+										break;
+										case 9:
+											lcd_draw_image( 30, nineWidthPixels, 30, nineHeightPixels, nineBitmaps, LCD_COLOR_RED, LCD_COLOR_BLACK);
+										break;
+									}
+}
+
 //*****************************************************************************
 // Main application for HW3
 //
@@ -605,7 +640,7 @@ void init_hardware(void)
 //*****************************************************************************
 void hw3_main(void)
 {
-		uint8_t highScore = eeprom_read_game_data();
+		uint8_t highScore;
 		
 		uint8_t i,j;
 		bool game_over;
@@ -618,6 +653,7 @@ void hw3_main(void)
 	
 
 	start = false;
+	highScore = eeprom_read_game_data();
 	if(highScore == NULL) {
 			highScore = 0;
 		}
@@ -655,6 +691,7 @@ void hw3_main(void)
 	//when the MCU is reset, read the board data
 	eeprom_read_board_data();
 	won = false;
+	updateScore();
 	while(!game_over && !won)
 	{
 		disable_all_interupts();
@@ -690,34 +727,14 @@ void hw3_main(void)
 								if(galaga_enemy_array[j].alive && hit_invader(laser_array[i].X_COORD, laser_array[i].Y_COORD, laserHeight, laserWidth, galaga_enemy_array[j].X_COORD, galaga_enemy_array[j].Y_COORD, galaga_enemyHeightPixels, galaga_enemyWidthPixels)) 
 								{
 									currScore = currScore+1;
-									switch(currScore) {
-										case 0:
-											lcd_draw_image( 30, zeroWidthPixels, 30, zeroHeightPixels, zeroBitmaps, LCD_COLOR_RED, LCD_COLOR_BLACK);
-										case 1:
-											lcd_draw_image( 30, oneWidthPixels, 30, oneHeightPixels, oneBitmaps, LCD_COLOR_RED, LCD_COLOR_BLACK);
-										case 2:
-											lcd_draw_image( 30, twoWidthPixels, 30, twoHeightPixels, twoBitmaps, LCD_COLOR_RED, LCD_COLOR_BLACK);
-										case 3:
-											lcd_draw_image( 30, threeWidthPixels, 30, threeHeightPixels, threeBitmaps, LCD_COLOR_RED, LCD_COLOR_BLACK);
-										case 4:
-											lcd_draw_image( 30, fourWidthPixels, 30, fourHeightPixels, fourBitmaps, LCD_COLOR_RED, LCD_COLOR_BLACK);
-										case 5:
-											lcd_draw_image( 30, fiveWidthPixels, 30, fiveHeightPixels, fiveBitmaps, LCD_COLOR_RED, LCD_COLOR_BLACK);
-										case 6:
-											lcd_draw_image( 30, sixWidthPixels, 30, sixHeightPixels, sixBitmaps, LCD_COLOR_RED, LCD_COLOR_BLACK);
-										case 7:
-											lcd_draw_image( 30, sevenWidthPixels, 30, sevenHeightPixels, sevenBitmaps, LCD_COLOR_RED, LCD_COLOR_BLACK);
-										case 8:
-											lcd_draw_image( 30, eightWidthPixels, 30, eightHeightPixels, eightBitmaps, LCD_COLOR_RED, LCD_COLOR_BLACK);
-										case 9:
-											lcd_draw_image( 30, nineWidthPixels, 30, nineHeightPixels, nineBitmaps, LCD_COLOR_RED, LCD_COLOR_BLACK);
-									}
+									
 									galaga_enemy_array[j].alive = false;
 									laser_array[i].alive = false;
 									//draw explosion image on top of the galaga enemy image that got hit
 									lcd_draw_image(galaga_enemy_array[j].X_COORD, pixelfireWidthPixels, galaga_enemy_array[j].Y_COORD, pixelfireHeightPixels, pixelfireBitmaps, LCD_COLOR_YELLOW, LCD_COLOR_BLACK);
 									// clear screen to remove invader and laser
 									lcd_clear_screen(LCD_COLOR_BLACK);
+									updateScore();
 									won = check_won();
 								}
 			

@@ -558,7 +558,7 @@ Image Symbol Table
     __NVIC_DisableIRQ                        0x00000289   Thumb Code    54  hw3.o(.text)
     __NVIC_SetPriority                       0x000002bf   Thumb Code    32  hw3.o(.text)
     verify_base_addr                         0x0000055d   Thumb Code    64  hw3.o(.text)
-    __NVIC_EnableIRQ                         0x00001125   Thumb Code    26  hw3.o(.text)
+    __NVIC_EnableIRQ                         0x00001119   Thumb Code    26  hw3.o(.text)
     .text                                    0x00001140   Section        0  hw3_interrupts.o(.text)
     .text                                    0x0000137c   Section        0  gpio_port.o(.text)
     verify_base_addr                         0x0000137d   Thumb Code    64  gpio_port.o(.text)
@@ -705,7 +705,8 @@ Image Symbol Table
     disable_all_interupts                    0x000009db   Thumb Code    28  hw3.o(.text)
     enable_all_interupts                     0x000009f7   Thumb Code    28  hw3.o(.text)
     init_hardware                            0x00000a13   Thumb Code   246  hw3.o(.text)
-    hw3_main                                 0x00000b09   Thumb Code  1564  hw3.o(.text)
+    updateScore                              0x00000b09   Thumb Code   496  hw3.o(.text)
+    hw3_main                                 0x00000cf9   Thumb Code  1056  hw3.o(.text)
     TIMER2A_Handler                          0x00001141   Thumb Code    70  hw3_interrupts.o(.text)
     TIMER3A_Handler                          0x00001187   Thumb Code   276  hw3_interrupts.o(.text)
     TIMER4A_Handler                          0x0000129b   Thumb Code    84  hw3_interrupts.o(.text)
@@ -1018,8 +1019,7 @@ Memory Map of the image
     0x0000027c   0x0000027c   0x00000000   Code   RO         1041    .ARM.Collect$$$$0000000F  mc_w.l(entry11a.o)
     0x0000027c   0x0000027c   0x00000004   Code   RO         1030    .ARM.Collect$$$$00002712  mc_w.l(entry2.o)
     0x00000280   0x00000280   0x00000008   Code   RO            4    .text               main.o
-    0x00000288   0x00000288   0x00000eb6   Code   RO          173    .text               hw3.o
-    0x0000113e   0x0000113e   0x00000002   PAD
+    0x00000288   0x00000288   0x00000eb8   Code   RO          173    .text               hw3.o
     0x00001140   0x00001140   0x0000023c   Code   RO          208    .text               hw3_interrupts.o
     0x0000137c   0x0000137c   0x000002d8   Code   RO          247    .text               gpio_port.o
     0x00001654   0x00001654   0x00000178   Code   RO          271    .text               timers.o
@@ -1089,7 +1089,7 @@ Image component sizes
        424          6          0          0          0       2233   eeprom.o
        420          6          0          0          0       2196   ft6x06.o
        728         34          0          0          0       5234   gpio_port.o
-      3766        434          0        263         96      39861   hw3.o
+      3768        442          0        263         96      39989   hw3.o
          0          0       8526          0          0       3116   hw3_images.o
        572         76          0          3          0       1720   hw3_interrupts.o
        520         24          0          0          0       3633   i2c.o
@@ -1107,9 +1107,9 @@ Image component sizes
        636         50          0          0          0      33607   uart.o
 
     ----------------------------------------------------------------------
-     11848        928       9180        272        636     149921   Object Totals
+     11848        936       9180        272        636     150049   Object Totals
          0          0         32          0          0          0   (incl. Generated)
-         2          0          2          0          0          0   (incl. Padding)
+         0          0          2          0          0          0   (incl. Padding)
 
     ----------------------------------------------------------------------
 
@@ -1153,9 +1153,9 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   
 
-     12616        974       9180        284        636     147809   Grand Totals
-     12616        974       9180        284        636     147809   ELF Image Totals
-     12616        974       9180        284          0          0   ROM Totals
+     12616        982       9180        284        636     147937   Grand Totals
+     12616        982       9180        284        636     147937   ELF Image Totals
+     12616        982       9180        284          0          0   ROM Totals
 
 ==============================================================================
 
